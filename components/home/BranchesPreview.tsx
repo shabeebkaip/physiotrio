@@ -34,7 +34,7 @@ const cityImages: Record<string, string> = {
 
 export function BranchesPreview({ locale, branches, title, getDirectionsText, bookHereText, comingSoonText, therapistsText, servicesText }: BranchesPreviewProps) {
   return (
-    <section className="py-24" style={{ background: "#F8FAFC" }}>
+    <section className="py-14 sm:py-24" style={{ background: "#F8FAFC" }}>
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           className="mb-14"
@@ -53,7 +53,7 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {branches.map((branch, i) => (
             <motion.div
               key={branch.id}
@@ -69,7 +69,7 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
               whileHover={!branch.comingSoon ? { y: -6, boxShadow: "0 20px 48px rgba(0,0,0,0.1)" } : {}}
             >
               {/* City photo */}
-              <div className="relative h-52 overflow-hidden">
+              <div className="relative h-44 sm:h-52 overflow-hidden">
                 <Image
                   src={cityImages[branch.id] ?? cityImages.riyadh}
                   alt={locale === "ar" ? branch.city.ar : branch.city.en}

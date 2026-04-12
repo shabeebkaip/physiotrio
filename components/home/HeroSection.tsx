@@ -87,7 +87,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
 
       {/* ── Main text content ── */}
       <div className="relative z-10 flex-1 flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-36 pb-10">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-28 sm:pt-36 pb-10">
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -112,7 +112,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
             <motion.h1
               variants={fadeUp}
               className="font-black leading-[0.92] tracking-tight text-white"
-              style={{ fontSize: "clamp(52px, 7vw, 96px)" }}
+              style={{ fontSize: "clamp(36px, 7vw, 96px)" }}
             >
               {t.headline1}
               <br />
@@ -165,10 +165,10 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
             </motion.div>
 
             {/* CTAs */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link
                 href={`/${locale}/book/${activeBranch}`}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-bold text-white transition-all duration-200 hover:opacity-90"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-lg font-bold text-white transition-all duration-200 hover:opacity-90"
                 style={{
                   background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)",
                   boxShadow: "0 6px 24px rgba(var(--color-brand-purple-rgb),0.5)",
@@ -185,7 +185,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
               </Link>
               <Link
                 href={`/${locale}/services`}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-white transition-all duration-200 hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-white transition-all duration-200 hover:bg-white/10"
                 style={{ border: "1.5px solid rgba(255,255,255,0.4)" }}
               >
                 {t.exploreServices}

@@ -38,7 +38,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden flex flex-col justify-end"
-        style={{ height: "70vh", minHeight: "420px" }}
+        style={{ height: "55vh", minHeight: "360px" }}
       >
         <Image
           src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1920&q=85&fit=crop"
@@ -78,8 +78,8 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
       </section>
 
       {/* ── Team Grid ────────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-12 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
           {/* Section header */}
           <div className="mb-10">
@@ -105,7 +105,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
               </div>
 
               {/* Branch filter */}
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap sm:flex-nowrap">
                 {(["all", "riyadh", "makkah"] as const).map((b) => (
                   <button
                     key={b}
@@ -132,7 +132,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeBranch}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -147,7 +147,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
                   transition={{ duration: 0.35, delay: i * 0.05 }}
                 >
                   {/* Photo area */}
-                  <div className="relative h-52 overflow-hidden bg-gray-100">
+                  <div className="relative h-44 sm:h-52 overflow-hidden bg-gray-100">
                     {therapist.image ? (
                       <Image
                         src={therapist.image}

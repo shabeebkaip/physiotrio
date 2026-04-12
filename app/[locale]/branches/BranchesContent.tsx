@@ -30,7 +30,7 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
         <div className="absolute pointer-events-none" style={{ top: "-60px", right: "-60px", width: 400, height: 400, background: "radial-gradient(circle, rgba(var(--color-brand-purple-rgb),0.07) 0%, transparent 70%)", borderRadius: "50%" }} />
         <div className="absolute pointer-events-none" style={{ bottom: "0", left: "10%", width: 280, height: 280, background: "radial-gradient(circle, rgba(var(--color-brand-green-rgb),0.06) 0%, transparent 70%)", borderRadius: "50%" }} />
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-36 pb-20 grid md:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-36 pb-14 sm:pb-20 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
 
           {/* ── Left: text ── */}
           <div>
@@ -52,7 +52,7 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
 
             <motion.h1
               className="font-black leading-tight mb-5"
-              style={{ fontSize: "clamp(36px, 5vw, 64px)", color: "#1a1a2e" }}
+              style={{ fontSize: "clamp(28px, 5vw, 64px)", color: "#1a1a2e" }}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
@@ -165,8 +165,8 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
       <StatsSection locale={locale} />
 
       {/* Branch cards */}
-      <section className="py-24" style={{ background: "#F8FAFC" }}>
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-14 sm:py-24" style={{ background: "#F8FAFC" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
             className="mb-14"
             initial={{ opacity: 0, y: 24 }}
@@ -179,12 +179,12 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
             >
               {isAr ? "اختر فرعك" : "Find Your Branch"}
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight" style={{ color: "#1a1a2e" }}>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight" style={{ color: "#1a1a2e" }}>
               {isAr ? "فروعنا في المملكة" : "Our Locations"}
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
             {branches.map((branch, i) => (
               <motion.div
                 key={branch.id}

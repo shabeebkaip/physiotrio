@@ -112,7 +112,7 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
             {/* Floating badge */}
             <motion.div
               className="absolute bottom-6 left-6 px-5 py-3 rounded-2xl"
-              style={{ background: "rgba(13,8,32,0.85)", backdropFilter: "blur(12px)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.3)" }}
+              style={{ background: "rgba(13,30,58,0.85)", backdropFilter: "blur(12px)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.3)" }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
@@ -259,7 +259,7 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
                 {tech.image && (
                   <div className="relative h-40 overflow-hidden">
                     <Image src={tech.image} alt={isAr ? tech.name.ar : tech.name.en} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized />
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(13,8,32,0.5) 100%)" }} />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(13,30,58,0.5) 100%)" }} />
                   </div>
                 )}
                 <div className="h-1" style={{ background: "linear-gradient(90deg, var(--color-brand-green), var(--color-brand-purple))" }} />

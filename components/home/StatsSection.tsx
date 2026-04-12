@@ -129,8 +129,8 @@ export function StatsSection({ locale }: { locale: string }) {
   const isAr = locale === "ar";
 
   return (
-    <section className="bg-white py-16 md:py-24 px-4 md:px-6 overflow-x-hidden">
-      <div className="max-w-[1240px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 md:gap-5">
+    <section className="bg-white py-12 md:py-24 px-4 md:px-6 overflow-x-hidden">
+      <div className="max-w-[1240px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
 
         {/* ── Row 1 ── */}
 
@@ -140,7 +140,7 @@ export function StatsSection({ locale }: { locale: string }) {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.75, ease: "easeOut" }}
-          className="bg-[var(--color-dark-surface)] rounded-[20px] p-6 md:p-8 flex flex-col justify-center col-span-1 sm:col-span-2 min-h-[180px] md:min-h-[200px]"
+          className="bg-[var(--color-dark-surface)] rounded-[20px] p-6 md:p-8 flex flex-col justify-center col-span-1 sm:col-span-2 min-h-[160px] md:min-h-[200px]"
         >
           <h2 className="text-white font-bold text-[28px] md:text-[32px] leading-tight mb-3">
             {isAr ? "رحلتنا بالأرقام" : "Our Journey in Numbers"}

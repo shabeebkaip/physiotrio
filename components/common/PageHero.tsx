@@ -26,7 +26,7 @@ export function PageHero({ eyebrow, title, subtitle, dark = true, children }: Pa
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden pt-36 pb-28"
+      className="relative overflow-hidden pt-24 sm:pt-36 pb-14 sm:pb-28"
       style={{ background: dark ? "linear-gradient(135deg, var(--color-hero-bg) 0%, var(--color-dark-surface) 60%, var(--color-dark-surface) 100%)" : "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}
     >
       {/* Animated blobs */}
@@ -46,7 +46,7 @@ export function PageHero({ eyebrow, title, subtitle, dark = true, children }: Pa
 
         <motion.h1
           className="font-black text-white mb-5 leading-tight"
-          style={{ fontSize: "clamp(40px, 6vw, 72px)" }}
+          style={{ fontSize: "clamp(30px, 6vw, 72px)" }}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -56,7 +56,7 @@ export function PageHero({ eyebrow, title, subtitle, dark = true, children }: Pa
 
         {subtitle && (
           <motion.p
-            className="text-xl font-light max-w-2xl mx-auto mb-8"
+            className="text-base sm:text-xl font-light max-w-2xl mx-auto mb-8 px-2"
             style={{ color: "rgba(255,255,255,0.7)" }}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

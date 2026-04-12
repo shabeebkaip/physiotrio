@@ -41,8 +41,8 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
   const isAr = locale === "ar";
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-14 sm:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Header */}
         <motion.div
@@ -58,7 +58,7 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
           >
             {isAr ? "خدماتنا" : "Our Services"}
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-3 leading-tight" style={{ color: "#1a1a2e" }}>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 leading-tight" style={{ color: "#1a1a2e" }}>
             {title}
           </h2>
           <p className="text-lg" style={{ color: "#6B7280" }}>
@@ -67,7 +67,7 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {services.map((service, i) => {
             const Icon = iconMap[service.icon] ?? Stethoscope;
             const isFeatured = service.featured;
@@ -75,7 +75,7 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
             return (
               <motion.div
                 key={service.id}
-                className={isFeatured ? "sm:col-span-2 lg:col-span-2" : ""}
+                className={isFeatured ? "lg:col-span-2" : ""}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -83,7 +83,7 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
               >
                 <Link
                   href={`/${locale}/services/${service.slug}`}
-                  className="group block h-full bg-white border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:bg-brand-purple hover:border-brand-purple hover:shadow-xl hover:-translate-y-1"
+                  className="group block h-full bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:bg-brand-purple hover:border-brand-purple hover:shadow-xl hover:-translate-y-1"
                 >
                   {/* Icon box */}
                   <div

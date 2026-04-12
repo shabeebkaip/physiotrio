@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
-import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -17,6 +16,7 @@ import { TeamCarousel } from "@/components/home/TeamCarousel";
 import { OffersTeaser } from "@/components/home/OffersTeaser";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { InstagramFeed } from "@/components/home/InstagramFeed";
+import { getInstagramAssets } from "@/lib/utils/getInstagramAssets";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { StatsSection } from "@/components/home/StatsSection";
 import { services } from "@/lib/data/services";
@@ -59,6 +59,7 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const instagramAssets = getInstagramAssets();
   const t = await getTranslations("hero");
   const nav = await getTranslations("nav");
   const statsT = await getTranslations("stats");
@@ -144,7 +145,6 @@ export default async function HomePage({
 
   return (
     <>
-      <LoadingScreen />
       <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navTranslations} />
       <main >
@@ -200,7 +200,7 @@ export default async function HomePage({
           testimonials={testimonials}
           title={testimonialT("title")}
         />
-        <InstagramFeed locale={locale} />
+        <InstagramFeed locale={locale} localPosts={instagramAssets} />
       </main>
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />
       <StickyBookingBar

@@ -87,7 +87,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       unoptimized
                     />
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(to right, transparent, rgba(13,8,32,0.1))" }} />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to right, transparent, rgba(13,30,58,0.1))" }} />
                   </div>
                   <div className="p-10 flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-4">

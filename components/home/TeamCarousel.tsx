@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useAnimation } from "framer-motion";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Star } from "lucide-react";
 
@@ -15,6 +16,7 @@ interface Therapist {
   yearsExp: number;
   rating: number;
   initials: string;
+  image?: string | null;
 }
 
 interface TeamCarouselProps {
@@ -74,12 +76,24 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
             whileHover={{ y: -4 }}
           >
             {/* Avatar */}
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-white font-black text-xl"
-              style={{ background: "radial-gradient(circle, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}
-            >
-              {therapist.initials}
-            </div>
+            {therapist.image ? (
+              <div className="w-16 h-16 rounded-full mb-4 overflow-hidden relative flex-shrink-0">
+                <Image
+                  src={therapist.image}
+                  alt={locale === "ar" ? therapist.name.ar : therapist.name.en}
+                  fill
+                  className="object-cover object-top"
+                  unoptimized
+                />
+              </div>
+            ) : (
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-white font-black text-xl flex-shrink-0"
+                style={{ background: "radial-gradient(circle, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}
+              >
+                {therapist.initials}
+              </div>
+            )}
 
             {/* Info */}
             <h3 className="font-bold text-base mb-0.5" style={{ color: "#1a1a2e" }}>

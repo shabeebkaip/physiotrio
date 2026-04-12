@@ -33,7 +33,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
   const next = () => setCurrent((c) => (c + 1) % testimonials.length);
 
   return (
-    <section className="py-24 px-6" style={{ background: "#F8FAFC" }}>
+    <section className="py-14 sm:py-24 px-4 sm:px-6" style={{ background: "#F8FAFC" }}>
       <div className="max-w-4xl mx-auto">
         <motion.div
           className="text-center mb-12"
@@ -48,7 +48,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
             {locale === "ar" ? "آراء مرضانا" : "Patient Stories"}
           </span>
           <h2
-            className="text-4xl md:text-5xl font-bold"
+            className="text-2xl sm:text-4xl md:text-5xl font-bold"
             style={{ color: "#1a1a2e" }}
           >
             {title}
@@ -57,7 +57,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
 
         {/* Card */}
         <div
-          className="relative rounded-[32px] p-10 md:p-16"
+          className="relative rounded-2xl sm:rounded-[32px] p-6 sm:p-10 md:p-16"
           style={{ background: "#ffffff", boxShadow: "0 4px 40px rgba(0,0,0,0.06)" }}
         >
           {/* Decorative quote */}
@@ -78,13 +78,13 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
                 <blockquote
-                  className="text-xl md:text-2xl font-normal leading-relaxed mb-10"
+                  className="text-base sm:text-xl md:text-2xl font-normal leading-relaxed mb-8 sm:mb-10"
                   style={{ color: "#374151" }}
                 >
                   {locale === "ar" ? testimonial.quote.ar : testimonial.quote.en}
                 </blockquote>
 
-                <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-base"

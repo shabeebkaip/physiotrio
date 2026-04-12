@@ -149,7 +149,7 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
         style={{ height: "70vh", minHeight: "420px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=85&fit=crop"
+          src="https://physiotherabia.com/wp-content/uploads/2023/11/Nuro-Rehab-Package-2-1.jpg"
           alt="PhysioTrio Offers & Packages"
           fill
           priority

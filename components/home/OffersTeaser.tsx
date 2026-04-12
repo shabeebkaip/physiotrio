@@ -21,9 +21,9 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
   const items = locale === "ar" ? features.ar : features.en;
 
   return (
-    <section className="py-8 px-4 md:px-8" style={{ background: "#ffffff" }}>
+    <section className="py-6 px-3 sm:px-4 md:px-8" style={{ background: "#ffffff" }}>
       <div className="max-w-7xl mx-auto">
-      <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] py-16 px-8 md:px-16" style={{ background: "var(--color-brand-green)" }}>
+      <div className="relative overflow-hidden rounded-2xl md:rounded-[32px] py-10 sm:py-16 px-5 sm:px-8 md:px-16" style={{ background: "var(--color-brand-green)" }}>
         {/* Decorative blobs */}
         <div
           className="absolute -top-16 -right-16 w-56 h-56 rounded-full pointer-events-none"
@@ -48,7 +48,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
               {eyebrow}
             </span>
 
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-3 leading-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white mb-3 leading-tight">
               {title}
             </h2>
 
@@ -57,22 +57,22 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
             </p>
 
             <div className="flex items-baseline gap-2 mb-8">
-              <span className="text-6xl font-black text-white">350</span>
+              <span className="text-4xl sm:text-6xl font-black text-white">350</span>
               <span className="text-2xl font-bold text-white/80">SAR</span>
               <span className="text-sm text-white/60 line-through ml-2">450 SAR</span>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link
                 href={`/${locale}/offers`}
-                className="px-7 py-3.5 rounded-full font-bold transition-all hover:scale-105"
+                className="px-6 py-3 sm:px-7 sm:py-3.5 rounded-full font-bold text-center transition-all hover:scale-105"
                 style={{ background: "white", color: "var(--color-brand-green)" }}
               >
                 {viewAllText}
               </Link>
               <Link
                 href={`/${locale}/book/riyadh?package=starter`}
-                className="px-7 py-3.5 rounded-full font-bold transition-all hover:scale-105"
+                className="px-6 py-3 sm:px-7 sm:py-3.5 rounded-full font-bold text-center transition-all hover:scale-105"
                 style={{ background: "var(--color-brand-purple)", color: "white" }}
               >
                 {purchaseText}
@@ -87,7 +87,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
             transition={{ delay: 0.2 }}
           >
             <div
-              className="rounded-2xl p-8"
+              className="rounded-2xl p-5 sm:p-8"
               style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}
             >
               <h3 className="text-white font-bold text-lg mb-5">

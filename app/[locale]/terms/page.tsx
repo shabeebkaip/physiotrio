@@ -41,7 +41,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
       <Navbar locale={locale} translations={navT} />
       <main>
         {/* Hero */}
-        <section className="pt-36 pb-16 px-6" style={{ background: "linear-gradient(135deg, #0d0820 0%, #1a0d2e 100%)" }}>
+        <section className="pt-36 pb-16 px-6" style={{ background: "linear-gradient(135deg, var(--color-hero-bg) 0%, var(--color-dark-surface) 100%)" }}>
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-black text-white mb-3">
               {isAr ? "الشروط والأحكام" : "Terms & Conditions"}
@@ -53,8 +53,8 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
         </section>
 
         {/* Content */}
-        <section className="py-16 px-6" style={{ background: "#f8fafb" }}>
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl p-10" style={{ boxShadow: "0 4px 24px rgba(7,118,136,0.06)" }}>
+        <section className="py-16 px-6" style={{ background: "var(--color-surface-light)" }}>
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl p-10" style={{ boxShadow: "0 4px 24px rgba(var(--color-brand-purple-rgb),0.06)" }}>
             <div className="prose max-w-none">
               {isAr ? (
                 <div className="space-y-8 text-right" dir="rtl">
@@ -92,7 +92,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
 function Section({ title, body }: { title: string; body: string }) {
   return (
     <div>
-      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#077688", marginBottom: "0.5rem" }}>{title}</h2>
+      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--color-brand-purple)", marginBottom: "0.5rem" }}>{title}</h2>
       <p style={{ fontSize: "0.9rem", fontWeight: 300, color: "#555" }}>{body}</p>
     </div>
   );

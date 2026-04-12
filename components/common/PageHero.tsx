@@ -27,11 +27,11 @@ export function PageHero({ eyebrow, title, subtitle, dark = true, children }: Pa
     <section
       ref={heroRef}
       className="relative overflow-hidden pt-36 pb-28"
-      style={{ background: dark ? "linear-gradient(135deg, #0d0820 0%, #1a0d2e 60%, #0d2a35 100%)" : "linear-gradient(135deg, #077688 0%, #4caf50 100%)" }}
+      style={{ background: dark ? "linear-gradient(135deg, var(--color-hero-bg) 0%, var(--color-dark-surface) 60%, var(--color-dark-surface) 100%)" : "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}
     >
       {/* Animated blobs */}
-      <div ref={blobA} className="absolute pointer-events-none" style={{ top: "10%", right: "15%", width: 500, height: 500, background: "radial-gradient(circle, rgba(7,118,136,0.25) 0%, transparent 70%)", filter: "blur(60px)", borderRadius: "50%" }} />
-      <div ref={blobB} className="absolute pointer-events-none" style={{ bottom: "5%", left: "10%", width: 350, height: 350, background: "radial-gradient(circle, rgba(76,175,80,0.18) 0%, transparent 70%)", filter: "blur(50px)", borderRadius: "50%" }} />
+      <div ref={blobA} className="absolute pointer-events-none" style={{ top: "10%", right: "15%", width: 500, height: 500, background: "radial-gradient(circle, rgba(var(--color-brand-purple-rgb),0.25) 0%, transparent 70%)", filter: "blur(60px)", borderRadius: "50%" }} />
+      <div ref={blobB} className="absolute pointer-events-none" style={{ bottom: "5%", left: "10%", width: 350, height: 350, background: "radial-gradient(circle, rgba(var(--color-brand-green-rgb),0.18) 0%, transparent 70%)", filter: "blur(50px)", borderRadius: "50%" }} />
 
       {/* Grain */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }} />
@@ -39,8 +39,8 @@ export function PageHero({ eyebrow, title, subtitle, dark = true, children }: Pa
       <div className="relative container text-center">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <div className="flex items-center justify-center gap-2 mb-5">
-            <motion.span className="w-1.5 h-1.5 rounded-full" style={{ background: "#4caf50" }} animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 2, repeat: Infinity }} />
-            <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "#4caf50" }}>{eyebrow}</span>
+            <motion.span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-brand-green)" }} animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+            <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-brand-green)" }}>{eyebrow}</span>
           </div>
         </motion.div>
 

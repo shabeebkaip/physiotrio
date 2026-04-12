@@ -102,7 +102,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
               >
                 <span
                   className="inline-block h-px w-8 flex-shrink-0"
-                  style={{ background: "#4caf50" }}
+                  style={{ background: "var(--color-brand-green)" }}
                 />
                 {t.eyebrow}
               </span>
@@ -116,7 +116,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
             >
               {t.headline1}
               <br />
-              <span style={{ color: "#4caf50" }}>{t.headline2}</span>
+              <span style={{ color: "var(--color-brand-green)" }}>{t.headline2}</span>
             </motion.h1>
 
             {/* Sub */}
@@ -140,14 +140,14 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
                     className="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200"
                     style={{
                       background: isActive
-                        ? "linear-gradient(135deg, #077688 0%, #0a9ab0 100%)"
+                        ? "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)"
                         : "transparent",
                       color: "white",
                       border: isActive
                         ? "1.5px solid transparent"
                         : "1.5px solid rgba(255,255,255,0.35)",
                       boxShadow: isActive
-                        ? "0 4px 16px rgba(7,118,136,0.5)"
+                        ? "0 4px 16px rgba(var(--color-brand-purple-rgb),0.5)"
                         : "none",
                       opacity: branch.comingSoon ? 0.4 : 1,
                       cursor: branch.comingSoon ? "not-allowed" : "pointer",
@@ -170,8 +170,8 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
                 href={`/${locale}/book/${activeBranch}`}
                 className="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-bold text-white transition-all duration-200 hover:opacity-90"
                 style={{
-                  background: "linear-gradient(135deg, #077688 0%, #0a9ab0 100%)",
-                  boxShadow: "0 6px 24px rgba(7,118,136,0.5)",
+                  background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)",
+                  boxShadow: "0 6px 24px rgba(var(--color-brand-purple-rgb),0.5)",
                 }}
               >
                 {t.bookAppointment}
@@ -202,7 +202,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
                 >
                   <span
                     className="w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-black flex-shrink-0"
-                    style={{ background: "#4caf50" }}
+                    style={{ background: "var(--color-brand-green)" }}
                   >
                     ✓
                   </span>

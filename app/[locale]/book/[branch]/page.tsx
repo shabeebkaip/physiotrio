@@ -70,7 +70,7 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
           <div className="mb-10">
             <span
               className="inline-block text-xs font-semibold uppercase tracking-widest mb-3 px-3 py-1 rounded-full"
-              style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+              style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
             >
               {isAr ? branchData.city.ar : branchData.city.en}
             </span>
@@ -105,26 +105,26 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                 </h3>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(7,118,136,0.08)" }}>
-                      <MapPin size={15} style={{ color: "#077688" }} />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
+                      <MapPin size={15} style={{ color: "var(--color-brand-purple)" }} />
                     </div>
                     <p className="text-sm leading-relaxed" style={{ color: "#6B7280" }}>
                       {isAr ? branchData.address.ar : branchData.address.en}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(7,118,136,0.08)" }}>
-                      <Clock size={15} style={{ color: "#077688" }} />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
+                      <Clock size={15} style={{ color: "var(--color-brand-purple)" }} />
                     </div>
                     <p className="text-sm leading-relaxed" style={{ color: "#6B7280" }}>
                       {isAr ? branchData.hours.ar : branchData.hours.en}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(7,118,136,0.08)" }}>
-                      <Phone size={15} style={{ color: "#077688" }} />
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
+                      <Phone size={15} style={{ color: "var(--color-brand-purple)" }} />
                     </div>
-                    <a href="tel:8001000091" className="text-sm font-semibold" style={{ color: "#077688" }}>
+                    <a href="tel:8001000091" className="text-sm font-semibold" style={{ color: "var(--color-brand-purple)" }}>
                       800 100 0091
                     </a>
                   </div>
@@ -142,7 +142,7 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                     : ["Previous medical reports", "National ID / Iqama", "Health insurance card", "Comfortable clothing"]
                   ).map((item, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm" style={{ color: "#6B7280" }}>
-                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#077688" }} />
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--color-brand-purple)" }} />
                       {item}
                     </li>
                   ))}

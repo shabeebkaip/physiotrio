@@ -43,7 +43,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
         >
           <span
             className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             {locale === "ar" ? "آراء مرضانا" : "Patient Stories"}
           </span>
@@ -63,7 +63,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
           {/* Decorative quote */}
           <div
             className="absolute top-8 left-10 text-[80px] font-black leading-none select-none"
-            style={{ color: "rgba(7,118,136,0.08)" }}
+            style={{ color: "rgba(var(--color-brand-purple-rgb),0.08)" }}
           >
             "
           </div>
@@ -88,7 +88,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
                   <div className="flex items-center gap-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-base"
-                      style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}
+                      style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
                     >
                       {(locale === "ar" ? testimonial.name.ar : testimonial.name.en).charAt(0)}
                     </div>
@@ -106,8 +106,8 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
                       <Star
                         key={s}
                         size={16}
-                        fill={s <= testimonial.stars ? "#077688" : "none"}
-                        color={s <= testimonial.stars ? "#077688" : "#D1D5DB"}
+                        fill={s <= testimonial.stars ? "var(--color-brand-purple)" : "none"}
+                        color={s <= testimonial.stars ? "var(--color-brand-purple)" : "#D1D5DB"}
                       />
                     ))}
                   </div>
@@ -128,7 +128,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
                   style={{
                     width: i === current ? "24px" : "8px",
                     height: "8px",
-                    background: i === current ? "#077688" : "#D1D5DB",
+                    background: i === current ? "var(--color-brand-purple)" : "#D1D5DB",
                   }}
                   aria-label={`Testimonial ${i + 1}`}
                 />
@@ -148,7 +148,7 @@ export function TestimonialsCarousel({ locale, testimonials, title }: Testimonia
               <button
                 onClick={next}
                 className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-105"
-                style={{ background: "#077688", color: "white" }}
+                style={{ background: "var(--color-brand-purple)", color: "white" }}
                 aria-label="Next"
               >
                 <ChevronRight size={18} />

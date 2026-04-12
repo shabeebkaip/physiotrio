@@ -75,7 +75,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       <Navbar locale={locale} translations={navT} />
       <main>
         {/* Hero */}
-        <section className="pt-36 pb-20 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #077688 0%, #4caf50 100%)" }}>
+        <section className="pt-36 pb-20 relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}>
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
             <div>
               {service.privateService && (
@@ -104,7 +104,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <Link
                 href={`/${locale}/book/riyadh?service=${service.slug}`}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
-                style={{ background: "#0d0820", color: "white" }}
+                style={{ background: "var(--color-hero-bg)", color: "white" }}
               >
                 {locale === "ar" ? "احجز هذه الخدمة" : "Book This Service"}
               </Link>
@@ -118,33 +118,33 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </section>
 
         {/* Conditions */}
-        <section className="py-20" style={{ background: "#f8fafb" }}>
+        <section className="py-20" style={{ background: "var(--color-surface-light)" }}>
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16">
             <div>
-              <h2 className="text-3xl font-extrabold mb-6" style={{ color: "#077688" }}>
+              <h2 className="text-3xl font-extrabold mb-6" style={{ color: "var(--color-brand-purple)" }}>
                 {locale === "ar" ? "الحالات التي نعالجها" : "Conditions We Treat"}
               </h2>
               <div className="space-y-3">
                 {(locale === "ar" ? service.conditions.ar : service.conditions.en).map((condition, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "white", border: "1px solid rgba(7,118,136,0.08)" }}>
-                    <CheckCircle2 size={18} style={{ color: "#4caf50" }} className="flex-shrink-0" />
+                  <div key={i} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "white", border: "1px solid rgba(var(--color-brand-purple-rgb),0.08)" }}>
+                    <CheckCircle2 size={18} style={{ color: "var(--color-brand-green)" }} className="flex-shrink-0" />
                     <span className="text-sm font-medium" style={{ color: "#333" }}>{condition}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-extrabold mb-6" style={{ color: "#077688" }}>
+              <h2 className="text-3xl font-extrabold mb-6" style={{ color: "var(--color-brand-purple)" }}>
                 {locale === "ar" ? "كيف يعمل" : "How It Works"}
               </h2>
               <div className="space-y-5">
                 {steps.map((step, i) => (
                   <div key={i} className="flex gap-4">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-sm flex-shrink-0" style={{ background: "#077688" }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-sm flex-shrink-0" style={{ background: "var(--color-brand-purple)" }}>
                       {i + 1}
                     </div>
                     <div>
-                      <h3 className="font-bold mb-1" style={{ color: "#077688" }}>
+                      <h3 className="font-bold mb-1" style={{ color: "var(--color-brand-purple)" }}>
                         {locale === "ar" ? step.ar.title : step.en.title}
                       </h3>
                       <p className="text-sm font-light" style={{ color: "#666" }}>
@@ -155,8 +155,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 ))}
               </div>
 
-              <div className="mt-8 p-5 rounded-2xl" style={{ background: "rgba(7,118,136,0.06)", border: "1px solid rgba(7,118,136,0.15)" }}>
-                <p className="text-sm font-semibold mb-2" style={{ color: "#077688" }}>
+              <div className="mt-8 p-5 rounded-2xl" style={{ background: "rgba(var(--color-brand-purple-rgb),0.06)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.15)" }}>
+                <p className="text-sm font-semibold mb-2" style={{ color: "var(--color-brand-purple)" }}>
                   {locale === "ar" ? "من هذه الخدمة له؟" : "Who is this for?"}
                 </p>
                 <p className="text-sm font-light" style={{ color: "#555" }}>
@@ -179,7 +179,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <Link
             href={`/${locale}/book/riyadh?service=${service.slug}`}
             className="px-8 py-3.5 rounded-full font-bold text-white shadow-xl transition-all hover:scale-105"
-            style={{ background: "linear-gradient(135deg, #077688, #4caf50)", boxShadow: "0 8px 32px rgba(7,118,136,0.4)" }}
+            style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))", boxShadow: "0 8px 32px rgba(var(--color-brand-purple-rgb),0.4)" }}
           >
             {locale === "ar" ? `احجز: ${service.name.ar}` : `Book: ${service.name.en}`}
           </Link>

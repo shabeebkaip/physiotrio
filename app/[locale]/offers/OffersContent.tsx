@@ -25,7 +25,7 @@ interface Props { locale: string; ctaBook: string; ctaWhatsapp: string; ctaTitle
 function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: string; isAr: boolean; index: number }) {
   return (
     <motion.div
-      className="group bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:border-[#077688] hover:shadow-xl hover:-translate-y-1"
+      className="group bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:border-brand-purple hover:shadow-xl hover:-translate-y-1"
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
@@ -47,7 +47,7 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
           {pkg.featured && (
             <div
               className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold"
-              style={{ background: "rgba(255,255,255,0.95)", color: "#077688" }}
+              style={{ background: "rgba(255,255,255,0.95)", color: "var(--color-brand-purple)" }}
             >
               <Sparkles size={10} /> {isAr ? "مميز" : "Featured"}
             </div>
@@ -56,7 +56,7 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
             <div className="absolute bottom-3 left-4">
               <span
                 className="text-xs font-bold px-3 py-1 rounded-full"
-                style={{ background: "#077688", color: "white" }}
+                style={{ background: "var(--color-brand-purple)", color: "white" }}
               >
                 {isAr ? pkg.badge.ar : pkg.badge.en}
               </span>
@@ -72,14 +72,14 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
           {pkg.privateService && (
             <span
               className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
-              style={{ background: "rgba(76,175,80,0.1)", color: "#388e3c" }}
+              style={{ background: "rgba(var(--color-brand-green-rgb),0.1)", color: "var(--color-brand-green-dark)" }}
             >
               <Lock size={10} />{isAr ? "للسيدات فقط" : "Women Only"}
             </span>
           )}
           <span
             className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             <Tag size={9} />{pkg.category}
           </span>
@@ -95,7 +95,7 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
         <div className="flex items-center gap-3 mb-4 flex-wrap">
           <span
             className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             <CheckCircle2 size={11} />{pkg.sessions} {isAr ? "جلسة" : "sessions"}
           </span>
@@ -113,7 +113,7 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
           <div className="flex items-center gap-2 mb-4">
             <span className="text-xs" style={{ color: "#9CA3AF" }}>{isAr ? "تقسيط:" : "Instalment:"}</span>
             {pkg.tamaraEligible && (
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-md" style={{ background: "#e8f5e9", color: "#2e7d32" }}>Tamara</span>
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-md" style={{ background: "#e8f5e9", color: "var(--color-brand-green-dark)" }}>Tamara</span>
             )}
             {pkg.tabbyEligible && (
               <span className="text-xs font-bold px-2.5 py-0.5 rounded-md" style={{ background: "#e3f2fd", color: "#1565c0" }}>Tabby</span>
@@ -124,7 +124,7 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
         <Link
           href={`/${locale}/book/${pkg.branch === "all" ? "riyadh" : pkg.branch}?package=${pkg.slug}`}
           className="flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
-          style={{ background: "#077688" }}
+          style={{ background: "var(--color-brand-purple)" }}
         >
           {isAr ? "احجز هذه الباقة" : "Book This Package"} <ArrowRight size={13} />
         </Link>
@@ -193,7 +193,7 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
           <div className="mb-10">
             <span
               className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-              style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+              style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
             >
               {isAr ? "الباقات" : "Packages"}
             </span>
@@ -216,9 +216,9 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
                     onClick={() => setActiveCategory(cat)}
                     className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200"
                     style={{
-                      background: activeCategory === cat ? "#077688" : "transparent",
+                      background: activeCategory === cat ? "var(--color-brand-purple)" : "transparent",
                       color: activeCategory === cat ? "white" : "#6B7280",
-                      border: `1.5px solid ${activeCategory === cat ? "#077688" : "#E5E7EB"}`,
+                      border: `1.5px solid ${activeCategory === cat ? "var(--color-brand-purple)" : "#E5E7EB"}`,
                     }}
                   >
                     {isAr ? (categoriesAr[cat] ?? cat) : cat}
@@ -240,7 +240,7 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
               {featured.length > 0 && (
                 <>
                   <div className="flex items-center gap-2 mb-6">
-                    <Sparkles size={16} style={{ color: "#077688" }} />
+                    <Sparkles size={16} style={{ color: "var(--color-brand-purple)" }} />
                     <h3 className="text-lg font-bold" style={{ color: "#1a1a2e" }}>
                       {isAr ? "الباقات المميزة" : "Featured Packages"}
                     </h3>
@@ -281,7 +281,7 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
       </section>
 
       {/* Payment strip */}
-      <section className="py-12" style={{ background: "#f8fafb", borderTop: "1px solid #F3F4F6" }}>
+      <section className="py-12" style={{ background: "var(--color-surface-light)", borderTop: "1px solid #F3F4F6" }}>
         <div className="max-w-4xl mx-auto px-6 text-center">
           <p
             className="text-xs font-semibold uppercase tracking-widest mb-5"
@@ -301,7 +301,7 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
             ))}
             <span
               className="px-4 py-2 rounded-full text-xs font-bold"
-              style={{ background: "#e8f5e9", color: "#2e7d32", border: "1px solid rgba(76,175,80,0.25)" }}
+              style={{ background: "#e8f5e9", color: "var(--color-brand-green-dark)", border: "1px solid rgba(var(--color-brand-green-rgb),0.25)" }}
             >
               Tamara
             </span>

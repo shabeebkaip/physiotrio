@@ -44,7 +44,7 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
         >
           <span
             className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             {locale === "ar" ? "فروعنا" : "Our Branches"}
           </span>
@@ -91,7 +91,7 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
                   >
                     <span
                       className="px-5 py-2 rounded-full font-bold text-sm text-white"
-                      style={{ background: "#077688" }}
+                      style={{ background: "var(--color-brand-purple)" }}
                     >
                       {comingSoonText}
                     </span>
@@ -107,14 +107,14 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
 
                 <div className="space-y-2 mb-5">
                   <div className="flex items-start gap-2">
-                    <MapPin size={14} style={{ color: "#077688", marginTop: 2 }} className="flex-shrink-0" />
+                    <MapPin size={14} style={{ color: "var(--color-brand-purple)", marginTop: 2 }} className="flex-shrink-0" />
                     <p className="text-sm" style={{ color: "#6B7280" }}>
                       {locale === "ar" ? branch.address.ar : branch.address.en}
                     </p>
                   </div>
                   {!branch.comingSoon && (
                     <div className="flex items-start gap-2">
-                      <Clock size={14} style={{ color: "#077688", marginTop: 2 }} className="flex-shrink-0" />
+                      <Clock size={14} style={{ color: "var(--color-brand-purple)", marginTop: 2 }} className="flex-shrink-0" />
                       <p className="text-xs" style={{ color: "#9CA3AF" }}>
                         {locale === "ar" ? branch.hours.ar : branch.hours.en}
                       </p>
@@ -126,14 +126,14 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
                   <div className="flex gap-2 mb-5">
                     <span
                       className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
-                      style={{ background: "#F1F5F9", color: "#077688" }}
+                      style={{ background: "#F1F5F9", color: "var(--color-brand-purple)" }}
                     >
                       <Users size={11} />
                       {branch.therapistCount} {therapistsText}
                     </span>
                     <span
                       className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
-                      style={{ background: "#F1F5F9", color: "#4caf50" }}
+                      style={{ background: "#F1F5F9", color: "var(--color-brand-green)" }}
                     >
                       <Stethoscope size={11} />
                       {branch.serviceCount} {servicesText}
@@ -148,14 +148,14 @@ export function BranchesPreview({ locale, branches, title, getDirectionsText, bo
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 py-2.5 rounded-full text-sm font-semibold text-center transition-all hover:bg-gray-50"
-                      style={{ border: "1.5px solid #077688", color: "#077688" }}
+                      style={{ border: "1.5px solid var(--color-brand-purple)", color: "var(--color-brand-purple)" }}
                     >
                       {getDirectionsText}
                     </a>
                     <Link
                       href={`/${locale}/book/${branch.id}`}
                       className="flex-1 py-2.5 rounded-full text-sm font-semibold text-center text-white transition-all hover:opacity-90"
-                      style={{ background: "#077688" }}
+                      style={{ background: "var(--color-brand-purple)" }}
                     >
                       {bookHereText}
                     </Link>

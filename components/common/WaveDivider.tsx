@@ -5,7 +5,7 @@ interface WaveDividerProps {
   className?: string;
 }
 
-export function WaveDivider({ color = "#f8fafb", flipX = false, flipY = false, className = "" }: WaveDividerProps) {
+export function WaveDivider({ color = "var(--color-surface-light)", flipX = false, flipY = false, className = "" }: WaveDividerProps) {
   return (
     <div
       className={`w-full overflow-hidden leading-none ${className}`}

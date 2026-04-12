@@ -17,7 +17,7 @@ export function BookingCTABand({ locale, title, bookText, whatsappText }: Bookin
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="relative overflow-hidden rounded-[32px] md:rounded-[40px] py-16 px-8 md:px-20"
-          style={{ background: "#077688" }}
+          style={{ background: "var(--color-brand-purple)" }}
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -26,7 +26,7 @@ export function BookingCTABand({ locale, title, bookText, whatsappText }: Bookin
           {/* Decorative blur blobs */}
           <div
             className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
-            style={{ background: "rgba(76,175,80,0.25)", filter: "blur(60px)" }}
+            style={{ background: "rgba(var(--color-brand-green-rgb),0.25)", filter: "blur(60px)" }}
           />
           <div
             className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full pointer-events-none"
@@ -50,7 +50,7 @@ export function BookingCTABand({ locale, title, bookText, whatsappText }: Bookin
                 {bookText}
                 <span
                   className="w-8 h-8 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-0.5"
-                  style={{ background: "#4caf50" }}
+                  style={{ background: "var(--color-brand-green)" }}
                 >
                   <ArrowRight size={15} className="text-white" />
                 </span>

@@ -23,7 +23,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
   return (
     <section className="py-8 px-4 md:px-8" style={{ background: "#ffffff" }}>
       <div className="max-w-7xl mx-auto">
-      <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] py-16 px-8 md:px-16" style={{ background: "#4caf50" }}>
+      <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] py-16 px-8 md:px-16" style={{ background: "var(--color-brand-green)" }}>
         {/* Decorative blobs */}
         <div
           className="absolute -top-16 -right-16 w-56 h-56 rounded-full pointer-events-none"
@@ -31,7 +31,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
         />
         <div
           className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full pointer-events-none"
-          style={{ background: "rgba(7,118,136,0.25)", filter: "blur(40px)" }}
+          style={{ background: "rgba(var(--color-brand-purple-rgb),0.25)", filter: "blur(40px)" }}
         />
 
       <div className="relative max-w-7xl mx-auto">
@@ -66,14 +66,14 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
               <Link
                 href={`/${locale}/offers`}
                 className="px-7 py-3.5 rounded-full font-bold transition-all hover:scale-105"
-                style={{ background: "white", color: "#4caf50" }}
+                style={{ background: "white", color: "var(--color-brand-green)" }}
               >
                 {viewAllText}
               </Link>
               <Link
                 href={`/${locale}/book/riyadh?package=starter`}
                 className="px-7 py-3.5 rounded-full font-bold transition-all hover:scale-105"
-                style={{ background: "#077688", color: "white" }}
+                style={{ background: "var(--color-brand-purple)", color: "white" }}
               >
                 {purchaseText}
               </Link>

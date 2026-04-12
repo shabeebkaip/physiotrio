@@ -45,9 +45,9 @@ export function Footer({ locale, t, nav }: FooterProps) {
   ];
 
   return (
-    <footer style={{ background: "#0d1e3a" }} className="text-white">
+    <footer style={{ background: "var(--color-dark-surface)" }} className="text-white">
       {/* Top border */}
-      <div style={{ height: "1px", background: "rgba(7,118,136,0.3)" }} />
+      <div style={{ height: "1px", background: "rgba(var(--color-brand-purple-rgb),0.3)" }} />
 
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
@@ -75,7 +75,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
                   style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = "#4caf50";
+                    (e.currentTarget as HTMLElement).style.background = "var(--color-brand-green)";
                     (e.currentTarget as HTMLElement).style.color = "white";
                   }}
                   onMouseLeave={(e) => {
@@ -91,7 +91,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
 
           {/* Col 2 - Quick Links */}
           <div>
-            <h3 className="font-bold text-sm mb-5 tracking-wider uppercase" style={{ color: "#4caf50" }}>
+            <h3 className="font-bold text-sm mb-5 tracking-wider uppercase" style={{ color: "var(--color-brand-green)" }}>
               {t.quickLinks}
             </h3>
             <ul className="space-y-3">
@@ -101,7 +101,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
                     href={`/${locale}${link.href}`}
                     className="text-sm transition-colors hover:text-brand-green"
                     style={{ color: "rgba(255,255,255,0.65)" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#4caf50")}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-brand-green)")}
                     onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}
                   >
                     {link.label}
@@ -113,7 +113,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
 
           {/* Col 3 - Branches */}
           <div>
-            <h3 className="font-bold text-sm mb-5 tracking-wider uppercase" style={{ color: "#4caf50" }}>
+            <h3 className="font-bold text-sm mb-5 tracking-wider uppercase" style={{ color: "var(--color-brand-green)" }}>
               {t.branchesTitle}
             </h3>
             <div className="space-y-5">
@@ -133,7 +133,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
               </div>
               <div className="flex items-center gap-2">
                 <p className="font-semibold text-white text-sm">{locale === "ar" ? "الدمام" : "Dammam"}</p>
-                <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: "#4caf50", color: "white" }}>
+                <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: "var(--color-brand-green)", color: "white" }}>
                   {locale === "ar" ? "قريباً" : "Coming Soon"}
                 </span>
               </div>
@@ -142,7 +142,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
 
           {/* Col 4 - Contact */}
           <div>
-            <h3 className="font-bold text-sm mb-5 tracking-wider uppercase" style={{ color: "#4caf50" }}>
+            <h3 className="font-bold text-sm mb-5 tracking-wider uppercase" style={{ color: "var(--color-brand-green)" }}>
               {t.contact}
             </h3>
             <div className="space-y-4">
@@ -169,7 +169,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
               <Link
                 href={`/${locale}/book/riyadh`}
                 className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-105"
-                style={{ background: "#077688", color: "white" }}
+                style={{ background: "var(--color-brand-purple)", color: "white" }}
               >
                 {locale === "ar" ? "احجز الآن" : "Book Online"}
               </Link>
@@ -188,7 +188,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
             <span>·</span>
             <Link href={`/${locale}/terms`} className="hover:text-white transition-colors">{t.terms}</Link>
           </div>
-          <p style={{ color: "#4caf50" }}>{t.proudly}</p>
+          <p style={{ color: "var(--color-brand-green)" }}>{t.proudly}</p>
         </div>
       </div>
     </footer>

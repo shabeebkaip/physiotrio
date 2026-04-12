@@ -53,16 +53,16 @@ function StepBar({ step, labels }: { step: number; labels: string[] }) {
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
                 style={{
-                  background: done ? "#077688" : active ? "#077688" : "#F1F5F9",
+                  background: done ? "var(--color-brand-purple)" : active ? "var(--color-brand-purple)" : "#F1F5F9",
                   color: done || active ? "white" : "#9CA3AF",
-                  boxShadow: active ? "0 0 0 4px rgba(7,118,136,0.15)" : "none",
+                  boxShadow: active ? "0 0 0 4px rgba(var(--color-brand-purple-rgb),0.15)" : "none",
                 }}
               >
                 {done ? <CheckCircle2 size={16} /> : idx}
               </div>
               <span
                 className="text-[10px] font-semibold uppercase tracking-wide hidden sm:block"
-                style={{ color: active ? "#077688" : done ? "#077688" : "#9CA3AF" }}
+                style={{ color: active ? "var(--color-brand-purple)" : done ? "var(--color-brand-purple)" : "#9CA3AF" }}
               >
                 {label}
               </span>
@@ -70,7 +70,7 @@ function StepBar({ step, labels }: { step: number; labels: string[] }) {
             {i < labels.length - 1 && (
               <div
                 className="flex-1 h-0.5 mx-2 mb-4 rounded-full transition-all duration-500"
-                style={{ background: step > idx ? "#077688" : "#E5E7EB" }}
+                style={{ background: step > idx ? "var(--color-brand-purple)" : "#E5E7EB" }}
               />
             )}
           </div>
@@ -108,7 +108,7 @@ function NavButtons({
           disabled={nextDisabled}
           className="flex-1 inline-flex items-center justify-center gap-2 pl-6 pr-2 py-2.5 rounded-xl font-semibold text-sm text-white transition-all group"
           style={{
-            background: nextDisabled ? "#E5E7EB" : "#077688",
+            background: nextDisabled ? "#E5E7EB" : "var(--color-brand-purple)",
             color: nextDisabled ? "#9CA3AF" : "white",
             cursor: nextDisabled ? "not-allowed" : "pointer",
           }}
@@ -117,7 +117,7 @@ function NavButtons({
           {!nextDisabled && (
             <span
               className="w-7 h-7 rounded-lg flex items-center justify-center transition-transform group-hover:translate-x-0.5"
-              style={{ background: "#4caf50" }}
+              style={{ background: "var(--color-brand-green)" }}
             >
               <ArrowRight size={14} />
             </span>
@@ -157,7 +157,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
       <div className="bg-white rounded-2xl p-8 md:p-12 text-center border border-gray-100">
         <div
           className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
-          style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}
+          style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
         >
           <CheckCircle2 size={36} className="text-white" />
         </div>
@@ -179,7 +179,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
             { label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—" },
           ].map((row, i) => (
             <div key={i} className="p-4 rounded-xl" style={{ background: "#F8FAFC" }}>
-              <p className="text-xs font-semibold mb-1" style={{ color: "#077688" }}>{row.label}</p>
+              <p className="text-xs font-semibold mb-1" style={{ color: "var(--color-brand-purple)" }}>{row.label}</p>
               <p className="text-sm font-medium" style={{ color: "#1a1a2e" }}>{row.value}</p>
             </div>
           ))}
@@ -220,16 +220,16 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                   onClick={() => { setSelectedService(service); setStep(2); }}
                   className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                   style={{
-                    background: isSelected ? "rgba(7,118,136,0.06)" : "white",
-                    borderColor: isSelected ? "#077688" : "#E5E7EB",
+                    background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
+                    borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
                   }}
                 >
                   <div className="flex items-start gap-4">
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200"
-                      style={{ background: isSelected ? "rgba(7,118,136,0.12)" : "#F1F5F9" }}
+                      style={{ background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.12)" : "#F1F5F9" }}
                     >
-                      <Icon size={18} strokeWidth={1.5} style={{ color: "#077688" }} />
+                      <Icon size={18} strokeWidth={1.5} style={{ color: "var(--color-brand-purple)" }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
@@ -241,7 +241,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
-                    <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#077688" }}>
+                    <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--color-brand-purple)" }}>
                       <Clock size={11} />
                       {service.durationMinutes} {isAr ? "دقيقة" : "min"}
                     </span>
@@ -273,14 +273,14 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                   onClick={() => { setSelectedTherapist(therapist); setStep(3); }}
                   className="text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                   style={{
-                    background: isSelected ? "rgba(7,118,136,0.06)" : "white",
-                    borderColor: isSelected ? "#077688" : "#E5E7EB",
+                    background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
+                    borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
                   }}
                 >
                   <div className="flex items-center gap-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden"
-                      style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}
+                      style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
                     >
                       {therapist.image ? (
                         <Image src={therapist.image} alt={therapist.initials} width={48} height={48} className="object-cover w-full h-full" unoptimized />
@@ -297,9 +297,9 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                       </p>
                       <div className="flex items-center gap-1">
                         {[1,2,3,4,5].map((s) => (
-                          <Star key={s} size={10} fill={s <= Math.floor(therapist.rating) ? "#077688" : "none"} color={s <= Math.floor(therapist.rating) ? "#077688" : "#D1D5DB"} />
+                          <Star key={s} size={10} fill={s <= Math.floor(therapist.rating) ? "var(--color-brand-purple)" : "none"} color={s <= Math.floor(therapist.rating) ? "var(--color-brand-purple)" : "#D1D5DB"} />
                         ))}
-                        <span className="text-xs font-semibold ml-1" style={{ color: "#077688" }}>{therapist.rating}</span>
+                        <span className="text-xs font-semibold ml-1" style={{ color: "var(--color-brand-purple)" }}>{therapist.rating}</span>
                       </div>
                     </div>
                   </div>
@@ -345,10 +345,10 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                     disabled={isFri}
                     className="flex flex-col items-center px-3.5 py-3 rounded-xl transition-all duration-200 min-w-[56px]"
                     style={{
-                      background: isSelected ? "#077688" : "white",
-                      border: `1px solid ${isSelected ? "#077688" : "#E5E7EB"}`,
+                      background: isSelected ? "var(--color-brand-purple)" : "white",
+                      border: `1px solid ${isSelected ? "var(--color-brand-purple)" : "#E5E7EB"}`,
                       opacity: isFri ? 0.35 : 1,
-                      boxShadow: isSelected ? "0 4px 12px rgba(7,118,136,0.25)" : "none",
+                      boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-purple-rgb),0.25)" : "none",
                     }}
                   >
                     <span className="text-[10px] font-semibold uppercase mb-1" style={{ color: isSelected ? "rgba(255,255,255,0.7)" : "#9CA3AF" }}>
@@ -378,10 +378,10 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                       onClick={() => setSelectedTime(time)}
                       className="py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5"
                       style={{
-                        background: isSelected ? "#077688" : "white",
+                        background: isSelected ? "var(--color-brand-purple)" : "white",
                         color: isSelected ? "white" : "#374151",
-                        border: `1px solid ${isSelected ? "#077688" : "#E5E7EB"}`,
-                        boxShadow: isSelected ? "0 4px 12px rgba(7,118,136,0.25)" : "none",
+                        border: `1px solid ${isSelected ? "var(--color-brand-purple)" : "#E5E7EB"}`,
+                        boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-purple-rgb),0.25)" : "none",
                       }}
                     >
                       {time}
@@ -433,7 +433,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                     color: "#1a1a2e",
                   }}
                   placeholder={placeholder}
-                  onFocus={(e) => { e.target.style.borderColor = "#077688"; e.target.style.boxShadow = "0 0 0 3px rgba(7,118,136,0.1)"; }}
+                  onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-purple)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-purple-rgb),0.1)"; }}
                   onBlur={(e) => { e.target.style.borderColor = "#E5E7EB"; e.target.style.boxShadow = "none"; }}
                 />
               </div>
@@ -449,7 +449,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-all"
                 style={{ background: "white", border: "1.5px solid #E5E7EB", color: "#1a1a2e" }}
                 placeholder={isAr ? "تاريخ الإصابة، التأمين الصحي..." : "Injury history, insurance provider..."}
-                onFocus={(e) => { e.target.style.borderColor = "#077688"; e.target.style.boxShadow = "0 0 0 3px rgba(7,118,136,0.1)"; }}
+                onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-purple)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-purple-rgb),0.1)"; }}
                 onBlur={(e) => { e.target.style.borderColor = "#E5E7EB"; e.target.style.boxShadow = "none"; }}
               />
             </div>
@@ -489,7 +489,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                 className="flex items-center gap-4 px-5 py-4"
                 style={{ borderBottom: i < arr.length - 1 ? "1px solid #F1F5F9" : "none" }}
               >
-                <span style={{ color: "#077688" }}>{row.icon}</span>
+                <span style={{ color: "var(--color-brand-purple)" }}>{row.icon}</span>
                 <span className="text-xs font-semibold w-20 flex-shrink-0" style={{ color: "#9CA3AF" }}>{row.label}</span>
                 <span className="text-sm font-medium" style={{ color: "#1a1a2e" }}>{row.value}</span>
               </div>

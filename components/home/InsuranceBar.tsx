@@ -16,12 +16,12 @@ export function InsuranceBar({ label }: InsuranceBarProps) {
   return (
     <div
       className="relative py-5 overflow-hidden"
-      style={{ background: "white", borderTop: "1px solid rgba(7,118,136,0.08)", borderBottom: "1px solid rgba(7,118,136,0.08)" }}
+      style={{ background: "white", borderTop: "1px solid rgba(var(--color-brand-purple-rgb),0.08)", borderBottom: "1px solid rgba(var(--color-brand-purple-rgb),0.08)" }}
     >
       <div className="max-w-7xl mx-auto px-6 mb-3">
         <p
           className="text-xs uppercase tracking-widest text-center font-semibold"
-          style={{ color: "rgba(7,118,136,0.45)" }}
+          style={{ color: "rgba(var(--color-brand-purple-rgb),0.45)" }}
         >
           {label}
         </p>
@@ -50,7 +50,7 @@ export function InsuranceBar({ label }: InsuranceBarProps) {
             >
               <div
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+                style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
               >
                 {name.charAt(0)}
               </div>

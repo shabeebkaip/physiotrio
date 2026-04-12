@@ -31,10 +31,10 @@ export function FaqAccordion({ faqs, categories, locale }: FaqAccordionProps) {
             onClick={() => { setActiveCategory(cat.id); setOpenId(null); }}
             className="px-4 py-2 rounded-full text-sm font-semibold transition-all"
             style={{
-              background: activeCategory === cat.id ? "#077688" : "white",
+              background: activeCategory === cat.id ? "var(--color-brand-purple)" : "white",
               color: activeCategory === cat.id ? "white" : "#555",
               border: "1px solid",
-              borderColor: activeCategory === cat.id ? "#077688" : "#e0e0e0",
+              borderColor: activeCategory === cat.id ? "var(--color-brand-purple)" : "#e0e0e0",
             }}
           >
             {locale === "ar" ? cat.label.ar : cat.label.en}
@@ -49,9 +49,9 @@ export function FaqAccordion({ faqs, categories, locale }: FaqAccordionProps) {
             key={faq.id}
             className="bg-white rounded-2xl overflow-hidden transition-all"
             style={{
-              boxShadow: "0 2px 16px rgba(7,118,136,0.06)",
+              boxShadow: "0 2px 16px rgba(var(--color-brand-purple-rgb),0.06)",
               border: "1px solid",
-              borderColor: openId === faq.id ? "rgba(7,118,136,0.2)" : "transparent",
+              borderColor: openId === faq.id ? "rgba(var(--color-brand-purple-rgb),0.2)" : "transparent",
             }}
           >
             <button
@@ -59,14 +59,14 @@ export function FaqAccordion({ faqs, categories, locale }: FaqAccordionProps) {
               className="w-full flex items-start justify-between gap-4 p-6"
               style={{ textAlign: locale === "ar" ? "right" : "left" }}
             >
-              <span className="font-semibold text-sm leading-snug" style={{ color: "#0d0820" }}>
+              <span className="font-semibold text-sm leading-snug" style={{ color: "var(--color-hero-bg)" }}>
                 {locale === "ar" ? faq.question.ar : faq.question.en}
               </span>
               <ChevronDown
                 size={18}
                 className="flex-shrink-0 transition-transform duration-200"
                 style={{
-                  color: "#077688",
+                  color: "var(--color-brand-purple)",
                   transform: openId === faq.id ? "rotate(180deg)" : "rotate(0deg)",
                 }}
               />

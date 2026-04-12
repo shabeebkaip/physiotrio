@@ -43,7 +43,7 @@ export function StatsStrip({ stats }: StatsStripProps) {
   ];
 
   return (
-    <section className="py-14" style={{ background: "white", borderTop: "1px solid rgba(7,118,136,0.07)", borderBottom: "1px solid rgba(7,118,136,0.07)" }}>
+    <section className="py-14" style={{ background: "white", borderTop: "1px solid rgba(var(--color-brand-purple-rgb),0.07)", borderBottom: "1px solid rgba(var(--color-brand-purple-rgb),0.07)" }}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
           {statsData.map((stat, i) => (
@@ -59,14 +59,14 @@ export function StatsStrip({ stats }: StatsStripProps) {
               {i < statsData.length - 1 && (
                 <div
                   className="absolute right-0 top-1/2 -translate-y-1/2 h-14 w-px hidden lg:block"
-                  style={{ background: "rgba(7,118,136,0.1)" }}
+                  style={{ background: "rgba(var(--color-brand-purple-rgb),0.1)" }}
                 />
               )}
 
               {/* Icon */}
               <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-4"
-                style={{ background: "rgba(7,118,136,0.06)" }}
+                style={{ background: "rgba(var(--color-brand-purple-rgb),0.06)" }}
               >
                 {stat.icon}
               </div>
@@ -74,7 +74,7 @@ export function StatsStrip({ stats }: StatsStripProps) {
               {/* Number */}
               <div
                 className="text-4xl md:text-5xl font-black tabular-nums mb-1"
-                style={{ color: "#077688", lineHeight: 1 }}
+                style={{ color: "var(--color-brand-purple)", lineHeight: 1 }}
               >
                 <CountUp target={stat.raw} />
                 {stat.suffix}
@@ -88,7 +88,7 @@ export function StatsStrip({ stats }: StatsStripProps) {
               {/* Underline accent */}
               <motion.div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full"
-                style={{ background: "linear-gradient(90deg, #077688, #4caf50)" }}
+                style={{ background: "linear-gradient(90deg, var(--color-brand-purple), var(--color-brand-green))" }}
                 initial={{ width: 0 }}
                 whileInView={{ width: 40 }}
                 viewport={{ once: true }}

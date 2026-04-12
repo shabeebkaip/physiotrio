@@ -21,8 +21,8 @@ const specializationLabels: Record<string, { en: string; ar: string }> = {
 };
 
 const branchColors: Record<string, string> = {
-  riyadh: "#077688",
-  makkah: "#4caf50",
+  riyadh: "var(--color-brand-purple)",
+  makkah: "var(--color-brand-green)",
 };
 
 interface Props { locale: string; ctaBook: string; ctaWhatsapp: string; ctaTitle: string; }
@@ -85,7 +85,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
           <div className="mb-10">
             <span
               className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-              style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+              style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
             >
               {isAr ? "الفريق" : "Our Team"}
             </span>
@@ -112,9 +112,9 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
                     onClick={() => setActiveBranch(b)}
                     className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
                     style={{
-                      background: activeBranch === b ? "#077688" : "transparent",
+                      background: activeBranch === b ? "var(--color-brand-purple)" : "transparent",
                       color: activeBranch === b ? "white" : "#6B7280",
-                      border: `1.5px solid ${activeBranch === b ? "#077688" : "#E5E7EB"}`,
+                      border: `1.5px solid ${activeBranch === b ? "var(--color-brand-purple)" : "#E5E7EB"}`,
                     }}
                   >
                     {b === "all"
@@ -141,7 +141,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
               {filtered.map((therapist, i) => (
                 <motion.div
                   key={therapist.id}
-                  className="group bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-[#077688] hover:shadow-xl hover:-translate-y-1"
+                  className="group bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-purple hover:shadow-xl hover:-translate-y-1 flex flex-col"
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: i * 0.05 }}
@@ -157,15 +157,15 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
                         unoptimized
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #f0f9fa, #e0f2f4)" }}>
-                        <span className="font-black text-6xl" style={{ color: "rgba(7,118,136,0.15)" }}>{therapist.initials}</span>
+                      <div className="absolute inset-0 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #f0f9fa, var(--color-brand-purple-muted))" }}>
+                        <span className="font-black text-6xl" style={{ color: "rgba(var(--color-brand-purple-rgb),0.15)" }}>{therapist.initials}</span>
                       </div>
                     )}
 
                     {/* Rating badge */}
                     <div
                       className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold"
-                      style={{ background: "rgba(255,255,255,0.95)", color: "#077688" }}
+                      style={{ background: "rgba(255,255,255,0.95)", color: "var(--color-brand-purple)" }}
                     >
                       <Star size={10} fill="#f59e0b" stroke="none" />
                       {therapist.rating.toFixed(1)}
@@ -184,27 +184,27 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
                   </div>
 
                   {/* Card body */}
-                  <div className="p-5">
-                    {/* Name + title */}
-                    <p className="font-bold text-base leading-snug mb-0.5" style={{ color: "#1a1a2e" }}>
+                  <div className="p-5 flex flex-col flex-1">
+                    {/* Name + title — fixed height area */}
+                    <p className="font-bold text-base leading-snug mb-0.5 line-clamp-2 min-h-[2.75rem]" style={{ color: "#1a1a2e" }}>
                       {isAr ? therapist.name.ar : therapist.name.en}
                     </p>
                     <p className="text-xs mb-3" style={{ color: "#6B7280" }}>
                       {isAr ? therapist.title.ar : therapist.title.en}
                     </p>
 
-                    {/* Bio */}
-                    <p className="text-xs leading-relaxed mb-4" style={{ color: "#6B7280" }}>
+                    {/* Bio — clamped to 3 lines */}
+                    <p className="text-xs leading-relaxed mb-4 line-clamp-3 min-h-[3.75rem]" style={{ color: "#6B7280" }}>
                       {isAr ? therapist.bio.ar : therapist.bio.en}
                     </p>
 
-                    {/* Specializations */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
+                    {/* Specializations — fixed height area */}
+                    <div className="flex flex-wrap gap-1.5 mb-4 min-h-[3.5rem] content-start">
                       {therapist.specializations.slice(0, 3).map(spec => (
                         <span
                           key={spec}
-                          className="text-xs px-2.5 py-0.5 rounded-full font-semibold"
-                          style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+                          className="text-xs px-2.5 py-0.5 rounded-full font-semibold h-fit"
+                          style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
                         >
                           {isAr ? specializationLabels[spec]?.ar ?? spec : specializationLabels[spec]?.en ?? spec}
                         </span>
@@ -212,13 +212,13 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
                     </div>
 
                     {/* Meta row */}
-                    <div className="flex items-center justify-between text-xs mb-4" style={{ color: "#9CA3AF" }}>
+                    <div className="flex items-center justify-between text-xs mb-4 mt-auto" style={{ color: "#9CA3AF" }}>
                       <span className="flex items-center gap-1">
                         <Globe size={11} />
                         {therapist.languages.slice(0, 2).join(" · ")}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Shield size={11} style={{ color: "#4caf50" }} />
+                        <Shield size={11} style={{ color: "var(--color-brand-green)" }} />
                         {therapist.yearsExp} {isAr ? "سنة" : "yrs"}
                       </span>
                     </div>
@@ -227,7 +227,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
                     <Link
                       href={`/${locale}/book/${therapist.branches[0]}?therapist=${therapist.id}`}
                       className="flex items-center justify-center gap-2 py-2.5 rounded-full text-xs font-bold text-white transition-all duration-300 group-hover:opacity-90"
-                      style={{ background: "#077688" }}
+                      style={{ background: "var(--color-brand-purple)" }}
                     >
                       {isAr
                         ? `احجز مع ${therapist.name.ar.split(" ")[0]}`
@@ -248,7 +248,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <Shield size={14} className="inline mr-1.5" style={{ color: "#4caf50" }} />
+            <Shield size={14} className="inline mr-1.5" style={{ color: "var(--color-brand-green)" }} />
             {isAr
               ? "جميع معالجينا مرخصون بالكامل من وزارة الصحة السعودية ويحملون مؤهلات معترفاً بها دولياً."
               : "All therapists are MOH-licensed and hold internationally recognised qualifications."}

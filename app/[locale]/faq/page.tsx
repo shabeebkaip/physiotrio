@@ -47,9 +47,9 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
       <Navbar locale={locale} translations={navT} />
       <main>
         {/* Hero */}
-        <section className="pt-36 pb-20 px-6" style={{ background: "linear-gradient(135deg, #0d0820 0%, #1a0d2e 60%, #0d2a35 100%)" }}>
+        <section className="pt-36 pb-20 px-6" style={{ background: "linear-gradient(135deg, var(--color-hero-bg) 0%, var(--color-dark-surface) 60%, var(--color-dark-surface) 100%)" }}>
           <div className="max-w-4xl mx-auto text-center">
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style={{ background: "rgba(76,175,80,0.2)", color: "#4caf50" }}>
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style={{ background: "rgba(var(--color-brand-green-rgb),0.2)", color: "var(--color-brand-green)" }}>
               {locale === "ar" ? "الأسئلة الشائعة" : "FAQ"}
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
@@ -64,14 +64,14 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
         </section>
 
         {/* FAQ Accordion */}
-        <section className="py-20 px-6" style={{ background: "#f8fafb" }}>
+        <section className="py-20 px-6" style={{ background: "var(--color-surface-light)" }}>
           <div className="max-w-4xl mx-auto">
             <FaqAccordion faqs={faqs} categories={faqCategories} locale={locale} />
           </div>
         </section>
 
         {/* CTA */}
-        <section className="py-16 px-6 text-center" style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}>
+        <section className="py-16 px-6 text-center" style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}>
           <h2 className="text-3xl font-black text-white mb-4">
             {locale === "ar" ? "مستعد لبدء تعافيك؟" : "Ready to Start Your Recovery?"}
           </h2>
@@ -79,7 +79,7 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
             <Link
               href={`/${locale}/book/riyadh`}
               className="px-8 py-4 rounded-full font-bold transition-all hover:scale-105"
-              style={{ background: "#0d0820", color: "white" }}
+              style={{ background: "var(--color-hero-bg)", color: "white" }}
             >
               {cta("book")}
             </Link>

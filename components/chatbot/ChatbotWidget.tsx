@@ -109,10 +109,10 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               className="px-4 py-2 rounded-xl text-sm text-white font-medium shadow-lg"
-              style={{ background: "#1a0d2e", maxWidth: "200px" }}
+              style={{ background: "var(--color-dark-surface)", maxWidth: "200px" }}
             >
               {locale === "ar" ? "مرحباً! كيف يمكنني مساعدتك؟" : "Hi! How can I help you?"}
-              <div className="absolute bottom-0 right-5 translate-y-1/2 w-3 h-3 rotate-45" style={{ background: "#1a0d2e" }} />
+              <div className="absolute bottom-0 right-5 translate-y-1/2 w-3 h-3 rotate-45" style={{ background: "var(--color-dark-surface)" }} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -120,7 +120,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
         {/* Main button */}
         <motion.button
           className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg relative"
-          style={{ background: "#077688" }}
+          style={{ background: "var(--color-brand-purple)" }}
           onClick={() => { setIsOpen(!isOpen); setShowNotif(false); }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
@@ -143,8 +143,8 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
 
           {/* Green notification dot */}
           {!isOpen && (
-            <span className="absolute top-1 right-1 w-3 h-3 rounded-full border-2 border-white" style={{ background: "#4caf50" }}>
-              <span className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "rgba(76,175,80,0.5)" }} />
+            <span className="absolute top-1 right-1 w-3 h-3 rounded-full border-2 border-white" style={{ background: "var(--color-brand-green)" }}>
+              <span className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "rgba(var(--color-brand-green-rgb),0.5)" }} />
             </span>
           )}
         </motion.button>
@@ -156,9 +156,9 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
           <motion.div
             className="fixed bottom-24 right-6 z-[9998] w-80 sm:w-96 rounded-2xl overflow-hidden flex flex-col shadow-2xl"
             style={{
-              background: "#1a0d2e",
+              background: "var(--color-dark-surface)",
               height: "500px",
-              border: "1px solid rgba(7,118,136,0.2)",
+              border: "1px solid rgba(var(--color-brand-purple-rgb),0.2)",
             }}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -168,7 +168,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
             {/* Header */}
             <div
               className="flex items-center gap-3 px-4 py-3"
-              style={{ background: "#077688" }}
+              style={{ background: "var(--color-brand-purple)" }}
             >
               <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-black text-sm" style={{ background: "rgba(255,255,255,0.2)" }}>
                 P
@@ -176,7 +176,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
               <div className="flex-1">
                 <p className="text-white font-bold text-sm">PhysioTrio Assistant</p>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full" style={{ background: "#4caf50" }} />
+                  <div className="w-2 h-2 rounded-full" style={{ background: "var(--color-brand-green)" }} />
                   <span className="text-xs text-white/70">{locale === "ar" ? "متصل الآن" : "Online now"}</span>
                 </div>
               </div>
@@ -192,7 +192,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
                   <div
                     className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-line"
                     style={{
-                      background: msg.type === "user" ? "#4caf50" : "rgba(7,118,136,0.2)",
+                      background: msg.type === "user" ? "var(--color-brand-green)" : "rgba(var(--color-brand-purple-rgb),0.2)",
                       color: "white",
                       borderBottomRightRadius: msg.type === "user" ? "4px" : undefined,
                       borderBottomLeftRadius: msg.type === "bot" ? "4px" : undefined,
@@ -204,7 +204,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
                         <Link
                           href={`/${locale}/book/riyadh`}
                           className="inline-block mt-1 px-3 py-1.5 rounded-full text-xs font-bold"
-                          style={{ background: "#077688", color: "white" }}
+                          style={{ background: "var(--color-brand-purple)", color: "white" }}
                         >
                           {locale === "ar" ? "احجز الآن →" : "Book Now →"}
                         </Link>
@@ -223,15 +223,15 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
                   key={chip.key}
                   onClick={() => sendMessage(locale === "ar" ? chip.ar : chip.en)}
                   className="text-xs px-3 py-1 rounded-full font-semibold transition-all hover:scale-105"
-                  style={{ border: "1px solid rgba(7,118,136,0.4)", color: "rgba(255,255,255,0.8)" }}
+                  style={{ border: "1px solid rgba(var(--color-brand-purple-rgb),0.4)", color: "rgba(255,255,255,0.8)" }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = "#4caf50";
-                    (e.currentTarget as HTMLElement).style.borderColor = "#4caf50";
+                    (e.currentTarget as HTMLElement).style.background = "var(--color-brand-green)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--color-brand-green)";
                     (e.currentTarget as HTMLElement).style.color = "white";
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLElement).style.background = "transparent";
-                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(7,118,136,0.4)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(var(--color-brand-purple-rgb),0.4)";
                     (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.8)";
                   }}
                 >
@@ -258,7 +258,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
               <button
                 onClick={() => sendMessage(input)}
                 className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110 flex-shrink-0"
-                style={{ background: "#4caf50" }}
+                style={{ background: "var(--color-brand-green)" }}
                 aria-label="Send"
               >
                 <Send size={16} color="white" />

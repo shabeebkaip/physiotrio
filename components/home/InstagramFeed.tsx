@@ -59,7 +59,7 @@ const fallbackImages = [
 
 export function InstagramFeed({ locale }: InstagramFeedProps) {
   return (
-    <section className="py-20" style={{ background: "#f8fafb" }}>
+    <section className="py-20" style={{ background: "var(--color-surface-light)" }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -69,7 +69,7 @@ export function InstagramFeed({ locale }: InstagramFeedProps) {
           viewport={{ once: true }}
         >
           <div>
-            <h2 className="text-3xl font-extrabold mb-1" style={{ color: "#077688" }}>
+            <h2 className="text-3xl font-extrabold mb-1" style={{ color: "var(--color-brand-purple)" }}>
               {locale === "ar" ? "تابع رحلتنا" : "Follow Our Journey"}
             </h2>
             <a
@@ -77,7 +77,7 @@ export function InstagramFeed({ locale }: InstagramFeedProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-base font-semibold hover:underline"
-              style={{ color: "#4caf50" }}
+              style={{ color: "var(--color-brand-green)" }}
             >
               <Heart size={18} />
               @physiotrio
@@ -88,16 +88,16 @@ export function InstagramFeed({ locale }: InstagramFeedProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border transition-all hover:scale-105"
-            style={{ borderColor: "#077688", color: "#077688" }}
+            style={{ borderColor: "var(--color-brand-purple)", color: "var(--color-brand-purple)" }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "#4caf50";
-              (e.currentTarget as HTMLElement).style.borderColor = "#4caf50";
+              (e.currentTarget as HTMLElement).style.background = "var(--color-brand-green)";
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--color-brand-green)";
               (e.currentTarget as HTMLElement).style.color = "white";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.background = "transparent";
-              (e.currentTarget as HTMLElement).style.borderColor = "#077688";
-              (e.currentTarget as HTMLElement).style.color = "#077688";
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--color-brand-purple)";
+              (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
             }}
           >
             <Heart size={16} />
@@ -130,7 +130,7 @@ export function InstagramFeed({ locale }: InstagramFeedProps) {
               {/* Hover overlay */}
               <div
                 className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                style={{ background: "rgba(7,118,136,0.75)" }}
+                style={{ background: "rgba(var(--color-brand-purple-rgb),0.75)" }}
               >
                 <Heart size={28} color="white" />
                 <span className="text-white text-xs font-semibold text-center px-2">

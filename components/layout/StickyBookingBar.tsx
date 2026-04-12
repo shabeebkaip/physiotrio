@@ -26,7 +26,7 @@ export function StickyBookingBar({ locale, bookText, tagline }: StickyBookingBar
       {visible && (
         <motion.div
           className="fixed top-20 left-0 right-0 z-40 flex items-center justify-between px-6 py-3"
-          style={{ background: "#077688" }}
+          style={{ background: "var(--color-brand-purple)" }}
           initial={{ y: -60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -60, opacity: 0 }}
@@ -40,7 +40,7 @@ export function StickyBookingBar({ locale, bookText, tagline }: StickyBookingBar
           <Link
             href={`/${locale}/book/riyadh`}
             className="px-5 py-1.5 rounded-full text-sm font-bold transition-all hover:scale-105"
-            style={{ background: "#4caf50", color: "white" }}
+            style={{ background: "var(--color-brand-green)", color: "white" }}
           >
             {bookText} →
           </Link>

@@ -40,7 +40,7 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
         >
           <span
             className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             {locale === "ar" ? "لماذا فيزيوتريو" : "Why PhysioTrio"}
           </span>
@@ -62,11 +62,11 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
           {/* Burjeel badge */}
           <div
             className="mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-xl"
-            style={{ background: "rgba(7,118,136,0.05)", border: "1px solid rgba(7,118,136,0.12)" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.05)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.12)" }}
           >
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black text-white"
-              style={{ background: "#077688" }}
+              style={{ background: "var(--color-brand-purple)" }}
             >
               B
             </div>
@@ -93,7 +93,7 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
               whileHover={{ y: -2 }}
             >
               <div className="flex-shrink-0 mt-0.5">
-                <CheckCircle2 size={20} style={{ color: "#077688" }} />
+                <CheckCircle2 size={20} style={{ color: "var(--color-brand-purple)" }} />
               </div>
               <div>
                 <h3 className="font-semibold text-base mb-1" style={{ color: "#1a1a2e" }}>

@@ -42,7 +42,7 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
         >
           <span
             className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             {locale === "ar" ? "فريقنا" : "Our Team"}
           </span>
@@ -66,7 +66,7 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
           <motion.div
             key={therapist.id}
             className="flex-shrink-0 w-72 bg-white rounded-2xl p-6 relative overflow-hidden"
-            style={{ boxShadow: "0 4px 24px rgba(7,118,136,0.08)" }}
+            style={{ boxShadow: "0 4px 24px rgba(var(--color-brand-purple-rgb),0.08)" }}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -76,7 +76,7 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
             {/* Avatar */}
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-white font-black text-xl"
-              style={{ background: "radial-gradient(circle, #077688 0%, #4caf50 100%)" }}
+              style={{ background: "radial-gradient(circle, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}
             >
               {therapist.initials}
             </div>
@@ -95,11 +95,11 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
                 <Star
                   key={s}
                   size={12}
-                  fill={s <= Math.floor(therapist.rating) ? "#4caf50" : "none"}
-                  color="#4caf50"
+                  fill={s <= Math.floor(therapist.rating) ? "var(--color-brand-green)" : "none"}
+                  color="var(--color-brand-green)"
                 />
               ))}
-              <span className="text-xs font-semibold ml-1" style={{ color: "#4caf50" }}>
+              <span className="text-xs font-semibold ml-1" style={{ color: "var(--color-brand-green)" }}>
                 {therapist.rating}
               </span>
             </div>
@@ -110,7 +110,7 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
                 <span
                   key={b}
                   className="text-xs px-2 py-0.5 rounded-full font-semibold capitalize"
-                  style={{ background: "#f0faf0", color: "#388e3c" }}
+                  style={{ background: "var(--color-brand-green-muted)", color: "var(--color-brand-green-dark)" }}
                 >
                   {b}
                 </span>
@@ -121,7 +121,7 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
             <Link
               href={`/${locale}/book/${therapist.branches[0]}?therapist=${therapist.id}`}
               className="w-full py-2.5 rounded-full text-sm font-bold text-center block transition-all hover:scale-105"
-              style={{ background: "#077688", color: "white" }}
+              style={{ background: "var(--color-brand-purple)", color: "white" }}
             >
               {bookWithText} {locale === "ar" ? therapist.name.ar.split(" ")[1] : therapist.name.en.split(" ")[1]}
             </Link>
@@ -130,7 +130,7 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
       </motion.div>
 
       <div className="text-center mt-8">
-        <p className="text-xs font-light" style={{ color: "rgba(7,118,136,0.5)" }}>
+        <p className="text-xs font-light" style={{ color: "rgba(var(--color-brand-purple-rgb),0.5)" }}>
           ← {locale === "ar" ? "اسحب للتصفح" : "Drag to explore"} →
         </p>
       </div>

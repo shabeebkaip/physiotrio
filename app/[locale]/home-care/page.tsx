@@ -71,7 +71,7 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
       <Navbar locale={locale} translations={navT} />
       <main>
         {/* Hero */}
-        <section className="pt-36 pb-24 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #077688 0%, #4caf50 100%)" }}>
+        <section className="pt-36 pb-24 relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-green) 100%)" }}>
           <div className="max-w-7xl mx-auto px-6 text-center">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.2)", color: "white" }}>
               {locale === "ar" ? "الرعاية المنزلية" : "Home Care"}
@@ -88,7 +88,7 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
               <Link
                 href={`/${locale}/book/riyadh?service=home-care`}
                 className="px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
-                style={{ background: "#0d0820", color: "white" }}
+                style={{ background: "var(--color-hero-bg)", color: "white" }}
               >
                 {locale === "ar" ? "احجز زيارة منزلية" : "Book Home Visit"}
               </Link>
@@ -106,10 +106,10 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
         </section>
 
         {/* Coverage Areas */}
-        <section className="py-10" style={{ background: "#0d0820" }}>
+        <section className="py-10" style={{ background: "var(--color-hero-bg)" }}>
           <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-6">
             {["Riyadh / الرياض", "Makkah / مكة المكرمة"].map((city) => (
-              <div key={city} className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#4caf50" }}>
+              <div key={city} className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--color-brand-green)" }}>
                 <MapPin size={16} />
                 <span className="text-white">{city}</span>
               </div>
@@ -118,20 +118,20 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
         </section>
 
         {/* How It Works */}
-        <section className="py-20" style={{ background: "#f8fafb" }}>
+        <section className="py-20" style={{ background: "var(--color-surface-light)" }}>
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-14">
-              <h2 className="text-3xl font-extrabold mb-3" style={{ color: "#0d0820" }}>
+              <h2 className="text-3xl font-extrabold mb-3" style={{ color: "var(--color-hero-bg)" }}>
                 {locale === "ar" ? "كيف يعمل؟" : "How It Works"}
               </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {steps.map((step, i) => (
                 <div key={i} className="text-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 text-white font-black text-xl" style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}>
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 text-white font-black text-xl" style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}>
                     {i + 1}
                   </div>
-                  <h3 className="font-bold text-lg mb-2" style={{ color: "#077688" }}>
+                  <h3 className="font-bold text-lg mb-2" style={{ color: "var(--color-brand-purple)" }}>
                     {locale === "ar" ? step.ar.title : step.en.title}
                   </h3>
                   <p className="text-sm font-light leading-relaxed" style={{ color: "#666" }}>
@@ -147,13 +147,13 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
         <section className="py-20" style={{ background: "white" }}>
           <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl font-extrabold mb-8" style={{ color: "#0d0820" }}>
+              <h2 className="text-3xl font-extrabold mb-8" style={{ color: "var(--color-hero-bg)" }}>
                 {locale === "ar" ? "لماذا الرعاية المنزلية؟" : "Why Home Care?"}
               </h2>
               <div className="space-y-4">
                 {benefits.map((b, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <CheckCircle2 size={18} style={{ color: "#4caf50" }} className="flex-shrink-0" />
+                    <CheckCircle2 size={18} style={{ color: "var(--color-brand-green)" }} className="flex-shrink-0" />
                     <span className="text-sm font-medium" style={{ color: "#444" }}>
                       {locale === "ar" ? b.ar : b.en}
                     </span>
@@ -162,10 +162,10 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
               </div>
             </div>
             <div className="space-y-6">
-              <div className="p-6 rounded-2xl" style={{ background: "rgba(7,118,136,0.06)", border: "1px solid rgba(7,118,136,0.15)" }}>
+              <div className="p-6 rounded-2xl" style={{ background: "rgba(var(--color-brand-purple-rgb),0.06)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.15)" }}>
                 <div className="flex items-center gap-3 mb-3">
-                  <Shield size={20} style={{ color: "#077688" }} />
-                  <h3 className="font-bold" style={{ color: "#077688" }}>
+                  <Shield size={20} style={{ color: "var(--color-brand-purple)" }} />
+                  <h3 className="font-bold" style={{ color: "var(--color-brand-purple)" }}>
                     {locale === "ar" ? "معالجون مرخصون" : "Licensed Therapists"}
                   </h3>
                 </div>
@@ -175,10 +175,10 @@ export default async function HomeCarePage({ params }: { params: Promise<{ local
                     : "All home care therapists are MOH-licensed and trained in home treatment protocols."}
                 </p>
               </div>
-              <div className="p-6 rounded-2xl" style={{ background: "rgba(76,175,80,0.06)", border: "1px solid rgba(76,175,80,0.15)" }}>
+              <div className="p-6 rounded-2xl" style={{ background: "rgba(var(--color-brand-green-rgb),0.06)", border: "1px solid rgba(var(--color-brand-green-rgb),0.15)" }}>
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock size={20} style={{ color: "#4caf50" }} />
-                  <h3 className="font-bold" style={{ color: "#388e3c" }}>
+                  <Clock size={20} style={{ color: "var(--color-brand-green)" }} />
+                  <h3 className="font-bold" style={{ color: "var(--color-brand-green-dark)" }}>
                     {locale === "ar" ? "مثالي لـ" : "Ideal For"}
                   </h3>
                 </div>

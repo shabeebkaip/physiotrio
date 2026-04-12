@@ -22,7 +22,7 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
       />
 
       {/* Branch cards */}
-      <section className="py-24" style={{ background: "linear-gradient(180deg, #f8fafb 0%, #f0faf0 100%)" }}>
+      <section className="py-24" style={{ background: "linear-gradient(180deg, var(--color-surface-light) 0%, var(--color-brand-green-muted) 100%)" }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <motion.div
@@ -31,14 +31,14 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#4caf50" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "#4caf50" }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-brand-green)" }} />
+              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-brand-green)" }}>
                 {isAr ? "فروعنا" : "Our Branches"}
               </span>
             </motion.div>
             <motion.h2
               className="font-black mb-3"
-              style={{ fontSize: "clamp(28px, 3.5vw, 48px)", color: "#0d0820" }}
+              style={{ fontSize: "clamp(28px, 3.5vw, 48px)", color: "var(--color-hero-bg)" }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -53,33 +53,33 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
               <motion.div
                 key={branch.id}
                 className="bg-white rounded-3xl overflow-hidden group"
-                style={{ boxShadow: "0 4px 30px rgba(7,118,136,0.08)" }}
+                style={{ boxShadow: "0 4px 30px rgba(var(--color-brand-purple-rgb),0.08)" }}
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.12 }}
-                whileHover={{ y: -8, boxShadow: "0 24px 60px rgba(7,118,136,0.15)" }}
+                whileHover={{ y: -8, boxShadow: "0 24px 60px rgba(var(--color-brand-purple-rgb),0.15)" }}
               >
                 {/* Top accent bar */}
-                <div className="h-1.5" style={{ background: "linear-gradient(90deg, #4caf50, #077688)" }} />
+                <div className="h-1.5" style={{ background: "linear-gradient(90deg, var(--color-brand-green), var(--color-brand-purple))" }} />
 
                 <div className="p-8">
-                  <h3 className="text-2xl font-black mb-6" style={{ color: "#077688" }}>
+                  <h3 className="text-2xl font-black mb-6" style={{ color: "var(--color-brand-purple)" }}>
                     {isAr ? branch.city.ar : branch.city.en}
                   </h3>
 
                   <div className="space-y-4 mb-8">
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(7,118,136,0.08)" }}>
-                        <MapPin size={14} style={{ color: "#077688" }} />
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
+                        <MapPin size={14} style={{ color: "var(--color-brand-purple)" }} />
                       </div>
                       <span className="text-sm font-light leading-relaxed mt-1.5" style={{ color: "#555" }}>
                         {isAr ? branch.address.ar : branch.address.en}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(76,175,80,0.08)" }}>
-                        <Phone size={14} style={{ color: "#4caf50" }} />
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-green-rgb),0.08)" }}>
+                        <Phone size={14} style={{ color: "var(--color-brand-green)" }} />
                       </div>
                       <a
                         href={`tel:${branch.phone}`}
@@ -90,8 +90,8 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
                       </a>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(7,118,136,0.08)" }}>
-                        <Mail size={14} style={{ color: "#077688" }} />
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
+                        <Mail size={14} style={{ color: "var(--color-brand-purple)" }} />
                       </div>
                       <a
                         href={`mailto:${branch.email}`}
@@ -102,8 +102,8 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
                       </a>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(76,175,80,0.08)" }}>
-                        <Clock size={14} style={{ color: "#4caf50" }} />
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-green-rgb),0.08)" }}>
+                        <Clock size={14} style={{ color: "var(--color-brand-green)" }} />
                       </div>
                       <span className="text-sm font-light leading-relaxed mt-1.5" style={{ color: "#555" }}>
                         {isAr ? branch.hours.ar : branch.hours.en}
@@ -115,7 +115,7 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
                     <Link
                       href={`/${locale}/book/${branch.id}`}
                       className="flex-1 py-3 rounded-full text-sm font-bold text-center text-white transition-all hover:scale-105 flex items-center justify-center gap-1.5"
-                      style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}
+                      style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
                     >
                       {isAr ? "احجز الآن" : "Book Now"} <ArrowRight size={14} />
                     </Link>
@@ -147,14 +147,14 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#077688" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "#077688" }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-brand-purple)" }} />
+              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-brand-purple)" }}>
                 {isAr ? "استفسار عام" : "General Enquiry"}
               </span>
             </motion.div>
             <motion.h2
               className="font-black mb-3"
-              style={{ fontSize: "clamp(28px, 3.5vw, 44px)", color: "#0d0820" }}
+              style={{ fontSize: "clamp(28px, 3.5vw, 44px)", color: "var(--color-hero-bg)" }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -176,7 +176,7 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
 
           <motion.div
             className="rounded-3xl p-10"
-            style={{ background: "#f8fafb", border: "1px solid rgba(7,118,136,0.1)" }}
+            style={{ background: "var(--color-surface-light)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.1)" }}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -188,14 +188,14 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
                   type="text"
                   placeholder={isAr ? "الاسم الكامل" : "Full Name"}
                   className="w-full px-4 py-3.5 rounded-2xl text-sm font-light outline-none transition-all"
-                  style={{ background: "white", border: "1.5px solid rgba(7,118,136,0.15)", color: "#333" }}
+                  style={{ background: "white", border: "1.5px solid rgba(var(--color-brand-purple-rgb),0.15)", color: "#333" }}
                   readOnly
                 />
                 <input
                   type="tel"
                   placeholder={isAr ? "رقم الجوال" : "Mobile Number"}
                   className="w-full px-4 py-3.5 rounded-2xl text-sm font-light outline-none transition-all"
-                  style={{ background: "white", border: "1.5px solid rgba(7,118,136,0.15)", color: "#333" }}
+                  style={{ background: "white", border: "1.5px solid rgba(var(--color-brand-purple-rgb),0.15)", color: "#333" }}
                   readOnly
                 />
               </div>
@@ -203,20 +203,20 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
                 type="email"
                 placeholder={isAr ? "البريد الإلكتروني" : "Email Address"}
                 className="w-full px-4 py-3.5 rounded-2xl text-sm font-light outline-none transition-all"
-                style={{ background: "white", border: "1.5px solid rgba(7,118,136,0.15)", color: "#333" }}
+                style={{ background: "white", border: "1.5px solid rgba(var(--color-brand-purple-rgb),0.15)", color: "#333" }}
                 readOnly
               />
               <textarea
                 rows={4}
                 placeholder={isAr ? "رسالتك..." : "Your message..."}
                 className="w-full px-4 py-3.5 rounded-2xl text-sm font-light outline-none resize-none transition-all"
-                style={{ background: "white", border: "1.5px solid rgba(7,118,136,0.15)", color: "#333" }}
+                style={{ background: "white", border: "1.5px solid rgba(var(--color-brand-purple-rgb),0.15)", color: "#333" }}
                 readOnly
               />
               <button
                 type="submit"
                 className="w-full py-4 rounded-full font-bold text-white transition-all hover:scale-[1.02] hover:opacity-90 flex items-center justify-center gap-2"
-                style={{ background: "linear-gradient(135deg, #077688, #4caf50)" }}
+                style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
               >
                 <Send size={15} />
                 {isAr ? "إرسال الرسالة" : "Send Message"}
@@ -232,7 +232,7 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
       </section>
 
       {/* Dark WhatsApp strip */}
-      <section className="py-10" style={{ background: "#0d0820" }}>
+      <section className="py-10" style={{ background: "var(--color-hero-bg)" }}>
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-white font-bold text-lg">

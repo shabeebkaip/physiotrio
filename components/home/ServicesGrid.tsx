@@ -54,7 +54,7 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
         >
           <span
             className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
           >
             {isAr ? "خدماتنا" : "Our Services"}
           </span>
@@ -83,33 +83,30 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
               >
                 <Link
                   href={`/${locale}/services/${service.slug}`}
-                  className="group block h-full bg-white border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:bg-[#077688] hover:border-[#077688] hover:shadow-xl hover:-translate-y-1"
+                  className="group block h-full bg-white border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:bg-brand-purple hover:border-brand-purple hover:shadow-xl hover:-translate-y-1"
                 >
                   {/* Icon box */}
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-white/20"
-                    style={{ background: "rgba(7,118,136,0.08)" }}
+                    style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}
                   >
                     <Icon
                       size={22}
                       strokeWidth={1.5}
-                      className="transition-colors duration-300 group-hover:text-white"
-                      style={{ color: "#077688" }}
+                      className="transition-colors duration-300 text-brand-purple group-hover:text-white"
                     />
                   </div>
 
                   {/* Name */}
                   <h3
-                    className={`font-bold mb-2 leading-snug transition-colors duration-300 group-hover:text-white ${isFeatured ? "text-xl" : "text-lg"}`}
-                    style={{ color: "#1a1a2e" }}
+                    className={`font-bold mb-2 leading-snug transition-colors duration-300 text-[#1a1a2e] group-hover:text-white ${isFeatured ? "text-xl" : "text-lg"}`}
                   >
                     {isAr ? service.name.ar : service.name.en}
                   </h3>
 
                   {/* Description */}
                   <p
-                    className="text-sm leading-relaxed mb-6 transition-colors duration-300 group-hover:text-white/80"
-                    style={{ color: "#6B7280" }}
+                    className="text-sm leading-relaxed mb-6 transition-colors duration-300 text-[#6B7280] group-hover:text-white/80"
                   >
                     {isAr ? service.shortDesc.ar : service.shortDesc.en}
                   </p>
@@ -118,13 +115,12 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
                   <div className="flex items-center justify-between mt-auto">
                     <span
                       className="text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white"
-                      style={{ background: "#F1F5F9", color: "#077688" }}
+                      style={{ background: "#F1F5F9", color: "var(--color-brand-purple)" }}
                     >
                       {service.durationMinutes} {isAr ? "دقيقة" : "min"}
                     </span>
                     <span
-                      className="flex items-center gap-1 text-sm font-semibold transition-colors duration-300 group-hover:text-white"
-                      style={{ color: "#077688" }}
+                      className="flex items-center gap-1 text-sm font-semibold transition-colors duration-300 text-brand-purple group-hover:text-white"
                     >
                       {bookNowText}
                       <ArrowRight

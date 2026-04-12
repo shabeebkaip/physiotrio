@@ -2,36 +2,41 @@
 
 
 @theme {
-  /* Brand Colors */
-  --color-brand-purple:       #077688;
-  --color-brand-purple-dark:  #05505e;
-  --color-brand-purple-light: #0a8fa0;
-  --color-brand-purple-muted: #e8f5f7;
-  --color-brand-purple-glow:  rgba(7, 118, 136, 0.20);
+  /* ── Brand Purple ────────────────────────────────────────── */
+  --color-brand-purple:       #880772;
+  --color-brand-purple-rgb:   136, 7, 114;
+  --color-brand-purple-dark:  #5E0450;
+  --color-brand-purple-light: #A8389A;
+  --color-brand-purple-muted: #F3E5F1;
+  --color-brand-purple-glow:  rgba(136, 7, 114, 0.20);
 
+  /* ── Brand Green ─────────────────────────────────────────── */
   --color-brand-green:        #4caf50;
+  --color-brand-green-rgb:    76, 175, 80;
   --color-brand-green-dark:   #388e3c;
   --color-brand-green-light:  #81c784;
   --color-brand-green-muted:  #f0faf0;
 
-  --color-hero-bg:            #0d0820;
-  --color-dark-surface:       #1a0d2e;
+  /* ── Surfaces ────────────────────────────────────────────── */
+  --color-hero-bg:            #0f0515;
+  --color-dark-surface:       #1a0d1e;
   --color-surface-light:      #f8fafb;
   --color-surface-green:      #f0faf0;
+  --color-body-text:          #1a1a2e;
 
-  /* Typography */
+  /* ── Typography ──────────────────────────────────────────── */
   --font-display:             'Plus Jakarta Sans', sans-serif;
   --font-arabic:              'Cairo', sans-serif;
 
-  /* Radius */
+  /* ── Radius ──────────────────────────────────────────────── */
   --radius-card:              1rem;
   --radius-pill:              9999px;
 
-  /* Shadows */
-  --shadow-card:              0 4px 24px rgba(7, 118, 136, 0.08);
-  --shadow-card-hover:        0 16px 48px rgba(7, 118, 136, 0.18);
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-card:              0 4px 24px rgba(136, 7, 114, 0.08);
+  --shadow-card-hover:        0 16px 48px rgba(136, 7, 114, 0.18);
   --shadow-green-glow:        0 0 32px rgba(76, 175, 80, 0.25);
-  --shadow-purple-glow:       0 0 40px rgba(7, 118, 136, 0.30);
+  --shadow-purple-glow:       0 0 40px rgba(136, 7, 114, 0.30);
 }
 
 @layer base {
@@ -48,7 +53,7 @@
   }
 
   body {
-    color: #1a1a2e;
+    color: var(--color-body-text);
     background: #ffffff;
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;
@@ -60,7 +65,7 @@
   }
 }
 
-/* Scrollbar Styling */
+/* ── Scrollbar ───────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -68,23 +73,23 @@
   background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #077688;
+  background: var(--color-brand-purple);
   border-radius: 3px;
 }
 
-/* Selection */
+/* ── Selection ───────────────────────────────────────────────── */
 ::selection {
-  background: rgba(7, 118, 136, 0.25);
-  color: #077688;
+  background: rgba(var(--color-brand-purple-rgb), 0.25);
+  color: var(--color-brand-purple);
 }
 
-/* Focus */
+/* ── Focus ───────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #077688;
+  outline: 2px solid var(--color-brand-purple);
   outline-offset: 2px;
 }
 
-/* Animations */
+/* ── Animations ──────────────────────────────────────────────── */
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 0.6; }
   100% { transform: scale(1.6); opacity: 0; }
@@ -125,45 +130,50 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Utility classes */
+/* ── Utility classes ─────────────────────────────────────────── */
 .animate-float { animation: float 3s ease-in-out infinite; }
 .animate-marquee { animation: marquee 30s linear infinite; }
 .animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; }
 .animate-slide-down { animation: slideDown 0.4s ease forwards; }
 
 .hero-gradient {
-  background: linear-gradient(135deg, #0d0820 0%, #1a0d2e 60%, #0d2a35 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-hero-bg)     0%,
+    var(--color-dark-surface) 60%,
+    var(--color-dark-surface) 100%
+  );
 }
 
 .brand-gradient {
-  background: linear-gradient(135deg, #077688 0%, #4caf50 100%);
+  background: linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-green) 100%);
 }
 
 .stats-gradient {
-  background: linear-gradient(90deg, #077688 0%, #4caf50 50%, #077688 100%);
+  background: linear-gradient(90deg, var(--color-brand-purple) 0%, var(--color-brand-green) 50%, var(--color-brand-purple) 100%);
 }
 
 .shimmer-btn {
   background: linear-gradient(
     90deg,
-    #077688 0%,
-    #0a8fa0 40%,
-    #4caf50 50%,
-    #0a8fa0 60%,
-    #077688 100%
+    var(--color-brand-purple)       0%,
+    var(--color-brand-purple-light) 40%,
+    var(--color-brand-green)        50%,
+    var(--color-brand-purple-light) 60%,
+    var(--color-brand-purple)       100%
   );
   background-size: 200% auto;
   animation: shimmer 4s linear infinite;
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #077688, #4caf50);
+  background: linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* RTL support */
+/* ── RTL support ─────────────────────────────────────────────── */
 [dir="rtl"] .rtl-flip {
   transform: scaleX(-1);
 }

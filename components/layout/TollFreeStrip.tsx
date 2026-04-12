@@ -2,7 +2,7 @@ export function TollFreeStrip({ locale }: { locale: string }) {
   return (
     <div
       className="fixed top-0 left-0 right-0 w-full flex items-center justify-center gap-4 py-2 px-4 text-xs text-white font-light z-[60]"
-      style={{ background: "#4caf50", height: "36px" }}
+      style={{ background: "var(--color-brand-green)", height: "36px" }}
     >
       <span>{locale === "ar" ? "الرقم المجاني:" : "Toll-Free:"}</span>
       <a

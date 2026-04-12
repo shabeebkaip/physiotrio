@@ -90,7 +90,7 @@ function StatCard({ icon, value, suffix = "", label, sub, decimals = 0, noBackgr
         <>
           {Icon && (
             <div className="mb-1">
-              <Icon size={40} style={{ color: "#077688" }} strokeWidth={1.25} />
+              <Icon size={40} style={{ color: "var(--color-brand-purple)" }} strokeWidth={1.25} />
             </div>
           )}
           <span className="font-bold text-[36px] md:text-[40px] leading-tight text-black tabular-nums">
@@ -140,7 +140,7 @@ export function StatsSection({ locale }: { locale: string }) {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.75, ease: "easeOut" }}
-          className="bg-[#0d1e3a] rounded-[20px] p-6 md:p-8 flex flex-col justify-center col-span-1 sm:col-span-2 min-h-[180px] md:min-h-[200px]"
+          className="bg-[var(--color-dark-surface)] rounded-[20px] p-6 md:p-8 flex flex-col justify-center col-span-1 sm:col-span-2 min-h-[180px] md:min-h-[200px]"
         >
           <h2 className="text-white font-bold text-[28px] md:text-[32px] leading-tight mb-3">
             {isAr ? "رحلتنا بالأرقام" : "Our Journey in Numbers"}

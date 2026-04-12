@@ -52,9 +52,9 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
       <Navbar locale={locale} translations={navT} />
       <main>
         {/* Hero */}
-        <section className="pt-36 pb-20" style={{ background: "linear-gradient(135deg, #0d0820 0%, #1a0d2e 60%, #0d2a35 100%)" }}>
+        <section className="pt-36 pb-20" style={{ background: "linear-gradient(135deg, var(--color-hero-bg) 0%, var(--color-dark-surface) 60%, var(--color-dark-surface) 100%)" }}>
           <div className="max-w-7xl mx-auto px-6 text-center">
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style={{ background: "rgba(76,175,80,0.2)", color: "#4caf50" }}>
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full" style={{ background: "rgba(var(--color-brand-green-rgb),0.2)", color: "var(--color-brand-green)" }}>
               {locale === "ar" ? "المدونة والأخبار" : "Blog & News"}
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
@@ -69,14 +69,14 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
         </section>
 
         {/* Content */}
-        <section className="py-20" style={{ background: "#f8fafb" }}>
+        <section className="py-20" style={{ background: "var(--color-surface-light)" }}>
           <div className="max-w-7xl mx-auto px-6">
             {/* Featured Post */}
             {featured && (
               <Link
                 href={`/${locale}/blog/${featured.slug}`}
                 className="group block bg-white rounded-3xl overflow-hidden mb-12 transition-all hover:-translate-y-1"
-                style={{ boxShadow: "0 8px 40px rgba(7,118,136,0.10)" }}
+                style={{ boxShadow: "0 8px 40px rgba(var(--color-brand-purple-rgb),0.10)" }}
               >
                 <div className="grid lg:grid-cols-2">
                   <div className="relative h-72 lg:h-auto overflow-hidden">
@@ -91,14 +91,14 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                   </div>
                   <div className="p-10 flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(76,175,80,0.1)", color: "#388e3c" }}>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(var(--color-brand-green-rgb),0.1)", color: "var(--color-brand-green-dark)" }}>
                         {locale === "ar" ? featured.category.ar : featured.category.en}
                       </span>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(7,118,136,0.1)", color: "#077688" }}>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(var(--color-brand-purple-rgb),0.1)", color: "var(--color-brand-purple)" }}>
                         {locale === "ar" ? "مميز" : "Featured"}
                       </span>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-black leading-tight mb-4" style={{ color: "#0d0820" }}>
+                    <h2 className="text-2xl md:text-3xl font-black leading-tight mb-4" style={{ color: "var(--color-hero-bg)" }}>
                       {locale === "ar" ? featured.title.ar : featured.title.en}
                     </h2>
                     <p className="text-base font-light leading-relaxed mb-6" style={{ color: "#666" }}>
@@ -120,7 +120,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                   key={post.id}
                   href={`/${locale}/blog/${post.slug}`}
                   className="group block bg-white rounded-2xl overflow-hidden transition-all hover:-translate-y-1"
-                  style={{ boxShadow: "0 4px 24px rgba(7,118,136,0.07)" }}
+                  style={{ boxShadow: "0 4px 24px rgba(var(--color-brand-purple-rgb),0.07)" }}
                 >
                   <div className="relative h-48 overflow-hidden">
                     <Image
@@ -131,12 +131,12 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                       unoptimized
                     />
                   </div>
-                  <div className="h-1" style={{ background: "linear-gradient(90deg, #4caf50, #077688)" }} />
+                  <div className="h-1" style={{ background: "linear-gradient(90deg, var(--color-brand-green), var(--color-brand-purple))" }} />
                   <div className="p-6">
-                    <span className="inline-block text-xs font-bold px-2.5 py-0.5 rounded-full mb-3" style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}>
+                    <span className="inline-block text-xs font-bold px-2.5 py-0.5 rounded-full mb-3" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}>
                       {locale === "ar" ? post.category.ar : post.category.en}
                     </span>
-                    <h3 className="font-black text-base leading-snug mb-3" style={{ color: "#0d0820" }}>
+                    <h3 className="font-black text-base leading-snug mb-3" style={{ color: "var(--color-hero-bg)" }}>
                       {locale === "ar" ? post.title.ar : post.title.en}
                     </h3>
                     <p className="text-sm font-light leading-relaxed mb-4" style={{ color: "#777" }}>

@@ -27,8 +27,8 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
         style={{ background: "#ffffff", minHeight: 520 }}
       >
         {/* Subtle decorative blobs */}
-        <div className="absolute pointer-events-none" style={{ top: "-60px", right: "-60px", width: 400, height: 400, background: "radial-gradient(circle, rgba(7,118,136,0.07) 0%, transparent 70%)", borderRadius: "50%" }} />
-        <div className="absolute pointer-events-none" style={{ bottom: "0", left: "10%", width: 280, height: 280, background: "radial-gradient(circle, rgba(76,175,80,0.06) 0%, transparent 70%)", borderRadius: "50%" }} />
+        <div className="absolute pointer-events-none" style={{ top: "-60px", right: "-60px", width: 400, height: 400, background: "radial-gradient(circle, rgba(var(--color-brand-purple-rgb),0.07) 0%, transparent 70%)", borderRadius: "50%" }} />
+        <div className="absolute pointer-events-none" style={{ bottom: "0", left: "10%", width: 280, height: 280, background: "radial-gradient(circle, rgba(var(--color-brand-green-rgb),0.06) 0%, transparent 70%)", borderRadius: "50%" }} />
 
         <div className="relative max-w-7xl mx-auto px-6 pt-36 pb-20 grid md:grid-cols-2 gap-12 items-center">
 
@@ -36,14 +36,14 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
           <div>
             <motion.span
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-5 px-3 py-1.5 rounded-full"
-              style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+              style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
               <motion.span
                 className="w-1.5 h-1.5 rounded-full"
-                style={{ background: "#4caf50" }}
+                style={{ background: "var(--color-brand-green)" }}
                 animate={{ opacity: [1, 0.3, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -88,12 +88,12 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
                   key={loc.label}
                   className="flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full"
                   style={loc.active
-                    ? { background: "rgba(7,118,136,0.08)", color: "#077688", border: "1px solid rgba(7,118,136,0.2)" }
+                    ? { background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.2)" }
                     : { background: "#F8FAFC", color: "#9CA3AF", border: "1px solid #E5E7EB" }
                   }
                 >
                   {loc.active
-                    ? <CheckCircle2 size={13} style={{ color: "#4caf50" }} />
+                    ? <CheckCircle2 size={13} style={{ color: "var(--color-brand-green)" }} />
                     : <MapPin size={12} style={{ color: "#D1D5DB" }} />
                   }
                   {loc.label}
@@ -113,12 +113,12 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
               <Image src={cityImages.riyadh} alt="Riyadh" fill className="object-cover" />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,118,136,0.75) 0%, transparent 55%)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(var(--color-brand-purple-rgb),0.75) 0%, transparent 55%)" }} />
               <div className="absolute bottom-4 left-4">
                 <p className="text-white font-bold text-base">{isAr ? "الرياض" : "Riyadh"}</p>
                 <p className="text-xs font-light" style={{ color: "rgba(255,255,255,0.8)" }}>{isAr ? "نشط" : "Active"}</p>
               </div>
-              <div className="absolute top-3 right-3 w-2 h-2 rounded-full" style={{ background: "#4caf50", boxShadow: "0 0 6px #4caf50" }} />
+              <div className="absolute top-3 right-3 w-2 h-2 rounded-full" style={{ background: "var(--color-brand-green)", boxShadow: "0 0 6px var(--color-brand-green)" }} />
             </motion.div>
 
             {/* Makkah — large card, right/front */}
@@ -130,12 +130,12 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
               transition={{ duration: 0.8, delay: 0.45, ease: "easeOut" }}
             >
               <Image src={cityImages.makkah} alt="Makkah" fill className="object-cover" />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(7,118,136,0.75) 0%, transparent 55%)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(var(--color-brand-purple-rgb),0.75) 0%, transparent 55%)" }} />
               <div className="absolute bottom-4 left-4">
                 <p className="text-white font-bold text-base">{isAr ? "مكة المكرمة" : "Makkah"}</p>
                 <p className="text-xs font-light" style={{ color: "rgba(255,255,255,0.8)" }}>{isAr ? "نشط" : "Active"}</p>
               </div>
-              <div className="absolute top-3 right-3 w-2 h-2 rounded-full" style={{ background: "#4caf50", boxShadow: "0 0 6px #4caf50" }} />
+              <div className="absolute top-3 right-3 w-2 h-2 rounded-full" style={{ background: "var(--color-brand-green)", boxShadow: "0 0 6px var(--color-brand-green)" }} />
             </motion.div>
 
             {/* Dammam — small "coming soon" card, bottom center */}
@@ -148,7 +148,7 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
             >
               <Image src={cityImages.dammam} alt="Dammam" fill className="object-cover" style={{ filter: "grayscale(60%) brightness(1.1)" }} />
               <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(255,255,255,0.55)", backdropFilter: "blur(4px)" }}>
-                <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "#077688", color: "#fff" }}>
+                <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "var(--color-brand-purple)", color: "#fff" }}>
                   {isAr ? "الدمام — قريباً" : "Dammam — Soon"}
                 </span>
               </div>
@@ -175,7 +175,7 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
           >
             <span
               className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-              style={{ background: "rgba(7,118,136,0.08)", color: "#077688" }}
+              style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
             >
               {isAr ? "اختر فرعك" : "Find Your Branch"}
             </span>
@@ -221,7 +221,7 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
                     >
                       <span
                         className="px-5 py-2 rounded-full font-bold text-sm text-white"
-                        style={{ background: "#077688" }}
+                        style={{ background: "var(--color-brand-purple)" }}
                       >
                         {isAr ? "قريباً" : "Coming Soon"}
                       </span>
@@ -237,7 +237,7 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
 
                   <div className="space-y-2 mb-5">
                     <div className="flex items-start gap-2">
-                      <MapPin size={14} style={{ color: "#077688", marginTop: 2 }} className="flex-shrink-0" />
+                      <MapPin size={14} style={{ color: "var(--color-brand-purple)", marginTop: 2 }} className="flex-shrink-0" />
                       <p className="text-sm" style={{ color: "#6B7280" }}>
                         {isAr ? branch.address.ar : branch.address.en}
                       </p>
@@ -245,11 +245,11 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
                     {!branch.comingSoon && (
                       <>
                         <div className="flex items-center gap-2">
-                          <Phone size={13} style={{ color: "#077688" }} className="flex-shrink-0" />
+                          <Phone size={13} style={{ color: "var(--color-brand-purple)" }} className="flex-shrink-0" />
                           <span className="text-sm" style={{ color: "#6B7280" }}>{branch.phone}</span>
                         </div>
                         <div className="flex items-start gap-2">
-                          <Clock size={13} style={{ color: "#077688", marginTop: 2 }} className="flex-shrink-0" />
+                          <Clock size={13} style={{ color: "var(--color-brand-purple)", marginTop: 2 }} className="flex-shrink-0" />
                           <p className="text-xs" style={{ color: "#9CA3AF" }}>
                             {isAr ? branch.hours.ar : branch.hours.en}
                           </p>
@@ -262,14 +262,14 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
                     <div className="flex gap-2 mb-5">
                       <span
                         className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
-                        style={{ background: "#F1F5F9", color: "#077688" }}
+                        style={{ background: "#F1F5F9", color: "var(--color-brand-purple)" }}
                       >
                         <Users size={11} />
                         {branch.therapistCount} {isAr ? "معالج" : "Therapists"}
                       </span>
                       <span
                         className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
-                        style={{ background: "#F1F5F9", color: "#4caf50" }}
+                        style={{ background: "#F1F5F9", color: "var(--color-brand-green)" }}
                       >
                         <Stethoscope size={11} />
                         {branch.serviceCount} {isAr ? "خدمة" : "Services"}
@@ -284,14 +284,14 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 py-2.5 rounded-full text-sm font-semibold text-center transition-all hover:bg-gray-50"
-                        style={{ border: "1.5px solid #077688", color: "#077688" }}
+                        style={{ border: "1.5px solid var(--color-brand-purple)", color: "var(--color-brand-purple)" }}
                       >
                         {isAr ? "الاتجاهات" : "Directions"}
                       </a>
                       <Link
                         href={`/${locale}/book/${branch.id}`}
                         className="flex-1 py-2.5 rounded-full text-sm font-semibold text-center text-white transition-all hover:opacity-90 flex items-center justify-center gap-1.5"
-                        style={{ background: "#077688" }}
+                        style={{ background: "var(--color-brand-purple)" }}
                       >
                         {isAr ? "احجز" : "Book"} <ArrowRight size={13} />
                       </Link>

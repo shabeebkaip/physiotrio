@@ -10,7 +10,7 @@ import { branches } from "@/lib/data/branches";
 
 const cityImages: Record<string, string> = {
   riyadh: "https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=800&q=80",
-  makkah: "https://www.rcmc.gov.sa/getmedia/7d14c5df-7689-4a0d-8162-f666bc6dfb34/numbers-img.jpg",
+  makkah: "/makkah.jpg",
   dammam: "https://images.unsplash.com/photo-1570516002611-6b0cf9d0f8c9?w=800&q=80",
 };
 

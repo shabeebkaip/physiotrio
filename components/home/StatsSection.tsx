@@ -1,9 +1,16 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Users, Star, MapPin, UserRound, Activity, LucideIcon } from "lucide-react";
 import { Counter } from "@/components/common/Counter";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -46,16 +53,16 @@ function StarRating({ value, locale }: { value: number; locale: string }) {
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className="w-5 h-5"
+          className="w-6 h-6"
           viewBox="0 0 24 24"
-          fill={i < full ? "#1F2937" : "none"}
-          stroke="#1F2937"
+          fill={i < full ? "var(--color-brand-green)" : "none"}
+          stroke="var(--color-brand-green)"
           strokeWidth="2"
         >
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       ))}
-      <span className="text-base font-bold ml-1 text-slate-800">
+      <span className="text-xl font-black ml-2 text-[#0B162C]">
         <Counter end={value} decimals={1} />
       </span>
     </div>
@@ -67,21 +74,16 @@ function StatCard({ icon, value, suffix = "", label, sub, decimals = 0, noBackgr
   const isRating = icon === "star";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.88 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.1 }}
-      whileHover={{ y: -5, boxShadow: "0 12px 28px -5px rgba(0,0,0,0.09)" }}
-      className={`rounded-2xl flex flex-col items-center justify-center gap-2 min-h-[180px] p-8 transition-shadow duration-300 ${
-        noBackground ? "bg-transparent" : "bg-[#F1F5F9]"
+    <div
+      className={`stat-card opacity-0 rounded-[2rem] flex flex-col items-center justify-center gap-3 min-h-[220px] p-8 transition-all duration-300 hover:shadow-[0_20px_40px_-5px_rgba(0,0,0,0.08)] hover:-translate-y-2 border border-gray-100 ${
+        noBackground ? "bg-transparent border-none shadow-none hover:shadow-none hover:translate-y-0" : "bg-white"
       } ${className}`}
     >
       {isRating ? (
         <>
           <StarRating value={value} locale={locale} />
           {sub && (
-            <p className="text-sm text-center leading-relaxed" style={{ color: "#6B7280" }}>
+            <p className="text-sm font-bold text-center leading-relaxed text-gray-400 mt-2">
               {locale === "ar" ? sub.ar : sub.en}
             </p>
           )}
@@ -89,68 +91,81 @@ function StatCard({ icon, value, suffix = "", label, sub, decimals = 0, noBackgr
       ) : (
         <>
           {Icon && (
-            <div className="mb-1">
-              <Icon size={40} style={{ color: "var(--color-brand-purple)" }} strokeWidth={1.25} />
+            <div className="mb-2 w-16 h-16 rounded-full bg-brand-purple/5 flex items-center justify-center text-brand-purple">
+              <Icon size={32} strokeWidth={2} />
             </div>
           )}
-          <span className="font-bold text-[36px] md:text-[40px] leading-tight text-black tabular-nums">
+          <span className="font-black text-[42px] md:text-[48px] leading-[1] text-[#0B162C]">
             <Counter end={value} decimals={decimals} />
-            {suffix}
+            <span className="text-brand-purple">{suffix}</span>
           </span>
           {label && (
-            <span className="text-base font-medium text-black mt-0.5">
+            <span className="text-sm font-bold text-gray-500 mt-1 uppercase tracking-wider">
               {locale === "ar" ? label.ar : label.en}
             </span>
           )}
         </>
       )}
-    </motion.div>
+    </div>
   );
 }
 
 function ImageCard({ src, alt = "PhysioTrio", className = "" }: ImageCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.92 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.55, ease: "easeOut" }}
-      whileHover={{ scale: 1.02 }}
-      className={`rounded-2xl overflow-hidden min-h-[180px] relative cursor-pointer transition-transform duration-300 ${className}`}
+    <div
+      className={`stat-card opacity-0 rounded-[2rem] overflow-hidden min-h-[220px] relative group border border-gray-100 shadow-sm ${className}`}
     >
-      <Image src={src} alt={alt} fill className="object-cover" />
-    </motion.div>
+      <Image src={src} alt={alt} fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+      <div className="absolute inset-0 bg-brand-purple/10 mix-blend-multiply group-hover:bg-brand-purple/0 transition-all duration-500" />
+    </div>
   );
 }
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 export function StatsSection({ locale }: { locale: string }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const isAr = locale === "ar";
 
+  useGSAP(() => {
+    gsap.fromTo(
+      ".stat-card",
+      { opacity: 0, scale: 0.9, y: 30 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "back.out(1.2)",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
+      }
+    );
+  }, { scope: sectionRef });
+
   return (
-    <section className="bg-white py-12 md:py-24 px-4 md:px-6 overflow-x-hidden">
-      <div className="max-w-[1240px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
+    <section ref={sectionRef} className="bg-[#f8fcfb] py-24 px-4 md:px-6 overflow-x-hidden border-t border-gray-200/60">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
 
         {/* ── Row 1 ── */}
 
         {/* Title card — spans 2 cols */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease: "easeOut" }}
-          className="bg-[var(--color-dark-surface)] rounded-[20px] p-6 md:p-8 flex flex-col justify-center col-span-1 sm:col-span-2 min-h-[160px] md:min-h-[200px]"
+        <div
+          className="stat-card opacity-0 rounded-[2rem] p-8 md:p-12 flex flex-col justify-center col-span-1 sm:col-span-2 min-h-[220px]"
+          style={{ background: "linear-gradient(135deg, #0B162C 0%, #1a2a4c 100%)" }}
         >
-          <h2 className="text-white font-bold text-[28px] md:text-[32px] leading-tight mb-3">
+          <span className="inline-block text-xs font-bold uppercase tracking-widest mb-4 w-max px-3 py-1 rounded-full bg-brand-purple/20 text-white">
+            {isAr ? "الإحصائيات" : "Platform Stats"}
+          </span>
+          <h2 className="text-white font-black text-3xl md:text-4xl leading-tight mb-4">
             {isAr ? "رحلتنا بالأرقام" : "Our Journey in Numbers"}
           </h2>
-          <p className="text-white/70 text-base leading-relaxed">
+          <p className="text-white/70 text-base font-medium leading-relaxed">
             {isAr
               ? "من الرياض إلى مكة، نمت فيزيوتريو لتصبح شبكة العلاج الطبيعي الأكثر ثقة في المملكة، بدعم من مجموعة برجيل القابضة."
               : "From Riyadh to Makkah, PhysioTrio has grown into Saudi Arabia's most trusted physiotherapy network — backed by Burjeel Holdings."}
           </p>
-        </motion.div>
+        </div>
 
         {/* Patients */}
         <StatCard
@@ -196,8 +211,8 @@ export function StatsSection({ locale }: { locale: string }) {
           noBackground
           className="col-span-1 sm:col-span-2"
           sub={{
-            en: "Based on 500+ Google reviews\nPatients across KSA love our care",
-            ar: "بناءً على أكثر من 500 تقييم\nمرضانا في المملكة يثقون بخدماتنا",
+            en: "Based on 500+ Google reviews. Patients across KSA love our care.",
+            ar: "بناءً على أكثر من 500 تقييم. مرضانا في المملكة يثقون بخدماتنا.",
           }}
         />
 

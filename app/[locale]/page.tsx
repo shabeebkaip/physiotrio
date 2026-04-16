@@ -15,14 +15,14 @@ import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { TeamCarousel } from "@/components/home/TeamCarousel";
 import { OffersTeaser } from "@/components/home/OffersTeaser";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
-import { InstagramFeed } from "@/components/home/InstagramFeed";
-import { getInstagramAssets } from "@/lib/utils/getInstagramAssets";
+import { LatestNews } from "@/components/home/LatestNews";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { StatsSection } from "@/components/home/StatsSection";
 import { services } from "@/lib/data/services";
 import { branches } from "@/lib/data/branches";
 import { therapists } from "@/lib/data/therapists";
 import { testimonials } from "@/lib/data/testimonials";
+import { blogPosts } from "@/lib/data/blog";
 
 export async function generateMetadata({
   params,
@@ -59,7 +59,6 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const instagramAssets = getInstagramAssets();
   const t = await getTranslations("hero");
   const nav = await getTranslations("nav");
   const statsT = await getTranslations("stats");
@@ -159,7 +158,7 @@ export default async function HomePage({
           bookNowText={servicesT("bookNow")}
         />
         <WhyPhysioTrio locale={locale} t={whyTranslations} />
-        <BranchesPreview
+        {/* <BranchesPreview
           locale={locale}
           branches={branches}
           title={branchesT("title")}
@@ -168,13 +167,13 @@ export default async function HomePage({
           comingSoonText={branchesT("comingSoon")}
           therapistsText={branchesT("therapists")}
           servicesText={branchesT("services")}
-        />
-        <BookingCTABand
+        /> */}
+        {/* <BookingCTABand
           locale={locale}
           title={ctaT("title")}
           bookText={ctaT("book")}
           whatsappText={ctaT("whatsapp")}
-        />
+        /> */}
         <TeamCarousel
           locale={locale}
           therapists={therapists}
@@ -200,7 +199,7 @@ export default async function HomePage({
           testimonials={testimonials}
           title={testimonialT("title")}
         />
-        <InstagramFeed locale={locale} localPosts={instagramAssets} />
+        <LatestNews locale={locale} posts={blogPosts} />
       </main>
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />
       <StickyBookingBar

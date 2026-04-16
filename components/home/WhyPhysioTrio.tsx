@@ -1,7 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { useRef, useState } from "react";
+import {
+  ShieldCheck, Activity, Clock, Users,
+  ArrowRight
+} from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import Image from "next/image";
+import Link from "next/link";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 interface WhyPhysioTrioProps {
   locale: string;
@@ -21,91 +33,198 @@ interface WhyPhysioTrioProps {
 }
 
 export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
+  const isAr = locale === "ar";
+  const sectionRef = useRef<HTMLElement>(null);
+  const [hovered, setHovered] = useState<number | null>(0);
+
   const features = [
-    { title: t.feature1Title, desc: t.feature1Desc },
-    { title: t.feature2Title, desc: t.feature2Desc },
-    { title: t.feature3Title, desc: t.feature3Desc },
-    { title: t.feature4Title, desc: t.feature4Desc },
+    {
+      num: "01",
+      title: t.feature1Title,
+      desc: t.feature1Desc,
+      icon: ShieldCheck,
+      image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80",
+      accent: "var(--color-brand-green)",
+      accentLight: "rgba(var(--color-brand-green-rgb), 0.06)",
+      stat: { value: "100%", label: isAr ? "معتمد" : "Accredited" },
+    },
+    {
+      num: "02",
+      title: t.feature2Title,
+      desc: t.feature2Desc,
+      icon: Activity,
+      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80",
+      accent: "var(--color-brand-purple)",
+      accentLight: "rgba(var(--color-brand-purple-rgb), 0.06)",
+      stat: { value: "22+", label: isAr ? "سنة خبرة" : "Yrs Exp" },
+    },
+    {
+      num: "03",
+      title: t.feature3Title,
+      desc: t.feature3Desc,
+      icon: Clock,
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80",
+      accent: "var(--color-brand-green)",
+      accentLight: "rgba(var(--color-brand-green-rgb), 0.06)",
+      stat: { value: "24/7", label: isAr ? "دعم" : "Support" },
+    },
+    {
+      num: "04",
+      title: t.feature4Title,
+      desc: t.feature4Desc,
+      icon: Users,
+      image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600&q=80",
+      accent: "var(--color-brand-purple)",
+      accentLight: "rgba(var(--color-brand-purple-rgb), 0.06)",
+      stat: { value: "10K+", label: isAr ? "مريض" : "Patients" },
+    },
   ];
 
+  useGSAP(() => {
+    gsap.fromTo(".why-top-anim",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power2.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
+      }
+    );
+    gsap.fromTo(".why-col-card",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: "back.out(1.2)",
+        scrollTrigger: { trigger: ".why-cols-row", start: "top 82%" }
+      }
+    );
+  }, { scope: sectionRef });
+
   return (
-    <section className="py-24" style={{ background: "#ffffff" }}>
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
-          >
-            {locale === "ar" ? "لماذا فيزيوتريو" : "Why PhysioTrio"}
-          </span>
+    <section ref={sectionRef} className="py-24 md:py-32 bg-white overflow-hidden border-t border-gray-100">
+      <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
 
-          <h2
-            className="text-3xl md:text-4xl font-bold leading-tight mb-6"
-            style={{ color: "#1a1a2e" }}
-          >
-            {t.title}
-          </h2>
-
-          <p className="text-base leading-relaxed mb-4" style={{ color: "#6B7280" }}>
+        {/* ── Top Header ── */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div className="max-w-2xl">
+            <div className="why-top-anim flex items-center gap-3 mb-5">
+              <span className="w-8 h-px bg-brand-green" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
+                {isAr ? "لماذا فيزيوتريو" : "Why Choose Us"}
+              </span>
+            </div>
+            <h2 className="why-top-anim text-4xl sm:text-5xl md:text-[3.5rem] font-black text-[#0B162C] leading-[1.08] mb-0">
+              {t.title}
+            </h2>
+          </div>
+          <p className="why-top-anim text-lg font-medium text-gray-400 max-w-sm leading-relaxed md:mb-2">
             {t.body1}
           </p>
-          <p className="text-base leading-relaxed" style={{ color: "#6B7280" }}>
-            {t.body2}
-          </p>
-
-          {/* Burjeel badge */}
-          <div
-            className="mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-xl"
-            style={{ background: "rgba(var(--color-brand-purple-rgb),0.05)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.12)" }}
-          >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black text-white"
-              style={{ background: "var(--color-brand-purple)" }}
-            >
-              B
-            </div>
-            <div>
-              <p className="text-xs font-semibold" style={{ color: "#1a1a2e" }}>Burjeel Holdings</p>
-              <p className="text-xs" style={{ color: "#9CA3AF" }}>
-                {locale === "ar" ? "شريكنا الموثوق" : "Our trusted parent group"}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Right — Features */}
-        <div className="flex flex-col gap-4">
-          {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              className="flex gap-4 p-5 rounded-2xl transition-all hover:shadow-md"
-              style={{ background: "#F8FAFC", border: "1px solid rgba(0,0,0,0.05)" }}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -2 }}
-            >
-              <div className="flex-shrink-0 mt-0.5">
-                <CheckCircle2 size={20} style={{ color: "var(--color-brand-purple)" }} />
-              </div>
-              <div>
-                <h3 className="font-semibold text-base mb-1" style={{ color: "#1a1a2e" }}>
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#6B7280" }}>
-                  {feature.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
         </div>
+
+        {/* ── Hover-Expand Column Cards ── */}
+        <div
+          className="why-cols-row flex gap-4 h-[520px] sm:h-[560px]"
+          onMouseLeave={() => setHovered(0)}
+        >
+          {features.map((f, i) => {
+            const Icon = f.icon;
+            const isActive = hovered === i;
+
+            return (
+              <div
+                key={i}
+                className="why-col-card relative overflow-hidden rounded-[2rem] cursor-pointer flex-shrink-0 transition-all duration-700 ease-[cubic-bezier(0.87,0,0.13,1)]"
+                style={{
+                  flex: isActive ? "3.5" : "1",
+                  background: isActive ? "var(--color-brand-purple)" : "#F8FAFC",
+                  border: `1.5px solid ${isActive ? "var(--color-brand-purple)" : "#E5E7EB"}`,
+                }}
+                onMouseEnter={() => setHovered(i)}
+              >
+                {/* Image — visible only when active */}
+                <div
+                  className="absolute inset-0 transition-opacity duration-500"
+                  style={{ opacity: isActive ? 1 : 0 }}
+                >
+                  <Image
+                    src={f.image}
+                    alt={f.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    unoptimized
+                  />
+                  {/* Dark overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B162C]/80 via-[#0B162C]/30 to-transparent" />
+                </div>
+
+                {/* Inactive state — vertical number + icon */}
+                <div
+                  className="absolute inset-0 flex flex-col items-center justify-between py-8 transition-opacity duration-300"
+                  style={{ opacity: isActive ? 0 : 1 }}
+                >
+                  <span
+                    className="text-xs font-black uppercase tracking-[0.2em] rotate-180 [writing-mode:vertical-rl] text-gray-300"
+                    style={{ writingMode: "vertical-rl" }}
+                  >
+                    {f.num}
+                  </span>
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{ background: f.accentLight, color: f.accent }}
+                  >
+                    <Icon size={20} strokeWidth={2.5} />
+                  </div>
+                  <span
+                    className="text-xs font-black uppercase tracking-[0.18em] rotate-180 [writing-mode:vertical-rl] text-gray-400"
+                    style={{ writingMode: "vertical-rl" }}
+                  >
+                    {f.title.split(" ").slice(0, 2).join(" ")}
+                  </span>
+                </div>
+
+                {/* Active state — full content */}
+                <div
+                  className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10 transition-all duration-500"
+                  style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none" }}
+                >
+                  {/* Number + Icon Row */}
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-6xl font-black text-white/15 leading-none">{f.num}</span>
+                    <div
+                      className="w-12 h-12 rounded-full flex items-center justify-center"
+                      style={{ background: "rgba(255,255,255,0.15)", color: "white" }}
+                    >
+                      <Icon size={22} strokeWidth={2.5} />
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
+                    {f.title}
+                  </h3>
+
+                  {/* Divider */}
+                  <div className="w-12 h-0.5 bg-brand-green mb-4 rounded-full" />
+
+                  {/* Stat Pill */}
+                  <div className="inline-flex items-center gap-2 mb-6 w-max">
+                    <span className="text-3xl font-black text-brand-green">{f.stat.value}</span>
+                    <span className="text-xs font-bold text-white/60 uppercase tracking-widest">{f.stat.label}</span>
+                  </div>
+
+                  {/* CTA */}
+                  <Link
+                    href={`/${locale}/services`}
+                    className="group inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white transition-colors"
+                  >
+                    {isAr ? "اعرف أكثر" : "Learn more"}
+                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );

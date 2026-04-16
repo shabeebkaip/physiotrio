@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { Users, Award, CheckCircle2, ArrowRight } from "lucide-react";
+
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 interface HeroSectionProps {
   locale: string;
@@ -26,110 +29,79 @@ const branches = [
   { id: "dammam", labelEn: "Dammam", labelAr: "الدمام", comingSoon: true },
 ];
 
-const STATS = [
-  { number: "22+", labelEn: "Years Experience", labelAr: "سنة خبرة" },
-  { number: "10K+", labelEn: "Patients Treated", labelAr: "مرضى تلقوا العلاج" },
-  { number: "9", labelEn: "Specialties", labelAr: "تخصصات" },
-  { number: "3", labelEn: "KSA Branches", labelAr: "فروع في المملكة" },
-];
+gsap.registerPlugin(useGSAP);
 
 export function HeroSection({ locale, t }: HeroSectionProps) {
   const [activeBranch, setActiveBranch] = useState("riyadh");
   const isAr = locale === "ar";
+  
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const stagger = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-  };
-  const fadeUp = {
-    hidden: { opacity: 0, y: 32 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.75,
-        ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      },
-    },
-  };
+  useGSAP(() => {
+    // Left-side content timeline
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.fromTo(
+      ".hero-text-anim",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15 }
+    );
+
+    // Right-side image mask animation
+    gsap.fromTo(
+      ".hero-image-mask",
+      { scale: 0.95, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 1.2, ease: "power2.out", delay: 0.2 }
+    );
+
+    // Right-side floating cards
+    gsap.fromTo(
+      ".hero-floating-card",
+      { scale: 0.7, y: 30, opacity: 0 },
+      { scale: 1, y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.5)", stagger: 0.2, delay: 0.6 }
+    );
+
+  }, { scope: containerRef });
 
   return (
-    <section className="relative flex flex-col" style={{ minHeight: "100svh" }}>
+    <section ref={containerRef} className="relative w-full bg-[#f8fcfb] overflow-hidden" style={{ minHeight: "100svh" }}>
+      
+      {/* Decorative background gradients */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-green/5 blur-3xl opacity-50" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-brand-purple/5 blur-3xl opacity-50" />
 
-      {/* ── Background photo + dark overlay ── */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="https://static.zawya.com/view/acePublic/alias/contentid/cbec1451-ab27-4cfd-aa7d-851f20a53c55/0/erabianetwork-jpg.webp?f=3%3A2&q=0.75&w=1920"
-          alt="PhysioTrio clinic"
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center 25%" }}
-        />
-        {/* Primary dark gradient — left heavy, lighter on right */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: isAr
-              ? "linear-gradient(to left, rgba(7,20,30,0.94) 0%, rgba(7,20,30,0.78) 55%, rgba(7,20,30,0.42) 100%)"
-              : "linear-gradient(to right, rgba(7,20,30,0.94) 0%, rgba(7,20,30,0.78) 55%, rgba(7,20,30,0.42) 100%)",
-          }}
-        />
-        {/* Bottom fade for stats bar */}
-        <div
-          className="absolute bottom-0 left-0 right-0"
-          style={{
-            height: "200px",
-            background: "linear-gradient(to top, rgba(7,20,30,0.9) 0%, transparent 100%)",
-          }}
-        />
-      </div>
+      <div className="max-w-[1400px] mx-auto min-h-[100svh] flex flex-col lg:flex-row items-center justify-between px-6 lg:px-12 pt-32 pb-20 lg:py-0">
+        
+        {/* ── Left Side: Content ── */}
+        <div className="w-full lg:w-[50%] flex flex-col items-start z-10">
+          
+          {/* Eyebrow */}
+          <div className="hero-text-anim mb-6 flex items-center gap-3">
+            <span className="w-10 h-[2px] bg-brand-green rounded-full" />
+            <span className="text-sm font-bold tracking-widest text-brand-green uppercase">
+              {t.eyebrow}
+            </span>
+          </div>
 
-      {/* ── Main text content ── */}
-      <div className="relative z-10 flex-1 flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-28 sm:pt-36 pb-10">
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            animate="show"
-            className="flex flex-col gap-7 max-w-2xl"
-          >
-            {/* Eyebrow */}
-            <motion.div variants={fadeUp}>
-              <span
-                className="inline-flex items-center gap-3 text-xs font-bold uppercase"
-                style={{ color: "rgba(255,255,255,0.6)", letterSpacing: "0.14em" }}
-              >
-                <span
-                  className="inline-block h-px w-8 flex-shrink-0"
-                  style={{ background: "var(--color-brand-green)" }}
-                />
-                {t.eyebrow}
-              </span>
-            </motion.div>
+          {/* Headline */}
+          <h1 className="hero-text-anim text-[42px] sm:text-[56px] lg:text-[72px] font-black leading-[1.05] tracking-tight mb-8" style={{ color: "#0B162C" }}>
+            {t.headline1}{" "}
+            <span className="relative inline-block text-brand-purple">
+              {t.headline2}
+              <svg className="absolute w-full h-[12px] -bottom-1 left-0 opacity-40 text-brand-green" viewBox="0 0 100 10" preserveAspectRatio="none">
+                <path d="M0 5 Q 50 15, 100 0" stroke="currentColor" strokeWidth="4" fill="transparent" />
+              </svg>
+            </span>
+          </h1>
 
-            {/* Headline */}
-            <motion.h1
-              variants={fadeUp}
-              className="font-black leading-[0.92] tracking-tight text-white"
-              style={{ fontSize: "clamp(36px, 7vw, 96px)" }}
-            >
-              {t.headline1}
-              <br />
-              <span style={{ color: "var(--color-brand-green)" }}>{t.headline2}</span>
-            </motion.h1>
+          {/* Subheadline */}
+          <p className="hero-text-anim text-lg md:text-xl text-gray-500 mb-10 max-w-xl leading-relaxed">
+            {t.subheadline}
+          </p>
 
-            {/* Sub */}
-            <motion.p
-              variants={fadeUp}
-              className="text-lg leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.7)", maxWidth: "480px" }}
-            >
-              {t.subheadline}
-            </motion.p>
-
-            {/* Branch selector */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-2.5">
+          {/* Branches & CTAs */}
+          <div className="hero-text-anim w-full max-w-xl flex flex-col gap-8">
+            <div className="flex flex-wrap gap-3">
               {branches.map((branch) => {
                 const isActive = activeBranch === branch.id;
                 return (
@@ -137,128 +109,93 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
                     key={branch.id}
                     onClick={() => !branch.comingSoon && setActiveBranch(branch.id)}
                     disabled={branch.comingSoon}
-                    className="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200"
-                    style={{
-                      background: isActive
-                        ? "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)"
-                        : "transparent",
-                      color: "white",
-                      border: isActive
-                        ? "1.5px solid transparent"
-                        : "1.5px solid rgba(255,255,255,0.35)",
-                      boxShadow: isActive
-                        ? "0 4px 16px rgba(var(--color-brand-purple-rgb),0.5)"
-                        : "none",
-                      opacity: branch.comingSoon ? 0.4 : 1,
-                      cursor: branch.comingSoon ? "not-allowed" : "pointer",
-                    }}
+                    className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                      isActive 
+                        ? "bg-brand-purple text-white shadow-[0_8px_16px_-4px_rgba(var(--color-brand-purple-rgb),0.4)]" 
+                        : "bg-white text-gray-500 border border-gray-200 hover:border-brand-purple/30"
+                    }`}
+                    style={{ opacity: branch.comingSoon ? 0.5 : 1, cursor: branch.comingSoon ? "not-allowed" : "pointer" }}
                   >
                     {isAr ? branch.labelAr : branch.labelEn}
-                    {branch.comingSoon && (
-                      <span className="ml-1.5 text-xs opacity-70">
-                        {isAr ? "قريباً" : "Soon"}
-                      </span>
-                    )}
+                    {branch.comingSoon && <span className="ml-1.5 text-[10px] font-black opacity-60 uppercase">{isAr ? "قريباً" : "Soon"}</span>}
                   </button>
                 );
               })}
-            </motion.div>
+            </div>
 
-            {/* CTAs */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href={`/${locale}/book/${activeBranch}`}
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-lg font-bold text-white transition-all duration-200 hover:opacity-90"
-                style={{
-                  background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)",
-                  boxShadow: "0 6px 24px rgba(var(--color-brand-purple-rgb),0.5)",
-                }}
+                className="group flex items-center justify-center gap-3 px-8 py-4 bg-brand-green text-white rounded-full font-bold text-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
               >
                 {t.bookAppointment}
-                <motion.span
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-lg"
-                >
-                  →
-                </motion.span>
+                <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
               <Link
                 href={`/${locale}/services`}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-white transition-all duration-200 hover:bg-white/10"
-                style={{ border: "1.5px solid rgba(255,255,255,0.4)" }}
+                className="flex items-center justify-center px-8 py-4 bg-white text-[#0B162C] border-2 border-gray-100 rounded-full font-bold text-lg hover:border-brand-green hover:text-brand-green transition-all duration-300"
               >
                 {t.exploreServices}
               </Link>
-            </motion.div>
-
-            {/* Trust row */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-5">
-              {[t.trust1, t.trust2, t.trust3].map((item, i) => (
-                <span
-                  key={i}
-                  className="flex items-center gap-2 text-sm font-medium"
-                  style={{ color: "rgba(255,255,255,0.6)" }}
-                >
-                  <span
-                    className="w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-black flex-shrink-0"
-                    style={{ background: "var(--color-brand-green)" }}
-                  >
-                    ✓
-                  </span>
-                  {item}
-                </span>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* ── Stats bar — pinned to hero bottom ── */}
-      <motion.div
-        className="relative z-10 w-full"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.9 }}
-      >
-        <div
-          style={{
-            background: "rgba(7,20,30,0.75)",
-            backdropFilter: "blur(12px)",
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-2 lg:grid-cols-4">
-              {STATS.map((stat, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col items-center justify-center text-center py-7 px-4"
-                  style={{
-                    borderRight:
-                      i < STATS.length - 1
-                        ? "1px solid rgba(255,255,255,0.08)"
-                        : "none",
-                  }}
-                >
-                  <div
-                    className="text-3xl lg:text-4xl font-black tabular-nums"
-                    style={{ color: "#ffffff" }}
-                  >
-                    {stat.number}
-                  </div>
-                  <div
-                    className="text-xs font-semibold mt-1.5 uppercase tracking-wider"
-                    style={{ color: "rgba(255,255,255,0.45)", letterSpacing: "0.08em" }}
-                  >
-                    {isAr ? stat.labelAr : stat.labelEn}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
+
+          {/* Trust Marks */}
+          <div className="hero-text-anim mt-12 flex flex-wrap items-center gap-6 pt-8 border-t border-gray-200/60 w-full max-w-xl">
+            {[t.trust1, t.trust2, t.trust3].map((item, i) => (
+              <span key={i} className="flex items-center gap-2.5 text-sm font-bold text-[#0B162C]">
+                <CheckCircle2 color="var(--color-brand-purple)" size={20} strokeWidth={2.5} />
+                {item}
+              </span>
+            ))}
+          </div>
+
         </div>
-      </motion.div>
+
+        {/* ── Right Side: Imagery & Floating Cards ── */}
+        <div className="w-full lg:w-[45%] relative mt-20 lg:mt-0 flex justify-center lg:justify-end z-10">
+          
+          {/* Main Image Mask */}
+          <div className="hero-image-mask relative w-full max-w-[500px] aspect-[3/4] rounded-tl-[120px] rounded-br-[120px] rounded-tr-[30px] rounded-bl-[30px] overflow-hidden shadow-2xl bg-gray-100 will-change-transform">
+            <Image
+              src="https://static.zawya.com/view/acePublic/alias/contentid/cbec1451-ab27-4cfd-aa7d-851f20a53c55/0/erabianetwork-jpg.webp?f=3%3A2&q=0.75&w=1920"
+              alt="PhysioTrio Expert Physiotherapy"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+              className="object-cover"
+            />
+          </div>
+
+          {/* Floating Card: Patients */}
+          <div className="hero-floating-card absolute bottom-10 -left-6 sm:-left-12 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-[0_15px_35px_-5px_rgba(0,0,0,0.15)] flex flex-col gap-2 border border-white max-w-[200px] will-change-transform">
+            <div className="flex -space-x-3 mb-1">
+              <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-200 overflow-hidden"><Image src="https://physiotherabia.com/wp-content/uploads/2023/08/Sports-Rehabilitation.jpg" alt="patient" width={40} height={40} className="object-cover h-full" /></div>
+              <div className="w-10 h-10 rounded-full border-2 border-white bg-brand-purple/20 overflow-hidden"><Image src="https://physiotherabia.com/wp-content/uploads/2023/11/display-pic-1.jpg" alt="patient" width={40} height={40} className="object-cover h-full"/></div>
+              <div className="w-10 h-10 rounded-full border-2 border-white bg-brand-green flex items-center justify-center text-white text-xs font-bold">+</div>
+            </div>
+            <h4 className="text-[#0B162C] font-black text-xl">10K+</h4>
+            <p className="text-xs font-bold text-gray-500 leading-tight">
+              {isAr ? "مرضى تعافوا بالكامل" : "Patients fully recovered"}
+            </p>
+          </div>
+
+          {/* Floating Card: Experience */}
+          <div className="hero-floating-card absolute top-16 -right-6 sm:-right-8 bg-white p-5 rounded-tr-[30px] rounded-bl-[30px] rounded-tl-xl rounded-br-xl shadow-[0_20px_40px_-5px_rgba(var(--color-brand-purple-rgb),0.2)] flex items-center gap-4 border border-gray-100 will-change-transform">
+            <div className="w-14 h-14 bg-brand-purple/10 text-brand-purple rounded-full flex items-center justify-center flex-shrink-0">
+               <Award size={28} strokeWidth={2} />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[#0B162C] font-black text-2xl">22+</span>
+               <span className="text-xs font-bold text-gray-500 leading-tight">
+                {isAr ? "سنوات خبرة" : "Years Experience"}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </section>
   );
 }

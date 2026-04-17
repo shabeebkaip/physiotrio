@@ -9,7 +9,7 @@ import type { Therapist } from "@/lib/data/therapists";
 import {
   CheckCircle2, Star, Clock, Calendar, User, ChevronRight,
   Dumbbell, Brain, Hand, Baby, Leaf, Zap, MoveUp, Activity,
-  Stethoscope, ArrowRight, LucideIcon,
+  Stethoscope, ArrowRight, Pencil, LucideIcon,
 } from "lucide-react";
 
 interface BookingFlowProps {
@@ -40,9 +40,13 @@ function getNext14Days() {
 
 // ─── Step Progress Bar ────────────────────────────────────────────────────────
 
-function StepBar({ step, labels }: { step: number; labels: string[] }) {
+function StepBar({ step, labels, onGoToStep }: {
+  step: number;
+  labels: string[];
+  onGoToStep: (s: number) => void;
+}) {
   return (
-    <div className="flex items-center justify-between mb-10">
+    <div className="flex items-center justify-between mb-6">
       {labels.map((label, i) => {
         const idx = i + 1;
         const done = step > idx;
@@ -50,19 +54,22 @@ function StepBar({ step, labels }: { step: number; labels: string[] }) {
         return (
           <div key={i} className="flex items-center flex-1">
             <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-              <div
+              <button
+                onClick={() => done && onGoToStep(idx)}
+                disabled={!done}
                 className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
                 style={{
-                  background: done ? "var(--color-brand-purple)" : active ? "var(--color-brand-purple)" : "#F1F5F9",
+                  background: done || active ? "var(--color-brand-purple)" : "#F1F5F9",
                   color: done || active ? "white" : "#9CA3AF",
                   boxShadow: active ? "0 0 0 4px rgba(var(--color-brand-purple-rgb),0.15)" : "none",
+                  cursor: done ? "pointer" : "default",
                 }}
               >
                 {done ? <CheckCircle2 size={16} /> : idx}
-              </div>
+              </button>
               <span
                 className="text-[10px] font-semibold uppercase tracking-wide hidden sm:block"
-                style={{ color: active ? "var(--color-brand-purple)" : done ? "var(--color-brand-purple)" : "#9CA3AF" }}
+                style={{ color: active || done ? "var(--color-brand-purple)" : "#9CA3AF" }}
               >
                 {label}
               </span>
@@ -76,6 +83,66 @@ function StepBar({ step, labels }: { step: number; labels: string[] }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+// ─── Selection chips — shows what's been picked so far ───────────────────────
+
+function SelectionChips({
+  step, selectedService, selectedTherapist, selectedDate, selectedTime, isAr, onGoToStep,
+}: {
+  step: number;
+  selectedService: Service | null;
+  selectedTherapist: Therapist | null;
+  selectedDate: Date | null;
+  selectedTime: string | null;
+  isAr: boolean;
+  onGoToStep: (s: number) => void;
+}) {
+  const chips: { targetStep: number; icon: JSX.Element; label: string }[] = [];
+
+  if (step > 1 && selectedService) {
+    chips.push({
+      targetStep: 1,
+      icon: <Stethoscope size={11} />,
+      label: isAr ? selectedService.name.ar : selectedService.name.en,
+    });
+  }
+  if (step > 2) {
+    chips.push({
+      targetStep: 2,
+      icon: <User size={11} />,
+      label: selectedTherapist
+        ? (isAr ? selectedTherapist.name.ar : selectedTherapist.name.en)
+        : (isAr ? "أي معالج" : "Any therapist"),
+    });
+  }
+  if (step > 3 && selectedDate) {
+    const dateLabel = selectedDate.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "short", month: "short", day: "numeric" });
+    chips.push({
+      targetStep: 3,
+      icon: <Calendar size={11} />,
+      label: selectedTime ? `${dateLabel} · ${selectedTime}` : dateLabel,
+    });
+  }
+
+  if (!chips.length) return null;
+
+  return (
+    <div className="flex flex-wrap gap-2 mb-6 pb-5 border-b border-gray-100">
+      {chips.map((chip, i) => (
+        <button
+          key={i}
+          onClick={() => onGoToStep(chip.targetStep)}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-75 active:scale-95"
+          style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
+        >
+          {chip.icon}
+          <span>{chip.label}</span>
+          <Pencil size={9} className="opacity-50 ml-0.5" />
+        </button>
+      ))}
     </div>
   );
 }
@@ -106,7 +173,7 @@ function NavButtons({
         <button
           onClick={onNext}
           disabled={nextDisabled}
-          className="flex-1 inline-flex items-center justify-center gap-2 pl-6 pr-2 py-2.5 rounded-xl font-semibold text-sm text-white transition-all group"
+          className="flex-1 inline-flex items-center justify-center gap-2 pl-6 pr-2 py-2.5 rounded-xl font-semibold text-sm transition-all group"
           style={{
             background: nextDisabled ? "#E5E7EB" : "var(--color-brand-purple)",
             color: nextDisabled ? "#9CA3AF" : "white",
@@ -151,6 +218,16 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
     ? ["الخدمة", "المعالج", "الموعد", "التفاصيل", "تأكيد"]
     : ["Service", "Therapist", "Schedule", "Details", "Confirm"];
 
+  function resetAll() {
+    setStep(1);
+    setSelectedService(null);
+    setSelectedTherapist(null);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setForm({ name: "", phone: "", email: "", notes: "" });
+    setSubmitted(false);
+  }
+
   // ── Confirmed ──────────────────────────────────────────────────────────────
   if (submitted) {
     return (
@@ -170,7 +247,6 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
             : `A confirmation SMS will be sent to ${form.phone}. You can reschedule up to 24h before your session.`}
         </p>
 
-        {/* Summary grid */}
         <div className="grid grid-cols-2 gap-3 mb-8 text-left">
           {[
             { label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
@@ -187,18 +263,48 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
 
         <a
           href={`https://wa.me/${branch.whatsapp?.replace(/\D/g, "") ?? "9668001000091"}`}
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-white text-sm transition-all hover:opacity-90"
+          className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 rounded-xl font-semibold text-white text-sm transition-all hover:opacity-90 mb-4"
           style={{ background: "#25D366" }}
         >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
           {isAr ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
         </a>
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            onClick={resetAll}
+            className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-80"
+            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
+          >
+            {isAr ? "حجز موعد آخر" : "Book Another Appointment"}
+          </button>
+          <a
+            href={`/${locale}`}
+            className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100 text-center"
+            style={{ background: "#F1F5F9", color: "#6B7280" }}
+          >
+            {isAr ? "العودة للرئيسية" : "Back to Home"}
+          </a>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="bg-white rounded-2xl p-6 md:p-10 border border-gray-100">
-      <StepBar step={step} labels={stepLabels} />
+      <StepBar step={step} labels={stepLabels} onGoToStep={setStep} />
+
+      <SelectionChips
+        step={step}
+        selectedService={selectedService}
+        selectedTherapist={selectedTherapist}
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
+        isAr={isAr}
+        onGoToStep={setStep}
+      />
 
       {/* ── Step 1: Service ─────────────────────────────────────────────── */}
       {step === 1 && (
@@ -206,7 +312,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
           <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
             {isAr ? "اختر الخدمة" : "Choose a Service"}
           </h2>
-          <p className="text-sm mb-8" style={{ color: "#6B7280" }}>
+          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
             {isAr ? "اختر نوع العلاج المناسب لاحتياجك" : "Select the treatment type that fits your needs"}
           </p>
 
@@ -260,8 +366,8 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
           <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
             {isAr ? "اختر معالجك" : "Choose Your Therapist"}
           </h2>
-          <p className="text-sm mb-8" style={{ color: "#6B7280" }}>
-            {isAr ? "أو تخطَّ هذه الخطوة لتخصيص أي معالج متاح" : "Or skip to assign any available therapist"}
+          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
+            {isAr ? "اضغط على المعالج للمتابعة، أو اختر أي معالج متاح" : "Tap a therapist to continue, or pick any available below"}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
@@ -302,22 +408,35 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                         <span className="text-xs font-semibold ml-1" style={{ color: "var(--color-brand-purple)" }}>{therapist.rating}</span>
                       </div>
                     </div>
+                    <ChevronRight size={16} style={{ color: "#D1D5DB" }} className="flex-shrink-0" />
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {/* Skip option */}
+          {/* Any available — dashed border makes it clearly secondary */}
           <button
             onClick={() => { setSelectedTherapist(null); setStep(3); }}
-            className="w-full py-3 rounded-xl text-sm font-medium border transition-all hover:bg-gray-50"
-            style={{ borderColor: "#E5E7EB", color: "#6B7280" }}
+            className="w-full py-4 rounded-xl text-sm font-semibold border-2 border-dashed transition-all hover:bg-opacity-5"
+            style={{
+              borderColor: "var(--color-brand-purple)",
+              color: "var(--color-brand-purple)",
+              background: "rgba(var(--color-brand-purple-rgb),0.03)",
+            }}
           >
-            {isAr ? "أي معالج متاح" : "Any available therapist"}
+            {isAr ? "✓ أي معالج متاح — تخصيص تلقائي" : "✓ Any available therapist — auto-assign"}
           </button>
 
-          <NavButtons isAr={isAr} onBack={() => setStep(1)} nextLabel="" />
+          <div className="mt-6 pt-6 border-t border-gray-100">
+            <button
+              onClick={() => setStep(1)}
+              className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100"
+              style={{ background: "#F1F5F9", color: "#6B7280" }}
+            >
+              {isAr ? "→ عودة" : "← Back"}
+            </button>
+          </div>
         </div>
       )}
 
@@ -327,9 +446,17 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
           <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
             {isAr ? "اختر الموعد" : "Choose Date & Time"}
           </h2>
-          <p className="text-sm mb-8" style={{ color: "#6B7280" }}>
-            {isAr ? "الجمعة مغلق" : "Closed on Fridays"}
+          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
+            {isAr ? "الجمعة مغلق · اختر التاريخ ثم الوقت" : "Fridays closed · Select a date then pick a time"}
           </p>
+
+          {/* Month context label */}
+          <div className="flex items-center gap-2 mb-3">
+            <Calendar size={13} style={{ color: "#9CA3AF" }} />
+            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#9CA3AF" }}>
+              {days14[0].toLocaleDateString(isAr ? "ar-SA" : "en-US", { month: "long", year: "numeric" })}
+            </span>
+          </div>
 
           {/* Date scroll */}
           <div className="mb-6 overflow-x-auto -mx-1 px-1 pb-2">
@@ -338,45 +465,52 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                 const dayName = isAr ? DAYS.ar[day.getDay()] : DAYS.en[day.getDay()];
                 const isFri = day.getDay() === 5;
                 const isSelected = selectedDate?.toDateString() === day.toDateString();
+                const showMonthBadge = i > 0 && day.getDate() === 1;
                 return (
-                  <button
-                    key={i}
-                    onClick={() => !isFri && setSelectedDate(day)}
-                    disabled={isFri}
-                    className="flex flex-col items-center px-3.5 py-3 rounded-xl transition-all duration-200 min-w-[56px]"
-                    style={{
-                      background: isSelected ? "var(--color-brand-purple)" : "white",
-                      border: `1px solid ${isSelected ? "var(--color-brand-purple)" : "#E5E7EB"}`,
-                      opacity: isFri ? 0.35 : 1,
-                      boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-purple-rgb),0.25)" : "none",
-                    }}
-                  >
-                    <span className="text-[10px] font-semibold uppercase mb-1" style={{ color: isSelected ? "rgba(255,255,255,0.7)" : "#9CA3AF" }}>
-                      {dayName}
-                    </span>
-                    <span className="font-bold text-sm" style={{ color: isSelected ? "white" : "#1a1a2e" }}>
-                      {day.getDate()}
-                    </span>
-                  </button>
+                  <div key={i} className="flex flex-col items-center">
+                    {showMonthBadge && (
+                      <span className="text-[8px] font-bold uppercase mb-1 px-1.5 py-0.5 rounded" style={{ background: "#F1F5F9", color: "#6B7280" }}>
+                        {day.toLocaleDateString("en-US", { month: "short" })}
+                      </span>
+                    )}
+                    <button
+                      onClick={() => { if (!isFri) { setSelectedDate(day); setSelectedTime(null); } }}
+                      disabled={isFri}
+                      className="flex flex-col items-center px-3.5 py-3 rounded-xl transition-all duration-200 min-w-[56px]"
+                      style={{
+                        background: isSelected ? "var(--color-brand-purple)" : "white",
+                        border: `1px solid ${isSelected ? "var(--color-brand-purple)" : "#E5E7EB"}`,
+                        opacity: isFri ? 0.35 : 1,
+                        boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-purple-rgb),0.25)" : "none",
+                      }}
+                    >
+                      <span className="text-[10px] font-semibold uppercase mb-1" style={{ color: isSelected ? "rgba(255,255,255,0.7)" : "#9CA3AF" }}>
+                        {dayName}
+                      </span>
+                      <span className="font-bold text-sm" style={{ color: isSelected ? "white" : "#1a1a2e" }}>
+                        {day.getDate()}
+                      </span>
+                    </button>
+                  </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Time slots */}
-          {selectedDate && (
+          {/* Time slots or prompt */}
+          {selectedDate ? (
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide mb-3" style={{ color: "#9CA3AF" }}>
                 {isAr ? "المواعيد المتاحة" : "Available Times"}
               </p>
-              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {TIME_SLOTS.map((time) => {
                   const isSelected = selectedTime === time;
                   return (
                     <button
                       key={time}
                       onClick={() => setSelectedTime(time)}
-                      className="py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5"
+                      className="py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
                       style={{
                         background: isSelected ? "var(--color-brand-purple)" : "white",
                         color: isSelected ? "white" : "#374151",
@@ -389,6 +523,14 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                   );
                 })}
               </div>
+            </div>
+          ) : (
+            <div
+              className="flex items-center justify-center gap-2 py-10 rounded-xl border border-dashed text-sm"
+              style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}
+            >
+              <Calendar size={15} />
+              {isAr ? "اختر تاريخاً لعرض المواعيد المتاحة" : "Pick a date above to see available times"}
             </div>
           )}
 
@@ -408,7 +550,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
           <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
             {isAr ? "بياناتك الشخصية" : "Your Details"}
           </h2>
-          <p className="text-sm mb-8" style={{ color: "#6B7280" }}>
+          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
             {isAr ? "معلوماتك آمنة ومشفرة" : "Your information is safe and encrypted"}
           </p>
 
@@ -427,11 +569,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                   value={form[key as keyof typeof form]}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-                  style={{
-                    background: "white",
-                    border: "1.5px solid #E5E7EB",
-                    color: "#1a1a2e",
-                  }}
+                  style={{ background: "white", border: "1.5px solid #E5E7EB", color: "#1a1a2e" }}
                   placeholder={placeholder}
                   onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-purple)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-purple-rgb),0.1)"; }}
                   onBlur={(e) => { e.target.style.borderColor = "#E5E7EB"; e.target.style.boxShadow = "none"; }}
@@ -448,7 +586,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-all"
                 style={{ background: "white", border: "1.5px solid #E5E7EB", color: "#1a1a2e" }}
-                placeholder={isAr ? "تاريخ الإصابة، التأمين الصحي..." : "Injury history, insurance provider..."}
+                placeholder={isAr ? "تاريخ الإصابة، مزود التأمين..." : "Injury history, insurance provider..."}
                 onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-purple)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-purple-rgb),0.1)"; }}
                 onBlur={(e) => { e.target.style.borderColor = "#E5E7EB"; e.target.style.boxShadow = "none"; }}
               />
@@ -471,18 +609,18 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
           <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
             {isAr ? "مراجعة وتأكيد" : "Review & Confirm"}
           </h2>
-          <p className="text-sm mb-8" style={{ color: "#6B7280" }}>
-            {isAr ? "تحقق من بياناتك قبل التأكيد" : "Double-check your details before confirming"}
+          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
+            {isAr ? "تحقق من بياناتك — يمكنك تعديل أي حقل قبل التأكيد" : "Check your details — tap Edit on any row to change it"}
           </p>
 
           <div className="rounded-2xl overflow-hidden border border-gray-100 mb-6">
             {[
-              { icon: <Stethoscope size={15} />, label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
-              { icon: <User size={15} />, label: isAr ? "المعالج" : "Therapist", value: selectedTherapist ? (isAr ? selectedTherapist.name.ar : selectedTherapist.name.en) : (isAr ? "أي معالج متاح" : "Any available") },
-              { icon: <Calendar size={15} />, label: isAr ? "التاريخ" : "Date", value: selectedDate?.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "long", month: "long", day: "numeric" }) ?? "—" },
-              { icon: <Clock size={15} />, label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—" },
-              { icon: <User size={15} />, label: isAr ? "الاسم" : "Name", value: form.name },
-              { icon: <User size={15} />, label: isAr ? "الجوال" : "Mobile", value: form.phone },
+              { icon: <Stethoscope size={15} />, label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—", editStep: 1 },
+              { icon: <User size={15} />, label: isAr ? "المعالج" : "Therapist", value: selectedTherapist ? (isAr ? selectedTherapist.name.ar : selectedTherapist.name.en) : (isAr ? "أي معالج متاح" : "Any available"), editStep: 2 },
+              { icon: <Calendar size={15} />, label: isAr ? "التاريخ" : "Date", value: selectedDate?.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "long", month: "long", day: "numeric" }) ?? "—", editStep: 3 },
+              { icon: <Clock size={15} />, label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—", editStep: 3 },
+              { icon: <User size={15} />, label: isAr ? "الاسم" : "Name", value: form.name, editStep: 4 },
+              { icon: <User size={15} />, label: isAr ? "الجوال" : "Mobile", value: form.phone, editStep: 4 },
             ].map((row, i, arr) => (
               <div
                 key={i}
@@ -491,7 +629,14 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
               >
                 <span style={{ color: "var(--color-brand-purple)" }}>{row.icon}</span>
                 <span className="text-xs font-semibold w-20 flex-shrink-0" style={{ color: "#9CA3AF" }}>{row.label}</span>
-                <span className="text-sm font-medium" style={{ color: "#1a1a2e" }}>{row.value}</span>
+                <span className="text-sm font-medium flex-1 min-w-0 truncate" style={{ color: "#1a1a2e" }}>{row.value}</span>
+                <button
+                  onClick={() => setStep(row.editStep)}
+                  className="text-xs font-semibold px-2.5 py-1 rounded-lg transition-all hover:opacity-80 flex-shrink-0"
+                  style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
+                >
+                  {isAr ? "تعديل" : "Edit"}
+                </button>
               </div>
             ))}
           </div>

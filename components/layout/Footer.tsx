@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, MapPin, Phone, Mail, ArrowRight, ArrowUpRight } from "lucide-react";
+import { MessageCircle, MapPin, Phone, Mail, ArrowRight, ArrowUpRight, Clock } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
 interface FooterProps {
@@ -34,14 +34,14 @@ export function Footer({ locale, t, nav }: FooterProps) {
   const isRTL = locale === "ar";
 
   const quickLinks = [
-    { href: "/", label: nav.home },
-    { href: "/about", label: nav.about },
+    { href: "/",         label: nav.home },
+    { href: "/about",    label: nav.about },
     { href: "/services", label: nav.services },
     { href: "/branches", label: nav.branches },
-    { href: "/team", label: nav.team },
-    { href: "/offers", label: nav.offers },
-    { href: "/blog", label: nav.blog },
-    { href: "/faq", label: nav.faq },
+    { href: "/team",     label: nav.team },
+    { href: "/offers",   label: nav.offers },
+    { href: "/blog",     label: nav.blog },
+    { href: "/faq",      label: nav.faq },
   ];
 
   const branches = [
@@ -66,67 +66,115 @@ export function Footer({ locale, t, nav }: FooterProps) {
   ];
 
   return (
-    <footer className="relative overflow-hidden bg-white rounded-tl-[60px] rounded-tr-[60px] border-t-0 shadow-[0_-8px_40px_-10px_rgba(0,0,0,0.08)]">
-
-      {/* ── Top CTA Band ── */}
-      <div className="relative border-b border-gray-100">
-        <div className="max-w-[1300px] mx-auto px-6 lg:px-12 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-xl text-center md:text-start">
-            <h2 className="text-3xl sm:text-4xl font-black text-[#0B162C] leading-tight mb-3">
-              {isRTL ? "هل أنت مستعد لبدء رحلة تعافيك؟" : "Ready to start your recovery journey?"}
-            </h2>
-            <p className="text-gray-500 font-medium text-lg">
-              {isRTL ? "فريقنا من المتخصصين في انتظارك" : "Our specialist team is here for you."}
-            </p>
+    <footer
+      dir={isRTL ? "rtl" : "ltr"}
+      className="relative overflow-hidden"
+    >
+      {/* ── Pre-Footer Contact Strip ── */}
+      <div className="relative py-12 px-6 lg:px-12" style={{ background: "#E9F0EE" }}>
+        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+          {/* Work Hours */}
+          <div className={`flex items-center gap-5 ${isRTL ? "flex-row-reverse text-right" : ""}`}>
+             <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(15,45,31,0.06)" }}>
+               <Clock size={24} style={{ color: "#0f2d1f" }} />
+             </div>
+             <div>
+                <h4 className="text-base font-black leading-none mb-1.5" style={{ color: "#0f2d1f" }}>
+                  {isRTL ? "ساعات العمل" : "Working Hours"}
+                </h4>
+                <p className="text-sm font-bold opacity-60" style={{ color: "#0f2d1f" }}>
+                  {isRTL ? "السبت - الخميس: 9ص - 9م" : "Sat - Thu: 9AM - 9PM"}
+                </p>
+             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href={`/${locale}/book/riyadh`}
-              className="inline-flex items-center gap-3 pl-7 pr-3 py-3.5 rounded-full font-black text-white bg-[#0B162C] transition-all hover:-translate-y-1 hover:shadow-2xl group"
-            >
-              {isRTL ? "احجز موعدك الآن" : "Book Appointment"}
-              <span className="w-10 h-10 rounded-full bg-brand-green flex items-center justify-center">
-                <ArrowRight size={18} className="text-white" />
-              </span>
-            </Link>
-            <a
-              href="https://wa.me/966500000001"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold border border-gray-200 text-[#0B162C] hover:bg-gray-50 transition-all"
-            >
-              <MessageCircle size={18} />
-              WhatsApp
-            </a>
+
+          {/* Emergency */}
+          <div className={`flex items-center gap-5 ${isRTL ? "flex-row-reverse text-right" : ""}`}>
+             <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(15,45,31,0.06)" }}>
+               <Phone size={24} style={{ color: "#0f2d1f" }} />
+             </div>
+             <div>
+                <h4 className="text-base font-black leading-none mb-1.5" style={{ color: "#0f2d1f" }}>
+                  {isRTL ? "للطوارئ" : "Emergency Contact"}
+                </h4>
+               <p className="text-sm font-black" style={{ color: "#0f2d1f" }}>+966 920 000 000</p>
+             </div>
+          </div>
+
+          {/* CTA */}
+          <div className={`flex ${isRTL ? "justify-start" : "justify-end"}`}>
+             <Link 
+               href={`/${locale}/book/riyadh`}
+               className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-black text-sm text-white transition-all hover:scale-[1.03] shadow-lg"
+               style={{ background: "#0f2d1f" }}
+             >
+               {isRTL ? "احجز موعدك" : "Book Appointment"}
+               <ArrowRight size={18} className={isRTL ? "-scale-x-100" : ""} />
+             </Link>
           </div>
         </div>
       </div>
 
+      <div className="relative py-20" style={{ background: "#0f2d1f" }}>
+      {/* Subtle dot grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      {/* Purple glow blob */}
+      <div
+        className="absolute top-0 pointer-events-none"
+        style={{
+          [isRTL ? "left" : "right"]: "0",
+          width: "500px", height: "500px",
+          background: "radial-gradient(circle, rgba(136,7,114,0.12) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Main Grid — 4 Columns */}
+
       {/* ── Main Grid ── */}
-      <div className="max-w-[1300px] mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="relative max-w-[1300px] mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
         {/* Col 1 — Brand */}
         <div className="sm:col-span-2 lg:col-span-1">
-          <div className="mb-5">
-            <PhysioTrioLogo height={48} />
+          <div className="mb-5 opacity-90">
+            <PhysioTrioLogo height={44} />
           </div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3 text-brand-purple">
-            {t.parent}
+          <p
+            className="text-xs font-black uppercase tracking-[0.2em] mb-4"
+            style={{ color: "#4caf50" }}
+          >
+            {isRTL ? "كل ما تحتاج في مركز واحد" : "Everything in one place"}
           </p>
-          <p className="text-gray-500 font-medium leading-relaxed mb-8 max-w-xs">
+          <p
+            className="font-medium leading-relaxed mb-8 max-w-xs text-sm"
+            style={{ color: "rgba(255,255,255,0.50)" }}
+          >
             {t.tagline}
           </p>
 
-          {/* Social / Contact pill row */}
-          <div className="flex flex-wrap gap-3">
+          {/* Contact pills */}
+          <div className="flex flex-col gap-3">
             <a
               href="mailto:hello@physiotrio.com"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border border-gray-200 text-gray-500 hover:border-brand-green hover:text-brand-green transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-250"
+              style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.08)" }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#fff"; el.style.borderColor = "rgba(76,175,80,0.40)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "rgba(255,255,255,0.55)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
             >
               <Mail size={13} />
               hello@physiotrio.com
             </a>
             <a
               href="tel:920000000"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border border-gray-200 text-gray-500 hover:border-brand-purple hover:text-brand-purple transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-250"
+              style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.08)" }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#fff"; el.style.borderColor = "rgba(136,7,114,0.50)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "rgba(255,255,255,0.55)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
             >
               <Phone size={13} />
               920 000 000
@@ -134,9 +182,12 @@ export function Footer({ locale, t, nav }: FooterProps) {
           </div>
         </div>
 
-        {/* Col 2 — Quick Links */}
+        {/* Col 2 Ã¢â‚¬â€ Quick Links */}
         <div>
-          <h3 className="font-black text-xs mb-6 tracking-[0.2em] uppercase text-gray-400">
+          <h3
+            className="font-black text-xs mb-6 tracking-[0.2em] uppercase"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
             {t.quickLinks}
           </h3>
           <ul className="space-y-3">
@@ -144,9 +195,15 @@ export function Footer({ locale, t, nav }: FooterProps) {
               <li key={link.href}>
                 <Link
                   href={`/${locale}${link.href}`}
-                  className="group flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#0B162C] transition-all"
+                  className="group flex items-center gap-2 text-sm font-medium transition-all duration-200"
+                  style={{ color: "rgba(255,255,255,0.55)" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.55)"; }}
                 >
-                  <span className="w-0 group-hover:w-3 h-px bg-brand-green transition-all duration-300" />
+                  <span
+                    className="w-0 group-hover:w-3 h-px transition-all duration-300"
+                    style={{ background: "#4caf50" }}
+                  />
                   {link.label}
                 </Link>
               </li>
@@ -154,37 +211,45 @@ export function Footer({ locale, t, nav }: FooterProps) {
           </ul>
         </div>
 
-        {/* Col 3 — Branches */}
+        {/* Col 3 Ã¢â‚¬â€ Branches */}
         <div>
-          <h3 className="font-black text-xs mb-6 tracking-[0.2em] uppercase text-gray-400">
+          <h3
+            className="font-black text-xs mb-6 tracking-[0.2em] uppercase"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
             {t.branchesTitle}
           </h3>
           <div className="space-y-6">
             {branches.map((b) => (
-              <div key={b.city.en} className="group">
+              <div key={b.city.en}>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-2 h-2 rounded-full flex-shrink-0 ${b.active ? "bg-brand-green animate-pulse" : "bg-white/20"}`} />
-                  <p className="font-black text-sm text-[#0B162C]">
+                  <div
+                    className={`w-2 h-2 rounded-full flex-shrink-0 ${b.active ? "bg-green-400 animate-pulse" : "bg-white/20"}`}
+                  />
+                  <p className="font-black text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
                     {isRTL ? b.city.ar : b.city.en}
                   </p>
                   {!b.active && (
-                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-brand-purple/20 text-brand-purple tracking-wider">
+                    <span
+                      className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider"
+                      style={{ background: "rgba(136,7,114,0.30)", color: "#c97ec0" }}
+                    >
                       {isRTL ? "قريباً" : "Soon"}
                     </span>
                   )}
                 </div>
                 {b.address && (
                   <div className="flex items-start gap-2 ml-4">
-                    <MapPin size={12} className="mt-0.5 flex-shrink-0 text-gray-500" />
-                    <p className="text-xs text-gray-400 leading-relaxed">
+                    <MapPin size={11} className="mt-0.5 flex-shrink-0" style={{ color: "rgba(255,255,255,0.35)" }} />
+                    <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.40)" }}>
                       {isRTL ? b.address.ar : b.address.en}
                     </p>
                   </div>
                 )}
                 {b.phone && (
                   <div className="flex items-center gap-2 ml-4 mt-1">
-                    <Phone size={12} className="text-brand-green flex-shrink-0" />
-                    <p className="text-xs text-gray-500">{b.phone}</p>
+                    <Phone size={11} style={{ color: "#4caf50" }} className="flex-shrink-0" />
+                    <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{b.phone}</p>
                   </div>
                 )}
               </div>
@@ -192,27 +257,39 @@ export function Footer({ locale, t, nav }: FooterProps) {
           </div>
         </div>
 
-        {/* Col 4 — Contact */}
+        {/* Col 4 Ã¢â‚¬â€ Contact */}
         <div>
-          <h3 className="font-black text-xs mb-6 tracking-[0.2em] uppercase text-gray-400">
+          <h3
+            className="font-black text-xs mb-6 tracking-[0.2em] uppercase"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
             {t.contact}
           </h3>
 
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-            {isRTL ? "الخط المجاني" : "Toll-Free"}
+          <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "rgba(255,255,255,0.35)" }}>
+            {isRTL ? "الرقم المجاني" : "Toll-Free"}
           </p>
           <a
             href="tel:920000000"
-            className="text-4xl font-black text-[#0B162C] mb-8 block hover:text-brand-purple transition-colors"
+            className="text-4xl font-black mb-8 block transition-colors duration-200"
+            style={{ color: "#fff" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#c97ec0"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
           >
             920 000 000
           </a>
 
           <a
             href="mailto:hello@physiotrio.com"
-            className="flex items-center gap-3 mb-8 text-gray-500 hover:text-[#0B162C] transition-colors group"
+            className="flex items-center gap-3 mb-8 group transition-colors duration-200"
+            style={{ color: "rgba(255,255,255,0.55)" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.55)"; }}
           >
-            <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center group-hover:border-brand-green group-hover:bg-brand-green/10 transition-all">
+            <div
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 group-hover:border-green-400"
+              style={{ border: "1px solid rgba(255,255,255,0.15)" }}
+            >
               <Mail size={15} />
             </div>
             <span className="text-sm font-bold">hello@physiotrio.com</span>
@@ -220,30 +297,60 @@ export function Footer({ locale, t, nav }: FooterProps) {
 
           <Link
             href={`/${locale}/book/riyadh`}
-            className="group w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-sm text-[#0B162C] border border-gray-200 hover:border-brand-purple hover:bg-brand-purple/5 transition-all"
+            className="group w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-sm transition-all duration-200"
+            style={{
+              color: "rgba(255,255,255,0.80)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+            }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.background = "rgba(136,7,114,0.25)";
+              el.style.borderColor = "rgba(136,7,114,0.60)";
+              el.style.color = "#fff";
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.background = "rgba(255,255,255,0.04)";
+              el.style.borderColor = "rgba(255,255,255,0.12)";
+              el.style.color = "rgba(255,255,255,0.80)";
+            }}
           >
             {isRTL ? "احجز موعدك" : "Book Appointment"}
-            <ArrowUpRight size={18} className="transition-transform group-hover:rotate-12 text-brand-purple" />
+            <ArrowUpRight size={18} className="transition-transform group-hover:rotate-12" style={{ color: "#c97ec0" }} />
           </Link>
         </div>
       </div>
 
       {/* ── Bottom Bar ── */}
-      <div className="border-t border-gray-100">
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
         <div className="max-w-[1300px] mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-medium text-gray-400">{t.rights}</p>
+          <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>{t.rights}</p>
           <div className="flex items-center gap-6">
-            <Link href={`/${locale}/privacy-policy`} className="text-xs font-medium text-gray-400 hover:text-[#0B162C] transition-colors">
+            <Link
+              href={`/${locale}/privacy-policy`}
+              className="text-xs font-medium transition-colors duration-200"
+              style={{ color: "rgba(255,255,255,0.35)" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.35)"; }}
+            >
               {t.privacy}
             </Link>
-            <span className="text-gray-200">•</span>
-            <Link href={`/${locale}/terms`} className="text-xs font-medium text-gray-400 hover:text-[#0B162C] transition-colors">
+            <span style={{ color: "rgba(255,255,255,0.20)" }}>•</span>
+            <Link
+              href={`/${locale}/terms`}
+              className="text-xs font-medium transition-colors duration-200"
+              style={{ color: "rgba(255,255,255,0.35)" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.35)"; }}
+            >
               {t.terms}
             </Link>
           </div>
-          <p className="text-xs font-black text-brand-green tracking-wider uppercase">{t.proudly}</p>
+          <p className="text-xs font-black uppercase tracking-wider" style={{ color: "#4caf50" }}>{t.proudly}</p>
         </div>
       </div>
+    </div>
     </footer>
   );
 }

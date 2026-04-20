@@ -8,7 +8,7 @@ import {
   Menu, X, Globe, ArrowRight, ChevronDown,
   Activity, Dumbbell, Brain, Baby, Users, Heart,
   Droplets, Zap, Radio, Gauge, Layers, Bot, Hand,
-  ArrowUpRight, Stethoscope,
+  ArrowUpRight, Stethoscope, Phone,
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
@@ -140,7 +140,7 @@ function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { loc
               <Link
                 href={`/${locale}/book/riyadh`}
                 onClick={onClose}
-                className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
+                className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all shadow-md active:scale-95"
                 style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
               >
                 {isAr ? "احجز جلسة" : "Book a Session"}
@@ -294,13 +294,13 @@ export function Navbar({ locale, translations }: NavbarProps) {
       {/* Floating pill wrapper — also anchors the mega menu */}
       <div className="fixed top-9 left-0 right-0 z-50 px-4 pointer-events-none">
         <motion.nav
-          className="pointer-events-auto max-w-7xl mx-auto flex items-center justify-between h-16 px-5 rounded-2xl relative"
+          className="pointer-events-auto max-w-7xl mx-auto flex items-center justify-between h-20 px-6 rounded-2xl relative"
           style={{
-            background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.88)",
+            background: scrolled ? "rgba(255,255,255,0.98)" : "rgba(255,255,255,0.92)",
             backdropFilter: "blur(20px)",
             border: "1px solid rgba(0,0,0,0.06)",
             boxShadow: scrolled
-              ? "0 8px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.8) inset"
+              ? "0 10px 40px rgba(0,0,0,0.12)"
               : "0 2px 12px rgba(0,0,0,0.04)",
           }}
           initial={{ y: -100, opacity: 0 }}
@@ -317,7 +317,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
             {/* Home */}
             <Link
               href={`/${locale}`}
-              className="relative px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50"
+              className="relative px-3 py-2 text-sm font-bold transition-all rounded-lg hover:bg-gray-50 active:scale-95"
               style={{ color: pathname === `/${locale}` ? "var(--color-brand-purple)" : "#374151" }}
             >
               {translations.home}
@@ -330,15 +330,15 @@ export function Navbar({ locale, translations }: NavbarProps) {
               onMouseLeave={closeServices}
             >
               <button
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-bold transition-all rounded-lg hover:bg-gray-50 active:scale-95"
                 style={{ color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151" }}
               >
                 {translations.services}
                 <motion.span
                   animate={{ rotate: servicesOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <ChevronDown size={14} strokeWidth={2} />
+                  <ChevronDown size={14} strokeWidth={2.5} />
                 </motion.span>
               </button>
 
@@ -384,16 +384,20 @@ export function Navbar({ locale, translations }: NavbarProps) {
             </Link>
 
             <Link
-              href={`/${locale}/book/riyadh`}
-              className="inline-flex items-center gap-2 pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm text-white transition-all group hover:shadow-lg"
-              style={{ background: "var(--color-brand-purple)" }}
+              href={`tel:8001000091`}
+              className="inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full font-black text-sm text-white transition-all group hover:shadow-xl active:scale-95 overflow-hidden"
+              style={{ background: "#4caf50" }}
             >
-              {translations.bookNow}
+              <div className="flex flex-col items-start leading-[1.1] text-[10px] opacity-90 uppercase tracking-tight">
+                <span className="font-bold text-[8px] mb-[1px] text-white/70">{otherLocale === "ar" ? "English" : "عربي"}</span>
+                <span className="whitespace-nowrap">{translations.bookNow}</span>
+              </div>
+              <span className="font-black text-xs pr-1 tabular-nums">800 100 0091</span>
               <span
-                className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-0.5"
-                style={{ background: "var(--color-brand-green)" }}
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 shrink-0"
+                style={{ background: "#0f2d1f" }}
               >
-                <ArrowRight size={14} className="text-white" />
+                <Phone size={15} fill="currentColor" className="text-white" />
               </span>
             </Link>
           </div>

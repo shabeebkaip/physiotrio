@@ -2,154 +2,135 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import {
-  Dumbbell, Brain, Hand, Baby, Leaf, Zap,
-  MoveUp, Activity, Stethoscope, ArrowUpRight, LucideIcon
-} from "lucide-react";
-
+import Image from "next/image";
+import { Dumbbell, Brain, Hand, Baby, Leaf, Zap, MoveUp, Activity, Stethoscope, ArrowRight, LucideIcon } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface Service {
-  id: string;
-  slug: string;
+  id: string; slug: string;
   name: { en: string; ar: string };
   shortDesc: { en: string; ar: string };
-  durationMinutes: number;
-  icon: string;
-  featured: boolean;
+  durationMinutes: number; icon: string; featured: boolean;
 }
 
 interface ServicesGridProps {
-  locale: string;
-  services: Service[];
-  title: string;
-  subtitle: string;
-  bookNowText: string;
+  locale: string; services: Service[];
+  title: string; subtitle: string; bookNowText: string;
 }
 
 const iconMap: Record<string, LucideIcon> = {
-  bone: Stethoscope,
-  run: Dumbbell,
-  brain: Brain,
-  hands: Hand,
-  child: Baby,
-  spine: Activity,
-  lotus: Leaf,
-  "arrow-up": MoveUp,
-  zap: Zap,
+  bone: Stethoscope, run: Dumbbell, brain: Brain, hands: Hand,
+  child: Baby, spine: Activity, lotus: Leaf, "arrow-up": MoveUp, zap: Zap,
 };
+
+const cardColors = [
+  { bg: "rgba(136,7,114,0.06)", icon: "#880772" },
+  { bg: "rgba(76,175,80,0.08)",  icon: "#388e3c" },
+  { bg: "rgba(136,7,114,0.06)", icon: "#880772" },
+  { bg: "rgba(76,175,80,0.08)",  icon: "#388e3c" },
+  { bg: "rgba(136,7,114,0.06)", icon: "#880772" },
+  { bg: "rgba(76,175,80,0.08)",  icon: "#388e3c" },
+  { bg: "rgba(136,7,114,0.06)", icon: "#880772" },
+  { bg: "rgba(76,175,80,0.08)",  icon: "#388e3c" },
+  { bg: "rgba(136,7,114,0.06)", icon: "#880772" },
+];
 
 export function ServicesGrid({ locale, services, title, subtitle, bookNowText }: ServicesGridProps) {
   const isAr = locale === "ar";
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Header elegant float
-    gsap.fromTo(
-      ".srv-header-anim",
-      { opacity: 0, y: 30 },
+    gsap.fromTo(".srv-hdr", 
+      { opacity: 0, y: 32 },
       {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        }
+        opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power3.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 85%", toggleActions: "play none none none" },
       }
     );
-
-    // Explosive staggered entrance for the pills
-    gsap.fromTo(
-      ".srv-pill",
-      { opacity: 0, scale: 0.8, y: 40 },
+    gsap.fromTo(".srv-card",
+      { opacity: 0, y: 50, scale: 0.96 },
       {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.08,
-        ease: "back.out(1.5)", // Massive bounce back effect for pop
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-        }
+        opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1, ease: "power2.out",
+        scrollTrigger: { trigger: gridRef.current, start: "top 88%", toggleActions: "play none none none" },
       }
     );
+    setTimeout(() => ScrollTrigger.refresh(), 500);
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
-      {/* Absolute background accent lines for modern structural feel */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(var(--color-brand-purple-rgb), 0.15) 2px, transparent 0)", backgroundSize: "40px 40px" }} />
+    <section ref={sectionRef} className="py-24 md:py-28 overflow-hidden" style={{ background: "#f4fbf7" }}>
+      <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
 
-      <div className="max-w-[1300px] mx-auto px-6 lg:px-12 relative z-10">
-
-        {/* ── Header ── */}
-        <div className="mb-20 text-center max-w-3xl mx-auto flex flex-col items-center">
-          <div className="srv-header-anim flex items-center justify-center gap-3 mb-6">
-            <span className="w-8 h-px bg-brand-green" />
-            <span className="text-sm font-black uppercase tracking-[0.2em] text-brand-green">
-              {isAr ? "مجالات تخصصنا" : "Our Specialties"}
-            </span>
-            <span className="w-8 h-px bg-brand-green" />
-          </div>
-          
-          <h2 className="srv-header-anim text-4xl sm:text-5xl md:text-6xl font-black leading-tight text-[#0B162C] mb-6 drop-shadow-sm">
-            {title}
-          </h2>
-          
-          <p className="srv-header-anim text-lg md:text-xl font-medium text-gray-400 max-w-2xl mx-auto">
-            {subtitle}
-          </p>
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="srv-hdr inline-block text-xs font-bold uppercase tracking-[0.20em] px-5 py-2 rounded-full mb-5"
+            style={{ background: "rgba(76,175,80,0.12)", color: "#388e3c", border: "1px solid rgba(76,175,80,0.22)" }}>
+            {isAr ? "مجالات تخصصنا" : "Our Specialties"}
+          </span>
+          <h2 className="srv-hdr text-4xl sm:text-5xl font-black leading-tight mb-4" style={{ color: "#0f2d1f" }}>{title}</h2>
+          <p className="srv-hdr text-lg font-medium leading-relaxed" style={{ color: "#4a6b59" }}>{subtitle}</p>
         </div>
 
-        {/* ── Grid of Interactive Floating Pills ── */}
-        <div ref={containerRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          
-          {services.map((service) => {
-            const Icon = iconMap[service.icon] ?? Stethoscope;
-
+        {/* Cards grid */}
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, idx) => {
             return (
-              <div key={service.id} className="srv-pill">
-                <Link
-                  href={`/${locale}/services/${service.slug}`}
-                  className="group relative flex items-center p-3 sm:p-4 bg-white rounded-full shadow-[0_4px_20px_-10px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_-10px_rgba(var(--color-brand-purple-rgb),0.2)] transition-all duration-500 ease-out border border-gray-100 overflow-hidden"
-                >
-                  {/* Fluid Wave Fill Animation on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-r from-brand-purple to-[#523A9E] ${isAr ? "origin-right" : "origin-left"} scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.87,0,0.13,1)] pointer-events-none`} />
+              <div
+                key={service.id}
+                className="srv-card group flex flex-col rounded-[24px] overflow-hidden transition-all duration-300 relative"
+                style={{ 
+                  background: "#fff", 
+                  border: "1px solid #E6EEEC",
+                }}
+                onMouseEnter={e => { 
+                  const el = e.currentTarget as HTMLDivElement; 
+                  el.style.boxShadow = "0 20px 50px rgba(15, 45, 31, 0.08)"; 
+                  el.style.transform = "translateY(-6px)"; 
+                  el.style.borderColor = "rgba(76, 175, 80, 0.15)"; 
+                }}
+                onMouseLeave={e => { 
+                  const el = e.currentTarget as HTMLDivElement; 
+                  el.style.boxShadow = "none"; 
+                  el.style.transform = "translateY(0)"; 
+                  el.style.borderColor = "#E6EEEC"; 
+                }}
+              >
+                {/* Image Section */}
+                <div className="relative h-64 w-full overflow-hidden">
+                  <Image
+                    src={service.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80"}
+                    alt={isAr ? service.name.ar : service.name.en}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                </div>
 
-                  {/* Icon Container - Perfectly circular */}
-                  <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-[#F1F5F9] rounded-full flex items-center justify-center transition-transform duration-700 group-hover:rotate-[360deg] shadow-inner group-hover:bg-white group-hover:text-brand-purple">
-                    <Icon size={28} strokeWidth={2} className="text-brand-purple" />
-                  </div>
+                <div className="p-8 flex flex-col items-start bg-white">
+                  <h3 className="text-xl font-black mb-6 leading-tight group-hover:text-brand-purple transition-colors" style={{ color: "#0f2d1f" }}>
+                    {isAr ? service.name.ar : service.name.en}
+                  </h3>
 
-                  {/* Typography - Only Heading per constraint */}
-                  <div className={`relative z-10 flex-1 px-4 sm:px-6 flex justify-between items-center ${isAr ? "text-right" : "text-left"}`}>
-                    <h3 className="text-[1.1rem] sm:text-xl font-black text-[#0B162C] group-hover:text-white transition-colors duration-300 leading-tight">
-                      {isAr ? service.name.ar : service.name.en}
-                    </h3>
-                  </div>
-
-                  {/* Action Arrow (Glassmorphism circle revealing on hover) */}
-                  <div className="relative z-10 w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center text-white bg-white/20 backdrop-blur-md opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out mr-3">
-                     <ArrowUpRight size={22} strokeWidth={2.5} className={isAr ? "-scale-x-100" : ""} />
-                  </div>
-
-                </Link>
+                  <Link
+                    href={`/${locale}/services/${service.slug}`}
+                    className="inline-flex items-center gap-3 py-3 px-6 rounded-full font-bold text-sm transition-all duration-300 hover:gap-5"
+                    style={{ background: "#0f2d1f", color: "#fff" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "#880772"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = "#0f2d1f"; }}
+                  >
+                    {isAr ? "اقرأ المزيد" : "Read More"}
+                    <ArrowRight size={18} className={isAr ? "-scale-x-100" : ""} />
+                  </Link>
+                </div>
               </div>
             );
           })}
-
         </div>
       </div>
     </section>

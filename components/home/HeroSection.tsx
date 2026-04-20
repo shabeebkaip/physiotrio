@@ -3,10 +3,11 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Award, CheckCircle2, ArrowRight, Star, Users } from "lucide-react";
-
+import { ArrowRight, Star, Users, Award, CheckCircle2, Phone, Calendar, User } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 
 interface HeroSectionProps {
   locale: string;
@@ -24,12 +25,10 @@ interface HeroSectionProps {
 }
 
 const branches = [
-  { id: "riyadh", labelEn: "Riyadh", labelAr: "الرياض" },
-  { id: "makkah", labelEn: "Makkah", labelAr: "مكة" },
-  { id: "dammam", labelEn: "Dammam", labelAr: "الدمام", comingSoon: true },
+  { id: "riyadh", labelEn: "Riyadh",  labelAr: "الرياض" },
+  { id: "makkah", labelEn: "Makkah",  labelAr: "مكة" },
+  { id: "dammam", labelEn: "Dammam",  labelAr: "الدمام", comingSoon: true },
 ];
-
-gsap.registerPlugin(useGSAP);
 
 export function HeroSection({ locale, t }: HeroSectionProps) {
   const [activeBranch, setActiveBranch] = useState("riyadh");
@@ -38,274 +37,184 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    tl.fromTo(
-      ".hero-text-anim",
+    tl.fromTo(".hero-text-anim", 
       { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15 }
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.12 }
     );
-
-    gsap.fromTo(
-      ".hero-image-wrap",
-      { scale: 0.88, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.3, ease: "power2.out", delay: 0.25 }
+    tl.fromTo(".hero-form-anim", 
+      { x: 50, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, 
+      "-=0.4"
     );
-
-    gsap.fromTo(
-      ".hero-blob-bg",
-      { scale: 0.75, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.6, ease: "power2.out", delay: 0.1 }
-    );
-
-    gsap.fromTo(
-      ".hero-floating-card",
-      { scale: 0.6, y: 30, opacity: 0 },
-      { scale: 1, y: 0, opacity: 1, duration: 0.85, ease: "back.out(1.6)", stagger: 0.18, delay: 0.7 }
-    );
+    // Refresh scroll triggers in case hero height affects them
+    setTimeout(() => ScrollTrigger.refresh(), 500);
   }, { scope: containerRef });
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full bg-[#f8fcfb] overflow-hidden"
-      style={{ minHeight: "100svh" }}
+      dir={isAr ? "rtl" : "ltr"}
+      className="relative w-full overflow-hidden min-h-[100svh] flex items-center pt-32 pb-20 lg:py-0"
+      style={{ background: "#f8fafb" }}
     >
-      {/* Subtle dot grid */}
-      <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none"
-        style={{
-          backgroundImage: "radial-gradient(circle at 2px 2px, #880772 2px, transparent 0)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
-      {/* Decorative curved SVG lines */}
-      <div className="absolute top-0 right-0 w-1/2 h-full opacity-25 pointer-events-none">
-        <svg viewBox="0 0 600 800" fill="none" className="w-full h-full">
-          <path
-            d="M 500 -80 Q 650 250, 580 520 Q 510 790, 320 900"
-            stroke="rgba(76,175,80,0.35)"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          <path
-            d="M 560 -30 Q 710 300, 640 570 Q 570 840, 380 950"
-            stroke="rgba(136,7,114,0.2)"
-            strokeWidth="1"
-            fill="none"
-          />
+      {/* Decorative abstract elements */}
+      <div className="absolute top-0 right-0 w-1/3 h-full pointer-events-none opacity-[0.03]">
+        <svg viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+          <circle cx="400" cy="400" r="300" stroke="#0f2d1f" strokeWidth="60" />
+          <circle cx="400" cy="400" r="200" stroke="#4caf50" strokeWidth="40" />
         </svg>
       </div>
 
-      <div className="max-w-[1400px] mx-auto min-h-[100svh] flex flex-col lg:flex-row items-center justify-between px-6 lg:px-12 pt-32 pb-20 lg:py-0 gap-12 lg:gap-6">
-
-        {/* ── Left: Content ── */}
-        <div className="w-full lg:w-[52%] flex flex-col items-start z-10">
-
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 lg:gap-16 items-center">
+        
+        {/* ── Left Column: Text ── */}
+        <div className={`flex flex-col z-10 ${isAr ? "items-start text-right" : "items-start text-left"}`}>
           {/* Eyebrow */}
-          <div className="hero-text-anim mb-6 flex items-center gap-3">
-            <span className="w-10 h-[2px] bg-brand-green rounded-full" />
-            <span className="text-sm font-bold tracking-widest text-brand-green uppercase">
+          <div className="hero-text-anim mb-6">
+            <span
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.18em] uppercase"
+              style={{ background: "rgba(136,7,114,0.08)", color: "#880772", border: "1px solid rgba(136,7,114,0.15)" }}
+            >
               {t.eyebrow}
             </span>
           </div>
 
           {/* Headline */}
           <h1
-            className="hero-text-anim text-[40px] sm:text-[54px] lg:text-[68px] font-black leading-[1.05] tracking-tight mb-8"
-            style={{ color: "#0B162C" }}
+            className="hero-text-anim text-[42px] sm:text-[58px] lg:text-[72px] font-black leading-[1.04] tracking-tight mb-6"
+            style={{ color: "#0f2d1f" }}
           >
-            {t.headline1}{" "}
-            <span className="relative inline-block text-brand-purple">
-              {t.headline2}
-              <svg
-                className="absolute w-full h-[12px] -bottom-1 left-0 opacity-40 text-brand-green"
-                viewBox="0 0 100 10"
-                preserveAspectRatio="none"
-              >
-                <path d="M0 5 Q 50 15, 100 0" stroke="currentColor" strokeWidth="4" fill="transparent" />
-              </svg>
-            </span>
+            {isAr ? "وجهتك للراحة والتحسن" : "Destination For Relief & Wellness"}
           </h1>
 
           {/* Subheadline */}
-          <p className="hero-text-anim text-lg md:text-xl text-gray-500 mb-10 max-w-xl leading-relaxed">
+          <p
+            className="hero-text-anim text-lg md:text-xl leading-[1.8] mb-9 max-w-lg"
+            style={{ color: "#4a6b59" }}
+          >
             {t.subheadline}
           </p>
 
-          {/* Branch selectors + CTAs */}
-          <div className="hero-text-anim w-full max-w-xl flex flex-col gap-8">
-            <div className="flex flex-wrap gap-3">
-              {branches.map((branch) => {
-                const isActive = activeBranch === branch.id;
-                return (
-                  <button
-                    key={branch.id}
-                    onClick={() => !branch.comingSoon && setActiveBranch(branch.id)}
-                    disabled={branch.comingSoon}
-                    className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                      isActive
-                        ? "bg-brand-purple text-white shadow-[0_8px_16px_-4px_rgba(var(--color-brand-purple-rgb),0.4)]"
-                        : "bg-white text-gray-500 border border-gray-200 hover:border-brand-purple/30"
-                    }`}
-                    style={{ opacity: branch.comingSoon ? 0.5 : 1, cursor: branch.comingSoon ? "not-allowed" : "pointer" }}
-                  >
-                    {isAr ? branch.labelAr : branch.labelEn}
-                    {branch.comingSoon && (
-                      <span className="ml-1.5 text-[10px] font-black opacity-60 uppercase">
-                        {isAr ? "قريباً" : "Soon"}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href={`/${locale}/book/${activeBranch}`}
-                className="group flex items-center justify-center gap-3 px-8 py-4 bg-brand-green text-white rounded-full font-bold text-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
-              >
-                {t.bookAppointment}
-                <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-300" />
-              </Link>
-              <Link
-                href={`/${locale}/services`}
-                className="flex items-center justify-center px-8 py-4 bg-white text-[#0B162C] border-2 border-gray-100 rounded-full font-bold text-lg hover:border-brand-green hover:text-brand-green transition-all duration-300"
-              >
-                {t.exploreServices}
-              </Link>
-            </div>
+          {/* Buttons */}
+          <div className="hero-text-anim flex flex-col sm:flex-row gap-4 mb-12">
+            <Link
+              href={`/${locale}/services`}
+              className="group inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full font-bold text-base text-white transition-all duration-300 hover:-translate-y-1"
+              style={{ background: "#4caf50", boxShadow: "0 8px 30px rgba(76,175,80,0.30)" }}
+            >
+              {t.exploreServices}
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href={`/${locale}/book/riyadh`}
+              className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-full font-bold text-base transition-all duration-300 hover:-translate-y-1"
+              style={{
+                color: "#4caf50",
+                border: "2px solid #4caf50",
+                background: "transparent",
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.background = "#4caf50";
+                el.style.color = "#fff";
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.background = "transparent";
+                el.style.color = "#4caf50";
+              }}
+            >
+              {t.bookAppointment}
+              <ArrowRight size={18} />
+            </Link>
           </div>
 
           {/* Trust marks */}
-          <div className="hero-text-anim mt-12 flex flex-wrap items-center gap-6 pt-8 border-t border-gray-200/60 w-full max-w-xl">
-            {[t.trust1, t.trust2, t.trust3].map((item, i) => (
-              <span key={i} className="flex items-center gap-2.5 text-sm font-bold text-[#0B162C]">
-                <CheckCircle2 color="var(--color-brand-purple)" size={20} strokeWidth={2.5} />
+          <div className="hero-text-anim flex flex-wrap gap-5 pt-8" style={{ borderTop: "1.5px solid rgba(15,45,31,0.08)" }}>
+            {[t.trust1, t.trust2].map((item, i) => (
+              <span key={i} className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#2d5c3f" }}>
+                <CheckCircle2 size={17} strokeWidth={2.5} color="#4caf50" />
                 {item}
               </span>
             ))}
           </div>
         </div>
 
-        {/* ── Right: Organic Blob Image + Floating Elements ── */}
-        <div className="w-full lg:w-[44%] relative flex justify-center lg:justify-end z-10 lg:py-16">
+        {/* ── Right Column: Form Card ── */}
+        <div className="hero-form-anim relative mt-16 lg:mt-0">
+          <div className="bg-white rounded-[2rem] p-8 sm:p-10 shadow-physio relative z-10 border border-black/5">
+            <h3 className="text-2xl font-black mb-2" style={{ color: "#0f2d1f" }}>
+              {isAr ? "احجز موعدك" : "Book Appointment"}
+            </h3>
+            <p className="text-sm font-medium mb-8" style={{ color: "#4a6b59" }}>
+              {isAr ? "قم بجدولة موعدك بسهولة عن طريق ملء النموذج البسيط الخاص بنا." : "Easily schedule your appointment by filling out our simple form."}
+            </p>
 
-          {/* Soft glow blobs behind image */}
-          <div
-            className="hero-blob-bg absolute inset-[-12%] pointer-events-none opacity-0"
-            style={{
-              background: "radial-gradient(ellipse at 60% 50%, rgba(76,175,80,0.18) 0%, transparent 65%)",
-              borderRadius: "45% 55% 50% 50% / 40% 50% 50% 60%",
-            }}
-          />
-          <div
-            className="hero-blob-bg absolute inset-[-6%] pointer-events-none opacity-0"
-            style={{
-              background: "radial-gradient(ellipse at 40% 50%, rgba(136,7,114,0.1) 0%, transparent 65%)",
-              borderRadius: "55% 45% 40% 60% / 50% 55% 45% 50%",
-            }}
-          />
-
-          {/* Organic blob image wrapper */}
-          <div
-            className="hero-image-wrap relative will-change-transform opacity-0"
-            style={{ width: "100%", maxWidth: "460px" }}
-          >
-            {/* Glow ring */}
-            <div
-              className="absolute inset-[-4%] animate-morph-blob pointer-events-none"
-              style={{
-                background: "linear-gradient(135deg, rgba(76,175,80,0.18), rgba(136,7,114,0.12))",
-                animationDuration: "12s",
-              }}
-            />
-
-            {/* Main image with morphing blob shape */}
-            <div
-              className="relative w-full overflow-hidden shadow-[0_30px_70px_-15px_rgba(0,0,0,0.22)] animate-morph-blob"
-              style={{ aspectRatio: "4/5" }}
-            >
-              <Image
-                src="https://static.zawya.com/view/acePublic/alias/contentid/cbec1451-ab27-4cfd-aa7d-851f20a53c55/0/erabianetwork-jpg.webp?f=3%3A2&q=0.75&w=1920"
-                alt="PhysioTrio Expert Physiotherapy"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-                className="object-cover"
-              />
-              {/* Subtle inner light vignette */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10" />
-            </div>
-
-            {/* ── Floating Card 1: Star Rating — top right ── */}
-            <div
-              className="hero-floating-card absolute -top-4 -right-4 sm:-right-8 bg-white px-4 py-3 rounded-2xl shadow-[0_12px_32px_-8px_rgba(0,0,0,0.14)] border border-gray-100/80 flex items-center gap-3 will-change-transform"
-            >
-              <div className="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Star size={16} className="text-amber-400" fill="currentColor" />
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <User size={18} />
+                </span>
+                <input 
+                  type="text" 
+                  placeholder={isAr ? "اسمك الكامل" : "Full Name"} 
+                  className="w-full bg-[#f8fafb] border-none rounded-xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all"
+                />
               </div>
-              <div>
-                <p className="text-[#0B162C] font-black text-base leading-none">4.9 / 5</p>
-                <p className="text-[11px] font-bold text-gray-400 mt-0.5 leading-none">
-                  {isAr ? "+500 تقييم" : "500+ Reviews"}
-                </p>
-              </div>
-            </div>
-
-            {/* ── Floating Card 2: Patients — bottom left ── */}
-            <div
-              className="hero-floating-card absolute bottom-8 -left-4 sm:-left-10 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-[0_16px_40px_-8px_rgba(0,0,0,0.15)] border border-white flex items-center gap-3.5 will-change-transform"
-              style={{ maxWidth: "195px" }}
-            >
-              <div className="flex -space-x-2 flex-shrink-0">
-                <div className="w-9 h-9 rounded-full border-2 border-white overflow-hidden bg-gray-100">
-                  <Image
-                    src="https://physiotherabia.com/wp-content/uploads/2023/08/Sports-Rehabilitation.jpg"
-                    alt="patient"
-                    width={36}
-                    height={36}
-                    className="object-cover h-full"
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <Phone size={18} />
+                  </span>
+                  <input 
+                    type="tel" 
+                    placeholder={isAr ? "رقم الهاتف" : "Phone Number"} 
+                    className="w-full bg-[#f8fafb] border-none rounded-xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all"
                   />
                 </div>
-                <div className="w-9 h-9 rounded-full border-2 border-white overflow-hidden bg-brand-purple/10">
-                  <Image
-                    src="https://physiotherabia.com/wp-content/uploads/2023/11/display-pic-1.jpg"
-                    alt="patient"
-                    width={36}
-                    height={36}
-                    className="object-cover h-full"
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <Calendar size={18} />
+                  </span>
+                  <input 
+                    type="date" 
+                    className="w-full bg-[#f8fafb] border-none rounded-xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all"
                   />
                 </div>
-                <div className="w-9 h-9 rounded-full border-2 border-white bg-brand-green flex items-center justify-center">
-                  <Users size={14} className="text-white" />
-                </div>
               </div>
-              <div>
-                <p className="text-[#0B162C] font-black text-lg leading-none">10K+</p>
-                <p className="text-[11px] font-bold text-gray-500 leading-snug mt-0.5">
-                  {isAr ? "مريض تعافوا" : "Patients Healed"}
-                </p>
-              </div>
-            </div>
+              <select 
+                className="w-full bg-[#f8fafb] border-none rounded-xl py-4 px-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all appearance-none"
+              >
+                <option>{isAr ? "اختر الخدمة" : "Select Service"}</option>
+                <option>{isAr ? "العلاج الطبيعي" : "Physiotherapy"}</option>
+                <option>{isAr ? "العلاج اليدوي" : "Manual Therapy"}</option>
+                <option>{isAr ? "إعادة التأهيل الرياضي" : "Sports Rehabilitation"}</option>
+              </select>
+              
+              <button 
+                type="submit" 
+                className="w-full py-4 rounded-xl font-bold text-white transition-all hover:translate-y-[-2px] hover:shadow-lg flex items-center justify-center gap-3 mt-4"
+                style={{ background: "#4caf50" }}
+              >
+                {isAr ? "إرسال الطلب" : "Submit Request"}
+                <ArrowRight size={18} />
+              </button>
+            </form>
+          </div>
 
-            {/* ── Floating Card 3: Experience — mid-right, blob shape ── */}
-            <div
-              className="hero-floating-card absolute top-1/2 -translate-y-1/2 -right-5 sm:-right-10 flex flex-col items-center justify-center gap-1 will-change-transform shadow-[0_12px_32px_-6px_rgba(136,7,114,0.35)]"
-              style={{
-                width: "88px",
-                height: "88px",
-                background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-purple-dark))",
-                borderRadius: "50% 30% 50% 30% / 35% 50% 35% 50%",
-              }}
-            >
-              <Award size={18} className="text-white/80" strokeWidth={2} />
-              <span className="text-white font-black text-xl leading-none">22+</span>
-              <span className="text-white/65 text-[9px] font-bold uppercase tracking-wider leading-none">
-                {isAr ? "سنة" : "Years"}
-              </span>
-            </div>
+          {/* Floating stats badges around form */}
+          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-purple flex flex-col items-center justify-center text-white shadow-xl animate-float z-20">
+            <span className="text-xl font-black">24/7</span>
+            <span className="text-[9px] font-bold uppercase tracking-wider">{isAr ? "طوارئ" : "Emergency"}</span>
+          </div>
+          <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl z-20 border border-black/5 flex items-center gap-3">
+             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(136,7,114,0.1)" }}>
+               <Users size={20} className="text-brand-purple" />
+             </div>
+             <div>
+               <p className="text-lg font-black leading-none" style={{ color: "#0f2d1f" }}>100K+</p>
+               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">{isAr ? "عميل سعيد" : "Happy Clients"}</p>
+             </div>
           </div>
         </div>
       </div>

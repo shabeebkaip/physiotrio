@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Cairo } from "next/font/google";
+import { Outfit, Cairo } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-outfit",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
   preload: true,
 });
@@ -16,7 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 const cairo = Cairo({
   subsets: ["arabic"],
   variable: "--font-cairo",
-  weight: ["400", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
   preload: true,
 });
@@ -72,7 +72,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${plusJakarta.variable} ${cairo.variable}`}
+      className={`${outfit.variable} ${cairo.variable}`}
     >
       <body
         className={
@@ -84,7 +84,7 @@ export default async function LocaleLayout({
           fontFamily:
             locale === "ar"
               ? "var(--font-cairo), sans-serif"
-              : "var(--font-plus-jakarta), sans-serif",
+              : "var(--font-outfit), sans-serif",
         }}
       >
         <NextIntlClientProvider messages={messages}>

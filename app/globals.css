@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 @theme {
   /* ── Brand Purple (primary) ───────────────────────────────── */
   --color-brand-purple:       #880772;
@@ -18,25 +17,25 @@
   --color-brand-green-muted:  #f0faf0;
 
   /* ── Surfaces ────────────────────────────────────────────── */
+  --color-physio-dark:        #0f2d1f;
   --color-hero-bg:            #0f0515;
   --color-dark-surface:       #1a0d1e;
   --color-surface-light:      #f8fafb;
-  --color-surface-green:      #f0faf0;
+  --color-surface-grey:       #f4fafa;
   --color-body-text:          #1a1a2e;
 
   /* ── Typography ──────────────────────────────────────────── */
-  --font-display:             'Plus Jakarta Sans', sans-serif;
-  --font-arabic:              'Cairo', sans-serif;
+  --font-display:             var(--font-outfit), sans-serif;
+  --font-arabic:              var(--font-cairo), sans-serif;
 
   /* ── Radius ──────────────────────────────────────────────── */
-  --radius-card:              1rem;
+  --radius-card:              1.5rem;
   --radius-pill:              9999px;
 
   /* ── Shadows ─────────────────────────────────────────────── */
-  --shadow-card:              0 4px 24px rgba(136, 7, 114, 0.08);
-  --shadow-card-hover:        0 16px 48px rgba(136, 7, 114, 0.18);
-  --shadow-green-glow:        0 0 32px rgba(76, 175, 80, 0.25);
-  --shadow-purple-glow:       0 0 40px rgba(136, 7, 114, 0.30);
+  --shadow-physio:            0 24px 70px rgba(15, 45, 31, 0.12);
+  --shadow-card:              0 10px 36px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover:        0 20px 60px rgba(0, 0, 0, 0.12);
 }
 
 @layer base {
@@ -135,6 +134,11 @@
   25%       { border-radius: 40% 60% 45% 55% / 40% 55% 45% 60%; }
   50%       { border-radius: 50% 50% 30% 70% / 55% 45% 55% 45%; }
   75%       { border-radius: 35% 65% 60% 40% / 45% 60% 40% 55%; }
+}
+
+@keyframes spin-slow-simple {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* ── Utility classes ─────────────────────────────────────────── */

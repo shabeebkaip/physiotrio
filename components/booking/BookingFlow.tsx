@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import type { Branch } from "@/lib/data/branches";
@@ -100,7 +100,7 @@ function SelectionChips({
   isAr: boolean;
   onGoToStep: (s: number) => void;
 }) {
-  const chips: { targetStep: number; icon: JSX.Element; label: string }[] = [];
+  const chips: { targetStep: number; icon: React.ReactElement; label: string }[] = [];
 
   if (step > 1 && selectedService) {
     chips.push({

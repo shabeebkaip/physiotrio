@@ -35,7 +35,7 @@ interface BranchesPreviewProps {
 
 const cityImages: Record<string, string> = {
   riyadh: "https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=800&q=80",
-  makkah: "/makkah.jpg",
+  makkah: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80",
   dammam: "https://images.unsplash.com/photo-1570516002611-6b0cf9d0f8c9?w=800&q=80",
 };
 

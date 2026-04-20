@@ -7,6 +7,8 @@ import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
 import { InsuranceBar } from "@/components/home/InsuranceBar";
+import { FeaturesStrip } from "@/components/home/FeaturesStrip";
+import { BodyPartsSection } from "@/components/home/BodyPartsSection";
 import { StatsStrip } from "@/components/home/StatsStrip";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
@@ -18,6 +20,7 @@ import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
 import { LatestNews } from "@/components/home/LatestNews";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { StatsSection } from "@/components/home/StatsSection";
+import { ExcellenceSection } from "@/components/home/ExcellenceSection";
 import { services } from "@/lib/data/services";
 import { branches } from "@/lib/data/branches";
 import { therapists } from "@/lib/data/therapists";
@@ -97,13 +100,6 @@ export default async function HomePage({
     homeCare: nav("homeCare"),
   };
 
-  const statsData = [
-    { value: "3", label: statsT("branches") },
-    { value: "50+", label: statsT("therapists") },
-    { value: "10,000+", label: statsT("patients") },
-    { value: "9", label: statsT("services") },
-  ];
-
   const whyTranslations = {
     title: whyT("title"),
     body1: whyT("body1"),
@@ -116,6 +112,7 @@ export default async function HomePage({
     feature3Desc: whyT("feature3Desc"),
     feature4Title: whyT("feature4Title"),
     feature4Desc: whyT("feature4Desc"),
+    bookAppointment: whyT("bookAppointment"),
   };
 
   const footerTranslations = {
@@ -143,37 +140,27 @@ export default async function HomePage({
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <TollFreeStrip locale={locale} />
+      <StickyBookingBar locale={locale} bookText={t("bookAppointment")} />
       <Navbar locale={locale} translations={navTranslations} />
-      <main >
+      
+      <main className="flex-1">
         <HeroSection locale={locale} t={heroTranslations} />
         <InsuranceBar label={insuranceT("label")} />
-        <StatsSection locale={locale} />
+        <FeaturesStrip locale={locale} />
+        <WhyPhysioTrio locale={locale} t={whyTranslations} />
         <ServicesGrid
           locale={locale}
           services={services}
           title={servicesT("title")}
           subtitle={servicesT("subtitle")}
           bookNowText={servicesT("bookNow")}
+          learnMoreText={servicesT("learnMore")}
         />
-        <WhyPhysioTrio locale={locale} t={whyTranslations} />
-        {/* <BranchesPreview
-          locale={locale}
-          branches={branches}
-          title={branchesT("title")}
-          getDirectionsText={branchesT("getDirections")}
-          bookHereText={branchesT("bookHere")}
-          comingSoonText={branchesT("comingSoon")}
-          therapistsText={branchesT("therapists")}
-          servicesText={branchesT("services")}
-        /> */}
-        {/* <BookingCTABand
-          locale={locale}
-          title={ctaT("title")}
-          bookText={ctaT("book")}
-          whatsappText={ctaT("whatsapp")}
-        /> */}
+        <ExcellenceSection locale={locale} />
+        <BodyPartsSection locale={locale} />
+        <StatsSection locale={locale} />
         <TeamCarousel
           locale={locale}
           therapists={therapists}
@@ -188,12 +175,6 @@ export default async function HomePage({
           viewAllText={offersT("viewAll")}
           purchaseText={offersT("purchase")}
         />
-        <BookingCTABand
-          locale={locale}
-          title={ctaT("title")}
-          bookText={ctaT("book")}
-          whatsappText={ctaT("whatsapp")}
-        />
         <TestimonialsCarousel
           locale={locale}
           testimonials={testimonials}
@@ -201,13 +182,10 @@ export default async function HomePage({
         />
         <LatestNews locale={locale} posts={blogPosts} />
       </main>
+
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />
-      <StickyBookingBar
-        locale={locale}
-        bookText={nav("bookNow")}
-      />
       <WhatsAppButton locale={locale} />
       <ChatbotWidget locale={locale} />
-    </>
+    </div>
   );
 }

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
-import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
 import { InsuranceBar } from "@/components/home/InsuranceBar";
@@ -142,7 +141,6 @@ export default async function HomePage({
   return (
     <div className="flex flex-col min-h-screen">
       <TollFreeStrip locale={locale} />
-      <StickyBookingBar locale={locale} bookText={t("bookAppointment")} />
       <Navbar locale={locale} translations={navTranslations} />
       
       <main className="flex-1">
@@ -156,7 +154,6 @@ export default async function HomePage({
           title={servicesT("title")}
           subtitle={servicesT("subtitle")}
           bookNowText={servicesT("bookNow")}
-          learnMoreText={servicesT("learnMore")}
         />
         <ExcellenceSection locale={locale} />
         <BodyPartsSection locale={locale} />

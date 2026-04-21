@@ -21,17 +21,30 @@ export function StatsSection({ locale }: { locale: string }) {
   ];
 
   useGSAP(() => {
-    gsap.from(".stat-item", {
-      opacity: 0,
-      y: 30,
-      duration: 0.6,
-      stagger: 0.13,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 84%",
-        toggleActions: "play none none none",
-      },
+    gsap.fromTo(".stat-item", 
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+
+    // Subtle floating for the ghost icons
+    gsap.to(".stat-ghost-icon", {
+      y: -8,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      stagger: 0.4
     });
   }, { scope: sectionRef });
 
@@ -73,8 +86,8 @@ export function StatsSection({ locale }: { locale: string }) {
                 </p>
                 {/* Subtle icon background placeholder style (as per reference hero stats) */}
                 <Icon 
-                  size={48} 
-                  className="absolute opacity-[0.03] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" 
+                  size={54} 
+                  className="stat-ghost-icon absolute opacity-[0.04] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-700 group-hover:opacity-10 group-hover:scale-125" 
                   style={{ color: "#0f2d1f" }}
                 />
               </div>

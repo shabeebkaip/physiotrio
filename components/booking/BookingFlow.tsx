@@ -5,17 +5,20 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import type { Branch } from "@/lib/data/branches";
 import type { Service } from "@/lib/data/services";
+import type { Package } from "@/lib/data/packages";
 import type { Therapist } from "@/lib/data/therapists";
 import {
   CheckCircle2, Star, Clock, Calendar, User, ChevronRight,
   Dumbbell, Brain, Hand, Baby, Leaf, Zap, MoveUp, Activity,
-  Stethoscope, ArrowRight, Pencil, LucideIcon,
+  Stethoscope, ArrowRight, Pencil, LucideIcon, ShoppingBag,
+  Sparkles, CreditCard, ShieldCheck,
 } from "lucide-react";
 
 interface BookingFlowProps {
   locale: string;
   branch: Branch;
   services: Service[];
+  packages: Package[];
   therapists: Therapist[];
 }
 
@@ -36,6 +39,18 @@ function getNext14Days() {
     d.setDate(d.getDate() + i + 1);
     return d;
   });
+}
+
+function pkgToSpecialization(category: string): string[] {
+  const cat = category.toLowerCase();
+  if (cat.includes("sports")) return ["sports-physiotherapy"];
+  if (cat.includes("orthopedic")) return ["manual-therapy", "physiotherapy"];
+  if (cat.includes("spine")) return ["manual-therapy"];
+  if (cat.includes("women")) return ["womens-health"];
+  if (cat.includes("neuro")) return ["neurological-rehabilitation"];
+  if (cat.includes("pediatric")) return ["pediatric-physiotherapy"];
+  if (cat.includes("geriatric")) return ["geriatric-physiotherapy"];
+  return ["physiotherapy"];
 }
 
 // ─── Step Progress Bar ────────────────────────────────────────────────────────
@@ -90,10 +105,11 @@ function StepBar({ step, labels, onGoToStep }: {
 // ─── Selection chips — shows what's been picked so far ───────────────────────
 
 function SelectionChips({
-  step, selectedService, selectedTherapist, selectedDate, selectedTime, isAr, onGoToStep,
+  step, selectedService, selectedPackage, selectedTherapist, selectedDate, selectedTime, isAr, onGoToStep,
 }: {
   step: number;
   selectedService: Service | null;
+  selectedPackage: Package | null;
   selectedTherapist: Therapist | null;
   selectedDate: Date | null;
   selectedTime: string | null;
@@ -102,11 +118,13 @@ function SelectionChips({
 }) {
   const chips: { targetStep: number; icon: React.ReactElement; label: string }[] = [];
 
-  if (step > 1 && selectedService) {
+  if (step > 1 && (selectedPackage || selectedService)) {
     chips.push({
       targetStep: 1,
-      icon: <Stethoscope size={11} />,
-      label: isAr ? selectedService.name.ar : selectedService.name.en,
+      icon: selectedPackage ? <ShoppingBag size={11} /> : <Stethoscope size={11} />,
+      label: selectedPackage 
+        ? (isAr ? selectedPackage.name.ar : selectedPackage.name.en)
+        : (selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : ""),
     });
   }
   if (step > 2) {
@@ -197,11 +215,15 @@ function NavButtons({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function BookingFlow({ locale, branch, services, therapists }: BookingFlowProps) {
+export function BookingFlow({ locale, branch, services, packages, therapists }: BookingFlowProps) {
   const searchParams = useSearchParams();
   const isAr = locale === "ar";
 
   const [step, setStep] = useState(1);
+  const [activeTab, setActiveTab] = useState<"packages" | "services">("packages");
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(
+    (() => { const p = searchParams?.get("package"); return p ? (packages.find((x) => x.slug === p) ?? null) : null; })()
+  );
   const [selectedService, setSelectedService] = useState<Service | null>(
     (() => { const s = searchParams?.get("service"); return s ? (services.find((x) => x.slug === s) ?? null) : null; })()
   );
@@ -215,11 +237,12 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
 
   const days14 = getNext14Days();
   const stepLabels = isAr
-    ? ["الخدمة", "المعالج", "الموعد", "التفاصيل", "تأكيد"]
-    : ["Service", "Therapist", "Schedule", "Details", "Confirm"];
+    ? ["الباقة", "المعالج", "الموعد", "التفاصيل", "تأكيد"]
+    : ["Package", "Therapist", "Schedule", "Details", "Confirm"];
 
   function resetAll() {
     setStep(1);
+    setSelectedPackage(null);
     setSelectedService(null);
     setSelectedTherapist(null);
     setSelectedDate(null);
@@ -249,7 +272,12 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
 
         <div className="grid grid-cols-2 gap-3 mb-8 text-left">
           {[
-            { label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
+            { 
+              label: isAr ? "الاختيار" : "Selection", 
+              value: selectedPackage 
+                ? (isAr ? selectedPackage.name.ar : selectedPackage.name.en) 
+                : (selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—") 
+            },
             { label: isAr ? "الفرع" : "Branch", value: isAr ? branch.city.ar : branch.city.en },
             { label: isAr ? "التاريخ" : "Date", value: selectedDate?.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "short", month: "short", day: "numeric" }) ?? "—" },
             { label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—" },
@@ -299,6 +327,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
       <SelectionChips
         step={step}
         selectedService={selectedService}
+        selectedPackage={selectedPackage}
         selectedTherapist={selectedTherapist}
         selectedDate={selectedDate}
         selectedTime={selectedTime}
@@ -306,136 +335,265 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
         onGoToStep={setStep}
       />
 
-      {/* ── Step 1: Service ─────────────────────────────────────────────── */}
+      {/* ── Step 1: Package Selection ──────────────────────────────────── */}
       {step === 1 && (
-        <div>
-          <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
-            {isAr ? "اختر الخدمة" : "Choose a Service"}
-          </h2>
-          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
-            {isAr ? "اختر نوع العلاج المناسب لاحتياجك" : "Select the treatment type that fits your needs"}
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {services.map((service) => {
-              const Icon = serviceIconMap[service.icon] ?? Stethoscope;
-              const isSelected = selectedService?.id === service.id;
-              return (
-                <button
-                  key={service.id}
-                  onClick={() => { setSelectedService(service); setStep(2); }}
-                  className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{
-                    background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
-                    borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
-                  }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200"
-                      style={{ background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.12)" : "#F1F5F9" }}
-                    >
-                      <Icon size={18} strokeWidth={1.5} style={{ color: "var(--color-brand-purple)" }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
-                        {isAr ? service.name.ar : service.name.en}
-                      </p>
-                      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#9CA3AF" }}>
-                        {isAr ? service.shortDesc.ar : service.shortDesc.en}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
-                    <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--color-brand-purple)" }}>
-                      <Clock size={11} />
-                      {service.durationMinutes} {isAr ? "دقيقة" : "min"}
-                    </span>
-                    <ChevronRight size={14} style={{ color: "#D1D5DB" }} />
-                  </div>
-                </button>
-              );
-            })}
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
+                {isAr ? "اختر باقتك العلاجية" : "Choose Your Package"}
+              </h2>
+              <p className="text-sm font-medium" style={{ color: "#6B7280" }}>
+                {isAr ? "باقات مصممة لنتائج أسرع وتوفير أكبر" : "Clinically designed for faster recovery and better value"}
+              </p>
+            </div>
           </div>
+
+          <div className="flex gap-1 p-1 rounded-xl bg-gray-100 mb-8 w-fit">
+            <button
+              onClick={() => setActiveTab("packages")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === "packages" ? "bg-white text-[var(--color-brand-purple)] shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              {isAr ? "الباقات" : "Packages"}
+            </button>
+            <button
+              onClick={() => setActiveTab("services")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === "services" ? "bg-white text-[var(--color-brand-purple)] shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              {isAr ? "جلسات فردية" : "Single Sessions"}
+            </button>
+          </div>
+
+          {activeTab === "packages" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {packages.map((pkg) => {
+                const isSelected = selectedPackage?.id === pkg.id;
+                return (
+                  <button
+                    key={pkg.id}
+                    onClick={() => { setSelectedPackage(pkg); setSelectedService(null); setStep(2); }}
+                    className="group relative text-left rounded-2xl border-2 transition-all duration-300 hover:shadow-xl overflow-hidden"
+                    style={{
+                      background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.02)" : "white",
+                      borderColor: isSelected ? "var(--color-brand-purple)" : "#F1F5F9",
+                    }}
+                  >
+                    {pkg.badge && (
+                      <div 
+                        className="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider z-10"
+                        style={{ background: "var(--color-brand-green)", color: "white" }}
+                      >
+                        {isAr ? pkg.badge.ar : pkg.badge.en}
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div
+                          className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
+                          style={{ background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.1)" : "#F8FAFC" }}
+                        >
+                          <ShoppingBag size={22} style={{ color: "var(--color-brand-purple)" }} />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-lg leading-tight mb-1" style={{ color: "#1a1a2e" }}>
+                            {isAr ? pkg.name.ar : pkg.name.en}
+                          </h3>
+                          <div className="flex items-center gap-3">
+                            <span className="flex items-center gap-1 text-xs font-bold" style={{ color: "var(--color-brand-purple)" }}>
+                              <Sparkles size={12} />
+                              {pkg.sessions} {isAr ? "جلسة" : "Sessions"}
+                            </span>
+                            {pkg.validityDays && (
+                              <span className="text-[10px] text-gray-400 font-bold uppercase">
+                                {isAr ? `صلاحية ${pkg.validityDays} يوم` : `${pkg.validityDays} Days Validity`}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <p className="text-sm leading-relaxed mb-6 line-clamp-2" style={{ color: "#6B7280" }}>
+                        {isAr ? pkg.description.ar : pkg.description.en}
+                      </p>
+
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                        <div className="flex items-center gap-2">
+                          {pkg.tamaraEligible && (
+                            <div className="px-2 py-1 rounded bg-[#F8FAFC] flex items-center gap-1">
+                              <CreditCard size={10} className="text-gray-400" />
+                              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-tight">Tamara</span>
+                            </div>
+                          )}
+                          {pkg.tabbyEligible && (
+                            <div className="px-2 py-1 rounded bg-[#F8FAFC] flex items-center gap-1">
+                              <CreditCard size={10} className="text-gray-400" />
+                              <span className="text-[9px] font-bold text-gray-500 uppercase tracking-tight">Tabby</span>
+                            </div>
+                          )}
+                        </div>
+                        <ChevronRight 
+                          size={18} 
+                          className={`transition-transform duration-300 ${isSelected ? "translate-x-1" : "text-gray-300 group-hover:translate-x-1"}`} 
+                          style={{ color: isSelected ? "var(--color-brand-purple)" : undefined }}
+                        />
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {services.map((service) => {
+                const Icon = serviceIconMap[service.icon] ?? Stethoscope;
+                const isSelected = selectedService?.id === service.id;
+                return (
+                  <button
+                    key={service.id}
+                    onClick={() => { setSelectedService(service); setSelectedPackage(null); setStep(2); }}
+                    className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                    style={{
+                      background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
+                      borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
+                    }}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200"
+                        style={{ background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.12)" : "#F1F5F9" }}
+                      >
+                        <Icon size={18} strokeWidth={1.5} style={{ color: "var(--color-brand-purple)" }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
+                          {isAr ? service.name.ar : service.name.en}
+                        </p>
+                        <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#9CA3AF" }}>
+                          {isAr ? service.shortDesc.ar : service.shortDesc.en}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                      <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--color-brand-purple)" }}>
+                        <Clock size={11} />
+                        {service.durationMinutes} {isAr ? "دقيقة" : "min"}
+                      </span>
+                      <ChevronRight size={14} style={{ color: "#D1D5DB" }} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 
       {/* ── Step 2: Therapist ───────────────────────────────────────────── */}
       {step === 2 && (
-        <div>
-          <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
-            {isAr ? "اختر معالجك" : "Choose Your Therapist"}
-          </h2>
+        <div className="animate-in fade-in slide-in-from-right-4 duration-500">
+          <div className="flex items-center gap-3 mb-1">
+            <User size={20} style={{ color: "var(--color-brand-purple)" }} />
+            <h2 className="text-xl font-bold" style={{ color: "#1a1a2e" }}>
+              {isAr ? "اختر طبيبك" : "Choose Your Specialist"}
+            </h2>
+          </div>
           <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
-            {isAr ? "اضغط على المعالج للمتابعة، أو اختر أي معالج متاح" : "Tap a therapist to continue, or pick any available below"}
+            {isAr ? "نخبة من الأخصائيين المعتمدين لضمان أفضل نتائج علاجية" : "Certified experts dedicated to your recovery and well-being"}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            {therapists.map((therapist) => {
-              const isSelected = selectedTherapist?.id === therapist.id;
-              return (
-                <button
-                  key={therapist.id}
-                  onClick={() => { setSelectedTherapist(therapist); setStep(3); }}
-                  className="text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{
-                    background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
-                    borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
-                  }}
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden"
-                      style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
-                    >
-                      {therapist.image ? (
-                        <Image src={therapist.image} alt={therapist.initials} width={48} height={48} className="object-cover w-full h-full" unoptimized />
-                      ) : (
-                        therapist.initials
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm" style={{ color: "#1a1a2e" }}>
-                        {isAr ? therapist.name.ar : therapist.name.en}
-                      </p>
-                      <p className="text-xs mb-1.5" style={{ color: "#9CA3AF" }}>
-                        {isAr ? therapist.title.ar : therapist.title.en}
-                      </p>
-                      <div className="flex items-center gap-1">
-                        {[1,2,3,4,5].map((s) => (
-                          <Star key={s} size={10} fill={s <= Math.floor(therapist.rating) ? "var(--color-brand-purple)" : "none"} color={s <= Math.floor(therapist.rating) ? "var(--color-brand-purple)" : "#D1D5DB"} />
-                        ))}
-                        <span className="text-xs font-semibold ml-1" style={{ color: "var(--color-brand-purple)" }}>{therapist.rating}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            {therapists
+              .sort((a, b) => b.rating - a.rating)
+              .map((therapist) => {
+                const isSelected = selectedTherapist?.id === therapist.id;
+                // Highlight if specialization matches selected package/service
+                const categoryMatch = selectedPackage 
+                  ? therapist.specializations.some(s => pkgToSpecialization(selectedPackage.category).includes(s))
+                  : selectedService 
+                    ? therapist.specializations.includes(selectedService.slug)
+                    : false;
+
+                return (
+                  <button
+                    key={therapist.id}
+                    onClick={() => { setSelectedTherapist(therapist); setStep(3); }}
+                    className="group relative text-left p-4 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg overflow-hidden"
+                    style={{
+                      background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.02)" : "white",
+                      borderColor: isSelected ? "var(--color-brand-purple)" : "#F1F5F9",
+                    }}
+                  >
+                    {categoryMatch && (
+                      <div className="absolute top-0 right-0 p-2">
+                        <div className="px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-white" style={{ background: "var(--color-brand-purple)" }}>
+                          {isAr ? "موصى به" : "Recommended"}
+                        </div>
                       </div>
+                    )}
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0 overflow-hidden shadow-inner"
+                          style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
+                        >
+                          {therapist.image ? (
+                            <Image src={therapist.image} alt={therapist.initials} width={64} height={64} className="object-cover w-full h-full transition-transform group-hover:scale-110" unoptimized />
+                          ) : (
+                            therapist.initials
+                          )}
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-lg bg-white border-2 border-white flex items-center justify-center shadow-sm">
+                          <CheckCircle2 size={12} className="text-[var(--color-brand-green)]" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-sm mb-0.5 truncate" style={{ color: "#1a1a2e" }}>
+                          {isAr ? therapist.name.ar : therapist.name.en}
+                        </h4>
+                        <p className="text-[10px] font-medium mb-2 uppercase tracking-wide" style={{ color: "var(--color-brand-purple)" }}>
+                          {isAr ? therapist.title.ar : therapist.title.en}
+                        </p>
+                        <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-0.5">
+                            <Star size={10} fill="var(--color-brand-green)" color="var(--color-brand-green)" />
+                            <span className="text-xs font-bold" style={{ color: "#1a1a2e" }}>{therapist.rating}</span>
+                          </div>
+                          <span className="text-gray-200">|</span>
+                          <span className="text-[10px] font-semibold text-gray-400">
+                            {therapist.yearsExp}+ {isAr ? "سنوات خبرة" : "Yrs Exp"}
+                          </span>
+                        </div>
+                      </div>
+                      <ChevronRight size={16} className="text-gray-300 transition-transform group-hover:translate-x-1" />
                     </div>
-                    <ChevronRight size={16} style={{ color: "#D1D5DB" }} className="flex-shrink-0" />
-                  </div>
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
           </div>
 
-          {/* Any available — dashed border makes it clearly secondary */}
           <button
             onClick={() => { setSelectedTherapist(null); setStep(3); }}
-            className="w-full py-4 rounded-xl text-sm font-semibold border-2 border-dashed transition-all hover:bg-opacity-5"
+            className="w-full py-4 rounded-2xl text-sm font-bold border-2 border-dashed transition-all hover:bg-gray-50 flex items-center justify-center gap-3"
             style={{
-              borderColor: "var(--color-brand-purple)",
-              color: "var(--color-brand-purple)",
-              background: "rgba(var(--color-brand-purple-rgb),0.03)",
+              borderColor: "#E5E7EB",
+              color: "#6B7280",
             }}
           >
-            {isAr ? "✓ أي معالج متاح — تخصيص تلقائي" : "✓ Any available therapist — auto-assign"}
+            <ShieldCheck size={18} className="text-gray-400" />
+            {isAr ? "اختيار تلقائي لأول معالج متاح" : "Auto-assign first available therapist"}
           </button>
 
-          <div className="mt-6 pt-6 border-t border-gray-100">
+          <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
             <button
               onClick={() => setStep(1)}
-              className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-gray-100"
+              className="px-6 py-2.5 rounded-xl text-sm font-bold transition-all hover:bg-gray-100 flex items-center gap-2"
               style={{ background: "#F1F5F9", color: "#6B7280" }}
             >
               {isAr ? "→ عودة" : "← Back"}
             </button>
+            <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              <span>Step 2 of 5</span>
+            </div>
           </div>
         </div>
       )}
@@ -615,7 +773,14 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
 
           <div className="rounded-2xl overflow-hidden border border-gray-100 mb-6">
             {[
-              { icon: <Stethoscope size={15} />, label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—", editStep: 1 },
+              { 
+                icon: <ShoppingBag size={15} />, 
+                label: isAr ? "الاختيار" : "Selection", 
+                value: selectedPackage 
+                  ? (isAr ? selectedPackage.name.ar : selectedPackage.name.en) 
+                  : (selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—"), 
+                editStep: 1 
+              },
               { icon: <User size={15} />, label: isAr ? "المعالج" : "Therapist", value: selectedTherapist ? (isAr ? selectedTherapist.name.ar : selectedTherapist.name.en) : (isAr ? "أي معالج متاح" : "Any available"), editStep: 2 },
               { icon: <Calendar size={15} />, label: isAr ? "التاريخ" : "Date", value: selectedDate?.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "long", month: "long", day: "numeric" }) ?? "—", editStep: 3 },
               { icon: <Clock size={15} />, label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—", editStep: 3 },

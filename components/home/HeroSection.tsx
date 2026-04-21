@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Star, Users, Award, CheckCircle2, Phone, Calendar, User } from "lucide-react";
+import { ArrowRight, CheckCircle2, Star, ShieldCheck, HeartPulse } from "lucide-react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
+if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface HeroSectionProps {
   locale: string;
@@ -24,29 +25,60 @@ interface HeroSectionProps {
   };
 }
 
-const branches = [
-  { id: "riyadh", labelEn: "Riyadh",  labelAr: "الرياض" },
-  { id: "makkah", labelEn: "Makkah",  labelAr: "مكة" },
-  { id: "dammam", labelEn: "Dammam",  labelAr: "الدمام", comingSoon: true },
-];
-
 export function HeroSection({ locale, t }: HeroSectionProps) {
-  const [activeBranch, setActiveBranch] = useState("riyadh");
   const isAr = locale === "ar";
   const containerRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    tl.fromTo(".hero-text-anim", 
+    // Entrance animations
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+    tl.fromTo(".hero-text-anim",
       { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.12 }
+      { y: 0, opacity: 1, duration: 1, stagger: 0.12 }
     );
-    tl.fromTo(".hero-form-anim", 
-      { x: 50, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, 
-      "-=0.4"
+
+    tl.fromTo(".hero-visual-anim",
+      { x: isAr ? -100 : 100, opacity: 0, scale: 0.95 },
+      { x: 0, opacity: 1, scale: 1, duration: 1.4, ease: "power3.out" },
+      "-=0.8"
     );
-    // Refresh scroll triggers in case hero height affects them
+
+    // Continuous floating animation for image container
+    gsap.to(visualRef.current, {
+      y: -8,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+
+    // Subtle parallax for the main image
+    gsap.to(".hero-main-img", {
+      yPercent: 8,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Parallax background elements
+    gsap.to(".hero-bg-blob", {
+      yPercent: -25,
+      rotate: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
     setTimeout(() => ScrollTrigger.refresh(), 500);
   }, { scope: containerRef });
 
@@ -54,167 +86,117 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
     <section
       ref={containerRef}
       dir={isAr ? "rtl" : "ltr"}
-      className="relative w-full overflow-hidden min-h-[100svh] flex items-center pt-32 pb-20 lg:py-0"
-      style={{ background: "#f8fafb" }}
+      className="relative w-full overflow-hidden min-h-[100svh] flex items-center pt-32 pb-20 lg:pt-40 lg:pb-32"
+      style={{ background: "var(--color-surface-light)" }}
     >
-      {/* Decorative abstract elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full pointer-events-none opacity-[0.03]">
-        <svg viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-          <circle cx="400" cy="400" r="300" stroke="#0f2d1f" strokeWidth="60" />
-          <circle cx="400" cy="400" r="200" stroke="#4caf50" strokeWidth="40" />
-        </svg>
-      </div>
+      {/* ── Background Elements ── */}
+      <div className="hero-bg-blob absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-20 pointer-events-none"
+        style={{ background: "var(--color-brand-green)" }} />
+      <div className="hero-bg-blob absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-15 pointer-events-none"
+        style={{ background: "var(--color-brand-purple)" }} />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 lg:gap-16 items-center">
-        
-        {/* ── Left Column: Text ── */}
-        <div className={`flex flex-col z-10 ${isAr ? "items-start text-right" : "items-start text-left"}`}>
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{ backgroundImage: "linear-gradient(#0f2d1f 1px, transparent 1px), linear-gradient(90deg, #0f2d1f 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+
+        {/* ── Left Content (col-7) ── */}
+        <div className={`lg:col-span-7 flex flex-col z-10 ${isAr ? "items-start text-right" : "items-start text-left"}`}>
           {/* Eyebrow */}
-          <div className="hero-text-anim mb-6">
+          <div className="hero-text-anim mb-8">
             <span
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.18em] uppercase"
-              style={{ background: "rgba(136,7,114,0.08)", color: "#880772", border: "1px solid rgba(136,7,114,0.15)" }}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase transition-all hover:scale-105 cursor-default"
+              style={{ background: "rgba(136,7,114,0.08)", color: "var(--color-brand-purple)", border: "1px solid rgba(136,7,114,0.15)" }}
             >
+              <ShieldCheck size={14} className="opacity-70" />
               {t.eyebrow}
             </span>
           </div>
 
           {/* Headline */}
           <h1
-            className="hero-text-anim text-[42px] sm:text-[58px] lg:text-[72px] font-black leading-[1.04] tracking-tight mb-6"
-            style={{ color: "#0f2d1f" }}
+            className="hero-text-anim text-[46px] sm:text-[64px] lg:text-[84px] font-black leading-[1.02] tracking-tight mb-8"
+            style={{ color: "var(--color-physio-dark)" }}
           >
-            {isAr ? "وجهتك للراحة والتحسن" : "Destination For Relief & Wellness"}
+            {isAr ? "وجهتك للراحة" : "Destination For"} <br />
+            <span className="text-gradient">
+              {isAr ? "والتحسن الصحي" : "Relief & Wellness"}
+            </span>
           </h1>
 
           {/* Subheadline */}
           <p
-            className="hero-text-anim text-lg md:text-xl leading-[1.8] mb-9 max-w-lg"
+            className="hero-text-anim text-lg md:text-xl leading-[1.8] mb-10 max-w-xl font-medium"
             style={{ color: "#4a6b59" }}
           >
             {t.subheadline}
           </p>
 
           {/* Buttons */}
-          <div className="hero-text-anim flex flex-col sm:flex-row gap-4 mb-12">
+          <div className="hero-text-anim flex flex-col sm:flex-row gap-6 mb-16">
             <Link
               href={`/${locale}/services`}
-              className="group inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full font-bold text-base text-white transition-all duration-300 hover:-translate-y-1"
-              style={{ background: "#4caf50", boxShadow: "0 8px 30px rgba(76,175,80,0.30)" }}
+              className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-12 py-5 rounded-full font-bold text-base text-white transition-all duration-300"
+              style={{ background: "linear-gradient(135deg, var(--color-brand-green), var(--color-brand-green-dark))", boxShadow: "0 12px 40px rgba(76,175,80,0.3)" }}
             >
               {t.exploreServices}
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight size={18} className={`transition-transform ${isAr ? "rotate-180 group-hover:-translate-x-1.5" : "group-hover:translate-x-1.5"}`} />
             </Link>
+
             <Link
               href={`/${locale}/book/riyadh`}
-              className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-full font-bold text-base transition-all duration-300 hover:-translate-y-1"
+              className="inline-flex items-center justify-center gap-3 px-12 py-5 rounded-full font-bold text-base transition-all duration-300 group"
               style={{
-                color: "#4caf50",
-                border: "2px solid #4caf50",
+                color: "var(--color-brand-green)",
+                border: "2px solid var(--color-brand-green)",
                 background: "transparent",
               }}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLAnchorElement;
-                el.style.background = "#4caf50";
-                el.style.color = "#fff";
+                el.style.background = "rgba(76,175,80,0.06)";
               }}
               onMouseLeave={e => {
                 const el = e.currentTarget as HTMLAnchorElement;
                 el.style.background = "transparent";
-                el.style.color = "#4caf50";
               }}
             >
               {t.bookAppointment}
-              <ArrowRight size={18} />
+              <HeartPulse size={18} className="transition-transform group-hover:scale-110" />
             </Link>
           </div>
 
           {/* Trust marks */}
-          <div className="hero-text-anim flex flex-wrap gap-5 pt-8" style={{ borderTop: "1.5px solid rgba(15,45,31,0.08)" }}>
-            {[t.trust1, t.trust2].map((item, i) => (
-              <span key={i} className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#2d5c3f" }}>
-                <CheckCircle2 size={17} strokeWidth={2.5} color="#4caf50" />
+          <div className="hero-text-anim flex flex-wrap gap-8 pt-8 w-full" style={{ borderTop: "1.5px solid rgba(15,45,31,0.08)" }}>
+            {[t.trust1, t.trust2, t.trust3].map((item, i) => (
+              <span key={i} className="flex items-center gap-3 text-sm font-bold uppercase tracking-wide" style={{ color: "var(--color-physio-dark)" }}>
+                <CheckCircle2 size={18} strokeWidth={3} className="text-brand-green" />
                 {item}
               </span>
             ))}
           </div>
         </div>
 
-        {/* ── Right Column: Form Card ── */}
-        <div className="hero-form-anim relative mt-16 lg:mt-0">
-          <div className="bg-white rounded-[2rem] p-8 sm:p-10 shadow-physio relative z-10 border border-black/5">
-            <h3 className="text-2xl font-black mb-2" style={{ color: "#0f2d1f" }}>
-              {isAr ? "احجز موعدك" : "Book Appointment"}
-            </h3>
-            <p className="text-sm font-medium mb-8" style={{ color: "#4a6b59" }}>
-              {isAr ? "قم بجدولة موعدك بسهولة عن طريق ملء النموذج البسيط الخاص بنا." : "Easily schedule your appointment by filling out our simple form."}
-            </p>
-
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <User size={18} />
-                </span>
-                <input 
-                  type="text" 
-                  placeholder={isAr ? "اسمك الكامل" : "Full Name"} 
-                  className="w-full bg-[#f8fafb] border-none rounded-xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all"
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <Phone size={18} />
-                  </span>
-                  <input 
-                    type="tel" 
-                    placeholder={isAr ? "رقم الهاتف" : "Phone Number"} 
-                    className="w-full bg-[#f8fafb] border-none rounded-xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all"
-                  />
-                </div>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <Calendar size={18} />
-                  </span>
-                  <input 
-                    type="date" 
-                    className="w-full bg-[#f8fafb] border-none rounded-xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all"
-                  />
-                </div>
-              </div>
-              <select 
-                className="w-full bg-[#f8fafb] border-none rounded-xl py-4 px-4 text-sm font-medium focus:ring-2 focus:ring-brand-green outline-none transition-all appearance-none"
-              >
-                <option>{isAr ? "اختر الخدمة" : "Select Service"}</option>
-                <option>{isAr ? "العلاج الطبيعي" : "Physiotherapy"}</option>
-                <option>{isAr ? "العلاج اليدوي" : "Manual Therapy"}</option>
-                <option>{isAr ? "إعادة التأهيل الرياضي" : "Sports Rehabilitation"}</option>
-              </select>
-              
-              <button 
-                type="submit" 
-                className="w-full py-4 rounded-xl font-bold text-white transition-all hover:translate-y-[-2px] hover:shadow-lg flex items-center justify-center gap-3 mt-4"
-                style={{ background: "#4caf50" }}
-              >
-                {isAr ? "إرسال الطلب" : "Submit Request"}
-                <ArrowRight size={18} />
-              </button>
-            </form>
+        {/* ── Right Column: Visual (col-5) ── */}
+        <div ref={visualRef} className="lg:col-span-5 relative mt-20 lg:mt-0 flex justify-center lg:justify-end">
+          <div className="hero-visual-anim relative w-full max-w-[540px] aspect-[4/5] rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.15)] bg-white/50 backdrop-blur-sm p-4 border border-white/40">
+            {/* Main Image */}
+            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
+              <Image
+                src="/images/hero-physio.png"
+                alt="Professional Physiotherapy"
+                fill
+                className="hero-main-img object-cover transition-transform duration-700 hover:scale-105"
+                priority
+              />
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            </div>
           </div>
 
-          {/* Floating stats badges around form */}
-          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-purple flex flex-col items-center justify-center text-white shadow-xl animate-float z-20">
-            <span className="text-xl font-black">24/7</span>
-            <span className="text-[9px] font-bold uppercase tracking-wider">{isAr ? "طوارئ" : "Emergency"}</span>
-          </div>
-          <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl z-20 border border-black/5 flex items-center gap-3">
-             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(136,7,114,0.1)" }}>
-               <Users size={20} className="text-brand-purple" />
-             </div>
-             <div>
-               <p className="text-lg font-black leading-none" style={{ color: "#0f2d1f" }}>100K+</p>
-               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">{isAr ? "عميل سعيد" : "Happy Clients"}</p>
-             </div>
+          {/* Decorative shapes behind image */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none -z-10 opacity-30">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-purple/20 rounded-full blur-3xl animate-morph-blob" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-brand-green/20 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '-5s' }} />
           </div>
         </div>
       </div>

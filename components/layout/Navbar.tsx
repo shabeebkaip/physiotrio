@@ -271,6 +271,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
   }, []);
 
   const otherLocale = locale === "en" ? "ar" : "en";
+  const isAr = locale === "ar";
 
   const getLocalePath = (targetLocale: string) => {
     const segments = pathname.split("/");
@@ -384,20 +385,16 @@ export function Navbar({ locale, translations }: NavbarProps) {
             </Link>
 
             <Link
-              href={`tel:8001000091`}
-              className="inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full font-black text-sm text-white transition-all group hover:shadow-xl active:scale-95 overflow-hidden"
+              href={`/${locale}/book/riyadh`}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full font-bold text-sm text-white transition-all group hover:shadow-xl active:scale-95 overflow-hidden"
               style={{ background: "#4caf50" }}
             >
-              <div className="flex flex-col items-start leading-[1.1] text-[10px] opacity-90 uppercase tracking-tight">
-                <span className="font-bold text-[8px] mb-[1px] text-white/70">{otherLocale === "ar" ? "English" : "عربي"}</span>
-                <span className="whitespace-nowrap">{translations.bookNow}</span>
-              </div>
-              <span className="font-black text-xs pr-1 tabular-nums">800 100 0091</span>
+              <span className="whitespace-nowrap">{translations.bookNow}</span>
               <span
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 shrink-0"
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-1 shrink-0"
                 style={{ background: "#0f2d1f" }}
               >
-                <Phone size={15} fill="currentColor" className="text-white" />
+                <ArrowRight size={16} className={`text-white ${isAr ? "rotate-180" : ""}`} />
               </span>
             </Link>
           </div>

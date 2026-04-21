@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.gccbusinessnews.com" },
       { protocol: "https", hostname: "static.zawya.com" },
       { protocol: "https", hostname: "www.rcmc.gov.sa" },
+      { protocol: "https", hostname: "i.pravatar.cc" },
     ],
     formats: ["image/avif", "image/webp"],
   },

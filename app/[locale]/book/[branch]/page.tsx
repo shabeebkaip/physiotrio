@@ -9,6 +9,7 @@ import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { branches } from "@/lib/data/branches";
 import { services } from "@/lib/data/services";
+import { packages } from "@/lib/data/packages";
 import { therapists } from "@/lib/data/therapists";
 import { BookingFlow } from "@/components/booking/BookingFlow";
 
@@ -56,6 +57,7 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
   };
 
   const branchServices = services.filter((s) => s.branches.includes(branch));
+  const branchPackages = packages.filter((p) => p.branch === "all" || p.branch === branch);
   const branchTherapists = therapists.filter((t) => t.branches.includes(branch));
   const isAr = locale === "ar";
 
@@ -91,6 +93,7 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                 locale={locale}
                 branch={branchData}
                 services={branchServices}
+                packages={branchPackages}
                 therapists={branchTherapists}
               />
             </div>

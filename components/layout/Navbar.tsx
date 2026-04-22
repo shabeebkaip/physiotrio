@@ -293,7 +293,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
   return (
     <>
       {/* Floating pill wrapper — also anchors the mega menu */}
-      <div className="fixed top-9 left-0 right-0 z-50 px-4 pointer-events-none">
+      <div className="fixed md:top-9 top-4 left-0 right-0 z-50 px-4 pointer-events-none">
         <motion.nav
           className="pointer-events-auto max-w-7xl mx-auto flex items-center justify-between h-20 px-6 rounded-2xl relative"
           style={{

@@ -106,7 +106,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
              <Link 
                href={`/${locale}/book/riyadh`}
                className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-black text-sm text-white transition-all hover:scale-[1.03] shadow-lg"
-               style={{ background: "#0f2d1f" }}
+               style={{ background: "#880772" }}
              >
                {isRTL ? "احجز موعدك" : "Book Appointment"}
                <ArrowRight size={18} className={isRTL ? "-scale-x-100" : ""} />

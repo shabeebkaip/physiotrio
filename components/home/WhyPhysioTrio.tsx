@@ -1,7 +1,16 @@
 "use client";
 
 import { useRef } from "react";
-import { Zap, Heart, Gauge, Users, ArrowRight, Sparkles, TrendingUp, ShieldCheck } from "lucide-react";
+import { 
+  Users, 
+  Award, 
+  ArrowRight, 
+  ShieldCheck, 
+  Activity, 
+  Zap, 
+  Heart, 
+  Sparkles 
+} from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -25,41 +34,29 @@ interface WhyPhysioTrioProps {
 export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
   const isAr = locale === "ar";
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const features = [
-    { icon: Zap, title: t.feature1Title, desc: t.feature1Desc },
-    { icon: Heart, title: t.feature2Title, desc: t.feature2Desc },
-    { icon: Gauge, title: t.feature3Title, desc: t.feature3Desc },
-    { icon: Users, title: t.feature4Title, desc: t.feature4Desc },
+    { icon: Activity, title: t.feature1Title },
+    { icon: Zap, title: t.feature2Title },
+    { icon: Heart, title: t.feature3Title },
+    { icon: Sparkles, title: t.feature4Title },
   ];
 
   useGSAP(() => {
-    if (!sectionRef.current) return;
-
-    gsap.fromTo(".why-image-wrapper", 
-      { opacity: 0, x: isAr ? 40 : -40 },
-      {
-        opacity: 1, x: 0, duration: 1.2, ease: "power4.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 75%", toggleActions: "play none none none" },
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 75%",
       }
-    );
+    });
 
-    gsap.fromTo(".why-content-block > *", 
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power2.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 75%", toggleActions: "play none none none" },
-      }
-    );
-
-    gsap.fromTo(".why-stat-node", 
-      { scale: 0, opacity: 0 },
-      {
-        scale: 1, opacity: 1, duration: 1, stagger: 0.2, ease: "elastic.out(1, 0.75)",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 70%", toggleActions: "play none none none" },
-      }
-    );
+    tl.from(".why-img", { opacity: 0, x: isAr ? 40 : -40, duration: 1, ease: "power3.out" })
+      .from(".why-badge", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6")
+      .from(".why-title", { opacity: 0, y: 20, duration: 0.6 }, "-=0.4")
+      .from(".why-desc", { opacity: 0, y: 20, duration: 0.6 }, "-=0.4")
+      .from(".why-feat", { opacity: 0, y: 20, stagger: 0.1, duration: 0.6 }, "-=0.4")
+      .from(".why-footer", { opacity: 0, y: 20, duration: 0.6 }, "-=0.4")
+      .from(".why-float", { scale: 0, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.2");
 
   }, { scope: sectionRef });
 
@@ -67,118 +64,104 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
     <section
       ref={sectionRef}
       dir={isAr ? "rtl" : "ltr"}
-      className="relative py-24 md:py-36 bg-[#FBFBFD] overflow-hidden"
+      className="relative py-24 lg:py-32 bg-white overflow-hidden"
     >
-      {/* Structural Background */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-green/[0.02] -skew-x-12 translate-x-1/4" />
-      
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <div ref={containerRef} className="grid lg:grid-cols-12 gap-16 items-center">
+      <div className="relative max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          
+          {/* ── Left Column: Clinical Image ── */}
+          <div className="relative order-2 lg:order-1">
+            <div className="why-img relative aspect-[5/6] md:aspect-square w-full rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80"
+                alt="Clinical Excellence"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+              {/* Subtle Overlay */}
+              <div className="absolute inset-0 bg-black/5" />
+            </div>
 
-          {/* ────── LEFT: Visual Storytelling ────── */}
-          <div className="lg:col-span-6 order-2 lg:order-1">
-            <div className="why-image-wrapper relative">
-              {/* Image Frame */}
-              <div className="relative aspect-[4/5] md:aspect-square w-full max-w-lg mx-auto bg-[#E6EEEC] rounded-[48px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border-8 border-white">
-                <Image
-                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80"
-                  alt="Clinical Excellence at PhysioTrio"
-                  fill
-                  className="object-cover transition-transform duration-[3s] hover:scale-110"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            {/* Floating Experience Card */}
+            <div className={`why-float absolute bottom-8 ${isAr ? "-left-4 md:-left-12" : "-right-4 md:-right-12"} bg-white p-6 md:p-8 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex items-center gap-5 z-20`}>
+              <div className="w-16 h-16 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+                <Award size={32} />
               </div>
-
-              {/* Floating Stat Nodes (Branded) */}
-              <div className="why-stat-node absolute -top-6 -left-6 md:-left-12 bg-white p-5 md:p-7 rounded-[32px] shadow-[0_20px_50px_rgba(15,45,31,0.12)] border border-[#eff3f1] z-20">
-                <div className="flex flex-col items-center">
-                   <div className="w-14 h-14 rounded-2xl bg-brand-green flex items-center justify-center mb-3 shadow-[0_10px_20px_-5px_rgba(76,175,80,0.4)]">
-                      <Sparkles className="text-white" size={24} />
-                   </div>
-                   <div className="text-3xl font-black text-[#1d1d1f] tracking-tight">22+</div>
-                   <div className="text-[10px] font-black text-brand-green uppercase tracking-widest">{isAr ? "سنوات" : "Years"}</div>
-                </div>
-              </div>
-
-              <div className="why-stat-node absolute -bottom-6 -right-6 md:-right-12 bg-white p-5 md:p-7 rounded-[32px] shadow-[0_20px_50px_rgba(136,7,114,0.12)] border border-[#f5f1f5] z-20">
-                <div className="flex flex-col items-center">
-                   <div className="w-14 h-14 rounded-2xl bg-brand-purple flex items-center justify-center mb-3 shadow-[0_10px_20px_-5px_rgba(136,7,114,0.4)]">
-                      <TrendingUp className="text-white" size={24} />
-                   </div>
-                   <div className="text-3xl font-black text-[#1d1d1f] tracking-tight">10K+</div>
-                   <div className="text-[10px] font-black text-brand-purple uppercase tracking-widest">{isAr ? "مريض" : "Patients"}</div>
+              <div>
+                <div className="text-4xl font-black text-physio-dark leading-none mb-1">15+</div>
+                <div className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+                  {isAr ? "سنوات الخبرة" : "Years Of Experience"}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ────── RIGHT: Branded Content ────── */}
-          <div className="lg:col-span-6 py-8 order-1 lg:order-2 why-content-block">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-brand-green/20 bg-brand-green/5 mb-8">
-               <ShieldCheck size={16} className="text-brand-green" />
-               <span className="text-[11px] font-black text-brand-green uppercase tracking-[0.2em]">{isAr ? "لماذا نحن" : "Why Choose PhysioTrio"}</span>
+          {/* ── Right Column: Content ── */}
+          <div className="order-1 lg:order-2">
+            {/* Pill Badge */}
+            <div className="why-badge inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-green/10 border border-brand-green/20 mb-8">
+              <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
+              <span className="text-xs font-black text-brand-green uppercase tracking-[0.2em]">
+                {isAr ? "لماذا نحن" : "Why PhysioTrio"}
+              </span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-black text-[#1d1d1f] tracking-tighter leading-[1.05] mb-8">
-              {isAr ? "تميزنا الطبي يضمن نتائجك" : "Experience Elite Therapeutic Care"}
+            {/* Headline */}
+            <h2 className="why-title text-4xl md:text-5xl lg:text-6xl font-black text-physio-dark leading-[1.1] tracking-tight mb-8">
+               {isAr ? "نحن الأفضل في العلاج الطبيعي" : "We Are The Best For Physiotherapy"}
             </h2>
 
-            <p className="text-lg text-gray-500 font-medium leading-relaxed mb-12 max-w-xl">
-              {t.body1}
+            {/* Description */}
+            <p className="why-desc text-lg text-gray-500 font-medium leading-relaxed mb-12 max-w-xl">
+               {t.body1}
             </p>
 
-            {/* Feature Grid (Clean Branded Version) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12 mb-16">
-              {features.map((feature, idx) => {
-                const Icon = feature.icon;
-                return (
-                  <div key={idx} className="group relative flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-brand-green to-emerald-600 flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-110 group-hover:rotate-3">
-                      <Icon className="text-white" size={22} />
-                    </div>
-                    <div>
-                      <h3 className="font-black text-[#1d1d1f] text-base mb-1 tracking-tight">
-                        {feature.title}
-                      </h3>
-                      <p className="text-xs text-gray-500 font-medium leading-normal">
-                        {feature.desc}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Feature Grid (2x2) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10 mb-16">
+              {features.map((item, idx) => (
+                <div key={idx} className="why-feat group flex items-center gap-5 transition-transform hover:translate-y-[-2px]">
+                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand-green/5 border border-brand-green/10 flex items-center justify-center text-brand-green transition-all group-hover:bg-brand-green group-hover:text-white group-hover:shadow-lg">
+                      <item.icon size={22} />
+                   </div>
+                   <h3 className="font-bold text-physio-dark text-lg leading-tight transition-colors group-hover:text-brand-green">
+                      {item.title}
+                   </h3>
+                </div>
+              ))}
             </div>
 
-            {/* Branded CTA */}
-            <div className="flex flex-col sm:flex-row items-center gap-8 border-t border-gray-100 pt-12">
-              <Link
-                href={`/${locale}/book/riyadh`}
-                className="group relative px-10 py-5 rounded-full font-black text-xs uppercase tracking-widest text-white overflow-hidden shadow-2xl transition-all hover:scale-105 active:scale-95"
-              >
-                <div className="absolute inset-0 bg-[#0F2D1F]" />
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-green to-brand-purple opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <span className="relative flex items-center gap-3">
-                  {t.bookAppointment}
-                  <ArrowRight size={18} className={`transition-transform group-hover:translate-x-2 ${isAr ? "rotate-180" : ""}`} />
-                </span>
-              </Link>
-              
-              <div className={`flex items-center gap-3 ${isAr ? "flex-row-reverse" : ""}`}>
-                <div className="w-12 h-12 rounded-full border-2 border-brand-green shadow-sm overflow-hidden relative">
-                   <Image 
-                     src="https://images.unsplash.com/photo-1559839734-2b71f1536783?w=1200&q=80" 
-                     alt="Physiotherapy Expert" 
-                     fill 
-                     className="object-cover"
-                     unoptimized
-                   />
+            {/* Footer Profile & CTA */}
+            <div className="why-footer flex flex-col md:flex-row items-center justify-between gap-10 border-t border-gray-100 pt-10">
+              {/* Profile Card */}
+              <div className={`flex items-center gap-4 ${isAr ? "flex-row-reverse" : ""}`}>
+                <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-brand-green p-0.5">
+                   <div className="relative w-full h-full rounded-full overflow-hidden">
+                      <Image 
+                        src="https://images.unsplash.com/photo-1559839734-2b71f1536783?w=400&q=80" 
+                        alt="Specialist" 
+                        fill 
+                        className="object-cover"
+                        unoptimized
+                      />
+                   </div>
                 </div>
-                <div>
-                   <p className="text-xs font-black text-[#1d1d1f] tracking-tight">{isAr ? "خبراء معتمدون" : "Certified Specialists"}</p>
-                   <p className="text-[10px] font-bold text-brand-green uppercase tracking-widest">{isAr ? "رعاية فائقة" : "Elite Standards"}</p>
+                <div className={isAr ? "text-right" : "text-left"}>
+                   <p className="text-base font-black text-physio-dark leading-tight">{isAr ? "د. شيماء العتيبي" : "Dr. Shaima Al-Otaibi"}</p>
+                   <p className="text-xs font-bold text-brand-green uppercase tracking-widest">{isAr ? "أخصائية أولى" : "Lead Physiotherapist"}</p>
                 </div>
               </div>
+
+              {/* Action Button */}
+              <Link
+                href={`/${locale}/book/riyadh`}
+                className="group relative flex h-16 items-center justify-center gap-6 rounded-full bg-brand-green px-10 text-base font-black text-white shadow-xl shadow-brand-green/30 transition-all hover:scale-105 active:scale-95 sm:w-auto"
+              >
+                {t.bookAppointment}
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition-all group-hover:bg-white group-hover:text-brand-green">
+                  <ArrowRight size={18} className={`${isAr ? "rotate-180" : ""}`} />
+                </div>
+              </Link>
             </div>
           </div>
 

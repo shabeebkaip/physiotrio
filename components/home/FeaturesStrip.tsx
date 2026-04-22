@@ -74,7 +74,7 @@ export function FeaturesStrip({ locale }: { locale: string }) {
               <div 
                 key={i} 
                 className={`feat-item group flex items-start md:items-center gap-6 px-4 md:px-8 py-8 transition-all duration-300
-                  ${i !== features.length - 1 ? "md:border-r border-white/10" : ""}
+                  ${i !== features.length - 1 ? "border-b md:border-b-0 md:border-r border-white/10" : ""}
                   ${isAr && i !== features.length - 1 ? "md:border-l md:border-r-0" : ""}
                 `}
               >

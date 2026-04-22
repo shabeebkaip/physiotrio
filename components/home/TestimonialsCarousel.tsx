@@ -137,7 +137,7 @@ export function TestimonialsCarousel({ locale, testimonials }: TestimonialsCarou
                     </div>
 
                     {/* Quote text */}
-                    <blockquote className="mb-10 text-lg font-medium italic leading-relaxed text-gray-500 line-clamp-4">
+                    <blockquote className="mb-10 text-lg font-medium italic leading-relaxed text-gray-500 line-clamp-5">
                       &ldquo;{isAr ? t.quote.ar : t.quote.en}&rdquo;
                     </blockquote>
 

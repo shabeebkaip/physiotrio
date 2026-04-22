@@ -40,7 +40,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} dir={isAr ? "rtl" : "ltr"} className="py-24 lg:py-32 bg-white overflow-hidden">
+    <section ref={sectionRef} dir={isAr ? "rtl" : "ltr"} className="py-16 lg:py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
@@ -87,7 +87,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
               <span className="inline-block text-xs font-bold uppercase tracking-[0.18em] px-5 py-2 rounded-full mb-6 bg-brand-green/10 text-brand-green border border-brand-green/20">
                 {eyebrow}
               </span>
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl font-black text-physio-dark leading-tight -tracking-wide">
+              <h2 className="text-3xl md:text-5xl xl:text-6xl font-black text-physio-dark leading-tight -tracking-wide">
                  {title}
               </h2>
             </div>
@@ -101,7 +101,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
             {/* Price Block */}
             <div className="offer-text-el flex items-end gap-5 mb-10 pb-10 border-b border-gray-100">
               <div className="flex items-start leading-none text-brand-green">
-                <span className="text-6xl lg:text-7xl font-black tabular-nums tracking-tighter">
+                <span className="text-5xl lg:text-7xl font-black tabular-nums tracking-tighter">
                    <Counter end={350} />
                 </span>
                 <span className="text-xl font-black ml-2 mt-2 tracking-widest">SAR</span>

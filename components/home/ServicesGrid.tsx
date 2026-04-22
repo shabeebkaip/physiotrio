@@ -64,28 +64,28 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
     <section 
       ref={sectionRef} 
       dir={isAr ? "rtl" : "ltr"}
-      className="relative py-24 lg:py-32 bg-[#FBFBFD] overflow-hidden"
+      className="relative py-16 lg:py-32 bg-[#FBFBFD] overflow-hidden"
     >
       <div className="relative max-w-7xl mx-auto px-6">
         
         {/* ── Header ── */}
-        <div className="svc-header mb-20 text-center">
+        <div className="svc-header mb-12 lg:mb-20 text-center">
            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-purple/5 border border-brand-purple/10 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-pulse" />
               <span className="text-[11px] font-black uppercase tracking-[0.3em] text-brand-purple">
                  {isAr ? "خدماتنا" : "Specialized Care"}
               </span>
            </div>
-           <h2 className="text-4xl lg:text-6xl font-black text-physio-dark tracking-tight mb-6">
+           <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-physio-dark tracking-tight mb-6">
               {title}
            </h2>
-           <p className="text-gray-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+           <p className="text-gray-500 text-base md:text-lg font-medium max-w-2xl mx-auto leading-relaxed">
               {subtitle}
            </p>
         </div>
 
         {/* ── Grid Container ── */}
-        <div className="svc-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="svc-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service) => (
             <Link
               key={service.id}

@@ -63,15 +63,15 @@ export function StatsSection({ locale }: { locale: string }) {
             return (
               <div
                 key={i}
-                className="stat-item flex flex-col items-center text-center py-16 px-6 relative group"
-                style={{
-                  borderRight: (!isLast && !isAr) ? "1px solid #E6EEEC" : undefined,
-                  borderLeft: (!isLast && isAr) ? "1px solid #E6EEEC" : undefined,
-                }}
+                className={`stat-item flex flex-col items-center text-center py-12 lg:py-16 px-4 lg:px-6 relative group border-[#E6EEEC]
+                  ${i < 2 ? "border-b lg:border-b-0" : ""}
+                  ${i % 2 === 0 ? (isAr ? "border-l lg:border-l-0" : "border-r lg:border-r-0") : ""}
+                  ${!isLast ? (isAr ? "lg:border-l" : "lg:border-r") : ""}
+                `}
               >
                 {/* Number */}
                 <div 
-                  className="text-5xl font-black leading-none mb-3 tabular-nums transition-transform duration-300 group-hover:scale-110" 
+                  className="text-4xl md:text-5xl font-black leading-none mb-3 tabular-nums transition-transform duration-300 group-hover:scale-110" 
                   style={{ color: "#0f2d1f" }}
                 >
                   <Counter end={s.value} />

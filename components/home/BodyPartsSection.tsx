@@ -15,7 +15,6 @@ type BodyPart = {
   en: string;
   ar: string;
   id: string;
-  // Replace these image paths with your actual icon image paths
   iconSrc: string;
 };
 
@@ -24,55 +23,55 @@ const bodyParts: BodyPart[] = [
     en: "Neck Pain",
     ar: "ألم الرقبة",
     id: "neck",
-    iconSrc: "/images/home/neck.svg", // update path
+    iconSrc: "/images/home/neck.svg",
   },
   {
     en: "Shoulder Pain",
     ar: "ألم الكتف",
     id: "shoulder",
-    iconSrc: "/images/home/sholder.svg", // update path
+    iconSrc: "/images/home/sholder.svg",
   },
   {
     en: "Hip Pain",
     ar: "ألم الورك",
     id: "hip",
-    iconSrc: "/images/home/hip.svg", // update path
+    iconSrc: "/images/home/hip.svg",
   },
   {
     en: "Knee Pain",
     ar: "ألم الركبة",
     id: "knee",
-    iconSrc: "/images/home/knee.svg", // update path
+    iconSrc: "/images/home/knee.svg",
   },
   {
     en: "Elbow Pain",
     ar: "ألم الكوع",
     id: "elbow",
-    iconSrc: "/images/home/elbow.svg", // update path
+    iconSrc: "/images/home/elbow.svg",
   },
   {
     en: "Tricep Pain",
     ar: "ألم العضلة ثلاثية",
     id: "tricep",
-    iconSrc: "/images/home/tricep.svg", // update path
+    iconSrc: "/images/home/tricep.svg",
   },
   {
     en: "Hand Pain",
     ar: "ألم اليد",
     id: "hand",
-    iconSrc: "/images/home/hand.svg", // update path
+    iconSrc: "/images/home/hand.svg",
   },
   {
     en: "Foot Pain",
     ar: "ألم القدم",
     id: "foot",
-    iconSrc: "/images/home/foot.svg", // update path
+    iconSrc: "/images/home/foot.svg",
   },
   {
     en: "Ankle Pain",
     ar: "ألم الكاحل",
     id: "ankle",
-    iconSrc: "/images/home/ankle.svg", // update path
+    iconSrc: "/images/home/ankle.svg",
   },
 ];
 
@@ -121,7 +120,7 @@ export function BodyPartsSection({ locale }: { locale: string }) {
     <section
       ref={sectionRef}
       dir={isAr ? "rtl" : "ltr"}
-      className="relative overflow-hidden py-24 lg:py-32"
+      className="relative overflow-hidden py-16 lg:py-32"
     >
       {/* Background image with dark overlay */}
       <div className="absolute inset-0 z-0">
@@ -141,7 +140,7 @@ export function BodyPartsSection({ locale }: { locale: string }) {
         {/* Header */}
         <div className="mb-14 text-center">
 
-          <h2 className="bp-header text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
+          <h2 className="bp-header text-3xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
             {isAr ? "أين تحتاج إلى الاهتمام؟" : "Where Do You Need Attention?"}
           </h2>
 
@@ -153,7 +152,7 @@ export function BodyPartsSection({ locale }: { locale: string }) {
         </div>
 
         {/* Grid — 3 columns, items separated by divider lines */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {bodyParts.map((part, index) => {
             const col = index % 3;
             const row = Math.floor(index / 3);

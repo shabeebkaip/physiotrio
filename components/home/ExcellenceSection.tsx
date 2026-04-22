@@ -77,12 +77,12 @@ export function ExcellenceSection({ locale }: ExcellenceSectionProps) {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} dir={isAr ? "rtl" : "ltr"} className="py-24 lg:py-32 bg-white overflow-hidden" id="excellence">
+    <section ref={sectionRef} dir={isAr ? "rtl" : "ltr"} className="py-16 lg:py-32 bg-white overflow-hidden" id="excellence">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Centered Heading */}
-        <div className="ex-title text-center mb-20  ">
-           <h2 className="text-4xl md:text-6xl font-black leading-tight">
+        <div className="ex-title text-center mb-12 lg:mb-20">
+           <h2 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight">
               <span className="text-brand-purple">{isAr ? "التميز في" : "Excellence In"}</span> <br className="md:hidden" />
               <span className="md:ml-3 text-brand-green">{isAr ? "الرعاية وإعادة التأهيل" : "Care And Rehabilitation"}</span>
            </h2>
@@ -93,7 +93,7 @@ export function ExcellenceSection({ locale }: ExcellenceSectionProps) {
            <div className="grid grid-cols-1 lg:grid-cols-2 rounded-[40px] lg:rounded-[60px] overflow-hidden border border-gray-100 shadow-xl">
               
               {/* Left Canvas (Muted Purple) */}
-              <div className={`bg-[#F3E5F1]/30 p-12 lg:p-14 flex flex-col justify-center gap-12 order-2 lg:order-1 ${isAr ? "lg:pl-30" : "lg:pr-32"}`}>
+              <div className={`bg-[#F3E5F1]/30 p-8 md:p-12 lg:p-14 flex flex-col justify-center gap-10 md:gap-12 order-2 lg:order-1 ${isAr ? "lg:pl-30" : "lg:pr-32"}`}>
                  {leftFeatures.map((feat, i) => (
                     <div key={i} className={`feat-left group flex items-center gap-6 ${isAr ? "text-right" : "text-left"}`}>
                        <div 
@@ -111,7 +111,7 @@ export function ExcellenceSection({ locale }: ExcellenceSectionProps) {
               </div>
 
               {/* Right Canvas (Muted Green) */}
-              <div className={`bg-[#f0faf0] p-12 lg:p-14 flex flex-col justify-center gap-12 order-3 lg:order-2 ${isAr ? "lg:pr-30" : "lg:pl-32"}`}>
+              <div className={`bg-[#f0faf0] p-8 md:p-12 lg:p-14 flex flex-col justify-center gap-10 md:gap-12 order-3 lg:order-2 ${isAr ? "lg:pr-30" : "lg:pl-32"}`}>
                  {rightFeatures.map((feat, i) => (
                     <div key={i} className={`feat-right group flex items-center gap-6 flex-row-reverse ${isAr ? "text-left" : "text-right"}`}>
                        <div 

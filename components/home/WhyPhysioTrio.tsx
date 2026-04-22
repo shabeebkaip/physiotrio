@@ -64,7 +64,7 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
     <section
       ref={sectionRef}
       dir={isAr ? "rtl" : "ltr"}
-      className="relative py-24 lg:py-32 bg-white overflow-hidden"
+      className="relative py-16 lg:py-32 bg-white overflow-hidden"
     >
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
@@ -84,8 +84,8 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
             </div>
 
             {/* Floating Experience Card */}
-            <div className={`why-float absolute bottom-8 ${isAr ? "-left-4 md:-left-12" : "-right-4 md:-right-12"} bg-white p-6 md:p-8 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex items-center gap-5 z-20`}>
-              <div className="w-16 h-16 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <div className={`why-float absolute bottom-4 md:bottom-8 ${isAr ? "left-4 md:-left-12" : "right-4 md:-right-12"} bg-white p-4 md:p-8 rounded-2xl md:rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex items-center gap-3 md:gap-5 z-20`}>
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
                 <Award size={32} />
               </div>
               <div>
@@ -108,7 +108,7 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
             </div>
 
             {/* Headline */}
-            <h2 className="why-title text-4xl md:text-5xl lg:text-6xl font-black text-physio-dark leading-[1.1] tracking-tight mb-8">
+            <h2 className="why-title text-3xl md:text-5xl lg:text-6xl font-black text-physio-dark leading-[1.1] tracking-tight mb-8">
                {isAr ? "نحن الأفضل في العلاج الطبيعي" : "We Are The Best For Physiotherapy"}
             </h2>
 
@@ -132,7 +132,7 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
             </div>
 
             {/* Footer Profile & CTA */}
-            <div className="why-footer flex flex-col md:flex-row items-center justify-between gap-10 border-t border-gray-100 pt-10">
+            <div className="why-footer flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 border-t border-gray-100 pt-8 md:pt-10">
               {/* Profile Card */}
               <div className={`flex items-center gap-4 ${isAr ? "flex-row-reverse" : ""}`}>
                 <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-brand-green p-0.5">

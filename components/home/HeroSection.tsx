@@ -71,7 +71,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
     <section
       ref={containerRef}
       dir={isAr ? "rtl" : "ltr"}
-      className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center bg-physio-dark pt-40"
+      className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center bg-physio-dark pt-32 lg:pt-40"
     >
       {/* ── Video Background ── */}
       <div className="absolute inset-0 z-0">
@@ -118,10 +118,10 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
         </div>
 
         {/* Main Actions */}
-        <div className="hero-reveal flex flex-col items-center justify-center gap-6 sm:flex-row">
+        <div className="hero-reveal flex flex-col items-center justify-center gap-4 sm:gap-6 sm:flex-row w-full sm:w-auto px-4 sm:px-0">
           <Link
             href={`/${locale}/book/riyadh`}
-            className="group relative flex h-16 items-center justify-center gap-6 overflow-hidden rounded-full bg-white px-12 text-base font-black text-physio-dark transition-all hover:bg-white/90 active:scale-95 sm:w-auto"
+            className="group relative flex h-16 w-full items-center justify-center gap-6 overflow-hidden rounded-full bg-white px-8 sm:px-12 text-base font-black text-physio-dark transition-all hover:bg-white/90 active:scale-95 sm:w-auto"
           >
             {t.bookAppointment}
             <ArrowRight size={20} className={`${isAr ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"} transition-transform`} />
@@ -129,7 +129,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
 
           <Link
             href={`/${locale}/services`}
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-12 py-5 rounded-full font-bold text-base text-white transition-all duration-300"
+            className="group relative overflow-hidden inline-flex w-full items-center justify-center gap-3 px-8 sm:px-12 py-5 rounded-full font-bold text-base text-white transition-all duration-300 sm:w-auto"
             style={{ background: "linear-gradient(135deg, var(--color-brand-green), var(--color-brand-green-dark))", boxShadow: "0 12px 40px rgba(76,175,80,0.3)" }}
           >
             {t.exploreServices}
@@ -139,7 +139,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
 
         {/* Floating Metrics / Trust Strip */}
         <div className="hero-reveal mt-8 border-t border-white/10 pt-12">
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+          <div className="flex flex-nowrap items-center justify-start sm:justify-center gap-x-6 overflow-x-auto px-2 no-scrollbar">
             {[t.trust1, t.trust2, t.trust3].map((item, i) => (
               <div key={i} className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:text-white/80">
                 <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/40 bg-white/5 text-white">

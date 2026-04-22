@@ -380,7 +380,7 @@ export function BookingFlow({ locale, branch, services, packages, therapists }: 
                   >
                     {pkg.badge && (
                       <div 
-                        className="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider z-10"
+                        className="absolute top-1 right-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider z-10"
                         style={{ background: "var(--color-brand-green)", color: "white" }}
                       >
                         {isAr ? pkg.badge.ar : pkg.badge.en}

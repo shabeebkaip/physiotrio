@@ -113,7 +113,7 @@ export function TeamCarousel({
 
       <section
         ref={sectionRef}
-        className="relative overflow-hidden bg-white py-20 pb-32 md:py-32"
+        className="relative overflow-hidden bg-white py-16 pb-24 md:py-32"
         dir={isAr ? "rtl" : "ltr"}
       >
         {/* ── Header ── */}
@@ -122,7 +122,7 @@ export function TeamCarousel({
             {isAr ? "نخبة المتخصصين" : "OUR MEDICAL TEAM"}
           </span>
 
-          <h2 className="tc-title mb-6 text-4xl font-black tracking-tight text-[#0f2d1f] sm:text-5xl md:text-6xl">
+          <h2 className="tc-title mb-6 text-3xl font-black tracking-tight text-[#0f2d1f] sm:text-5xl md:text-6xl">
             {title}
           </h2>
 
@@ -132,7 +132,7 @@ export function TeamCarousel({
         </div>
 
         {/* ── Swiper ── */}
-        <div className="tc-swiper-wrap relative z-10 mt-20">
+        <div className="tc-swiper-wrap relative z-10 mt-12 md:mt-20">
           <Swiper
             modules={[Autoplay, Pagination, Navigation]}
             centeredSlides

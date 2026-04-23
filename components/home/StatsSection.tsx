@@ -37,15 +37,6 @@ export function StatsSection({ locale }: { locale: string }) {
       }
     );
 
-    // Subtle floating for the ghost icons
-    gsap.to(".stat-ghost-icon", {
-      y: -8,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 0.4
-    });
   }, { scope: sectionRef });
 
   return (

@@ -1,15 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, User } from "lucide-react";
-
-import "swiper/css";
-import "swiper/css/pagination";
+import { ArrowRight, MapPin, Languages } from "lucide-react";
 
 interface Therapist {
   id: string;
@@ -32,167 +24,116 @@ interface TeamCarouselProps {
   bookWithText: string;
 }
 
-export function TeamCarousel({
-  locale,
-  therapists,
-  title,
-  subtitle,
-}: TeamCarouselProps) {
+const AVATAR_COLORS = [
+  { bg: "bg-brand-purple/10", text: "text-brand-purple" },
+  { bg: "bg-brand-green/10", text: "text-brand-green" },
+  { bg: "bg-blue-50", text: "text-blue-600" },
+  { bg: "bg-amber-50", text: "text-amber-600" },
+];
+
+export function TeamCarousel({ locale, therapists, title, subtitle }: TeamCarouselProps) {
   const isAr = locale === "ar";
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const display = therapists.slice(0, 8);
 
   return (
     <section
-      className="relative overflow-hidden bg-white py-24 md:py-40"
       dir={isAr ? "rtl" : "ltr"}
+      className="py-20 lg:py-28 bg-[#F8F9FA]"
     >
-      {/* ── Header ── */}
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 mb-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="max-w-2xl">
-            <motion.span 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="mb-4 inline-block text-[10px] font-black uppercase tracking-[0.4em] text-brand-green"
-            >
-              {isAr ? "نخبة المتخصصين" : "THE ELITE TEAM"}
-            </motion.span>
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-7xl font-black tracking-tight text-gray-900 leading-[0.95]"
-            >
-              {isAr ? (
-                <>خبرتنا <span className="text-brand-purple">في خدمتك</span></>
-              ) : (
-                <>Clinical <span className="text-brand-purple">Authority</span></>
-              )}
-            </motion.h2>
-          </div>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-lg font-medium text-gray-400 max-w-sm"
-          >
-            {subtitle}
-          </motion.p>
-        </div>
-      </div>
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* ── Swiper ── */}
-      <div className="relative z-10">
-        <Swiper
-          modules={[Autoplay, Pagination, Navigation]}
-          centeredSlides={false}
-          loop={true}
-          slidesPerView={1.2}
-          spaceBetween={20}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          breakpoints={{
-            640: { slidesPerView: 2.2, spaceBetween: 30 },
-            1024: { slidesPerView: 3.2, spaceBetween: 40 },
-            1280: { slidesPerView: 4.2, spaceBetween: 40 },
-          }}
-          className="tc-swiper px-6 !pb-20"
-        >
-          {therapists.map((th) => {
+        {/* Header */}
+        <div className="mb-12">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-purple mb-3 block">
+            {isAr ? "فريقنا" : "Our Team"}
+          </span>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+              {title}
+            </h2>
+            <Link
+              href={`/${locale}/about`}
+              className="shrink-0 inline-flex items-center gap-2 text-sm font-semibold text-brand-purple hover:opacity-75 transition-opacity"
+            >
+              {isAr ? "عرض الفريق" : "Meet the Team"}
+              <ArrowRight size={14} className={isAr ? "rotate-180" : ""} />
+            </Link>
+          </div>
+          <p className="mt-3 text-gray-500 text-base max-w-2xl leading-relaxed">
+            {subtitle}
+          </p>
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {display.map((th, i) => {
             const name = isAr ? th.name.ar : th.name.en;
             const role = isAr ? th.title.ar : th.title.en;
+            const branch = th.branches[0] || "riyadh";
+            const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
+            const specs = th.specializations.slice(0, 2);
 
             return (
-              <SwiperSlide key={th.id}>
-                <motion.div
-                  onMouseEnter={() => setHoveredId(th.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                  className="group relative h-[500px] rounded-[2.5rem] bg-gray-50 overflow-hidden transition-all duration-700"
-                >
-                  {/* Background Image Container */}
-                  <div className="absolute inset-0 z-0">
-                    {th.image ? (
-                      <Image
-                        src={th.image}
-                        alt={name}
-                        fill
-                        className="object-cover object-top transition-transform duration-1000 group-hover:scale-110"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                        <User size={80} className="text-gray-200" />
-                      </div>
-                    )}
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700" />
+              <div
+                key={th.id}
+                className="bg-white rounded-2xl border border-gray-200 hover:border-brand-purple/20 hover:shadow-md transition-all duration-200 flex flex-col"
+              >
+                {/* Card top */}
+                <div className="p-5 flex items-start gap-4 border-b border-gray-100">
+                  {/* Initials avatar */}
+                  <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center shrink-0`}>
+                    <span className={`text-base font-bold ${color.text}`}>
+                      {th.initials}
+                    </span>
                   </div>
-
-                  {/* Info Content - Bottom */}
-                  <div className="absolute inset-x-0 bottom-0 z-20 p-8">
-                    <div className="mb-4">
-                      <h3 className="text-2xl font-black text-white leading-tight mb-1 group-hover:text-brand-green transition-colors duration-500">
-                        {name}
-                      </h3>
-                      <p className="text-xs font-bold uppercase tracking-widest text-white/60">
-                        {role}
-                      </p>
-                    </div>
-
-                    {/* Hidden Details Reveal */}
-                    <AnimatePresence>
-                      {hoveredId === th.id && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between">
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black uppercase text-white/40 tracking-widest">{isAr ? "الخبرة" : "Experience"}</span>
-                              <span className="text-sm font-bold text-white">{th.yearsExp}+ {isAr ? "سنوات" : "Years"}</span>
-                            </div>
-                            <Link
-                              href={`/${locale}/book/${th.branches[0] || "riyadh"}`}
-                              className="w-10 h-10 rounded-full bg-brand-green flex items-center justify-center text-white hover:scale-110 transition-transform"
-                            >
-                              <ArrowRight size={18} className={isAr ? "rotate-180" : ""} />
-                            </Link>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 leading-tight mb-0.5 truncate">
+                      {name}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-snug line-clamp-2">
+                      {role}
+                    </p>
                   </div>
+                </div>
 
-                  {/* Top Badge */}
-                  <div className="absolute top-6 left-6 z-20">
-                    <div className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-white">
-                        {th.branches[0] || "Riyadh"}
-                      </span>
-                    </div>
+                {/* Specializations */}
+                <div className="px-5 pt-4 pb-3 flex flex-wrap gap-1.5 flex-1">
+                  {specs.map((s, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[10px] font-medium bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                <div className="px-5 pb-4 flex items-center justify-between">
+                  <div className="flex flex-col gap-1">
+                    <span className="flex items-center gap-1 text-[11px] text-gray-400">
+                      <MapPin size={10} className="shrink-0" />
+                      {branch.charAt(0).toUpperCase() + branch.slice(1)}
+                    </span>
+                    <span className="flex items-center gap-1 text-[11px] text-gray-400">
+                      <Languages size={10} className="shrink-0" />
+                      {th.languages.join(" · ")}
+                    </span>
                   </div>
-                </motion.div>
-              </SwiperSlide>
+                  <Link
+                    href={`/${locale}/book/${branch}`}
+                    className="text-[11px] font-semibold text-brand-purple hover:opacity-75 transition-opacity flex items-center gap-1 shrink-0"
+                  >
+                    {isAr ? "احجز" : "Book"}
+                    <ArrowRight size={11} className={isAr ? "rotate-180" : ""} />
+                  </Link>
+                </div>
+              </div>
             );
           })}
-        </Swiper>
-      </div>
+        </div>
 
-      <style jsx global>{`
-        .tc-swiper .swiper-pagination-bullet {
-          background: #e2e8f0;
-          opacity: 1;
-        }
-        .tc-swiper .swiper-pagination-bullet-active {
-          background: #5E0450;
-          width: 20px;
-          border-radius: 4px;
-        }
-      `}</style>
+      </div>
     </section>
   );
 }

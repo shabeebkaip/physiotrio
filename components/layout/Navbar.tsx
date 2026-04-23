@@ -8,7 +8,7 @@ import {
   Menu, X, Globe, ArrowRight, ChevronDown,
   Activity, Dumbbell, Brain, Baby, Users, Heart,
   Droplets, Zap, Radio, Gauge, Layers, Bot, Hand,
-  ArrowUpRight, Stethoscope, Phone,
+  ArrowUpRight, Stethoscope, 
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
@@ -60,10 +60,8 @@ interface NavbarProps {
   translations: {
     home: string;
     services: string;
-    branches: string;
-    team: string;
     about: string;
-    offers: string;
+    packages: string;
     blog: string;
     contact: string;
     bookNow: string;
@@ -71,10 +69,8 @@ interface NavbarProps {
 }
 
 const plainLinks = [
-  { href: "/branches", key: "branches" },
-  { href: "/team", key: "team" },
   { href: "/about", key: "about" },
-  { href: "/offers", key: "offers" },
+  { href: "/packages", key: "packages" },
   { href: "/contact", key: "contact" },
 ];
 

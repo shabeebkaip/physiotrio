@@ -1,14 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { motion } from "framer-motion";
+import { ArrowRight, Clock } from "lucide-react";
 
 interface Service {
   id: string;
@@ -29,107 +23,114 @@ interface ServicesGridProps {
   bookNowText: string;
 }
 
-export function ServicesGrid({ locale, services, title, subtitle, bookNowText }: ServicesGridProps) {
+export function ServicesGrid({ locale, services, title, subtitle }: ServicesGridProps) {
   const isAr = locale === "ar";
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useGSAP(() => {
-    gsap.fromTo(".svc-header > *", 
-      { opacity: 0, y: 30 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1, 
-        stagger: 0.1, 
-        ease: "power3.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 85%" }
-      }
-    );
-
-    gsap.fromTo(".svc-card", 
-      { opacity: 0, scale: 0.9, y: 40 },
-      { 
-        opacity: 1, 
-        scale: 1, 
-        y: 0, 
-        duration: 0.8, 
-        stagger: 0.1, 
-        ease: "back.out(1.2)",
-        scrollTrigger: { trigger: ".svc-grid", start: "top 80%" }
-      }
-    );
-  }, { scope: sectionRef });
 
   return (
-    <section 
-      ref={sectionRef} 
+    <motion.section
       dir={isAr ? "rtl" : "ltr"}
-      className="relative py-16 lg:py-32 bg-[#FBFBFD] overflow-hidden"
+      className="py-20 lg:py-28 bg-white"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
     >
-      <div className="relative max-w-7xl mx-auto px-6">
-        
-        {/* ── Header ── */}
-        <div className="svc-header mb-12 lg:mb-20 text-center">
-           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-purple/5 border border-brand-purple/10 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-pulse" />
-              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-brand-purple">
-                 {isAr ? "خدماتنا" : "Specialized Care"}
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+          {/* Left panel — 1/3 */}
+          <div className="lg:w-1/3 flex flex-col justify-between">
+            <div>
+              <span
+                className="text-[10px] font-bold uppercase tracking-[0.25em] mb-4 block"
+                style={{ color: "var(--color-brand-purple)" }}
+              >
+                {isAr ? "خدماتنا" : "Our Services"}
               </span>
-           </div>
-           <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-physio-dark tracking-tight mb-6">
-              {title}
-           </h2>
-           <p className="text-gray-500 text-base md:text-lg font-medium max-w-2xl mx-auto leading-relaxed">
-              {subtitle}
-           </p>
-        </div>
-
-        {/* ── Grid Container ── */}
-        <div className="svc-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {services.map((service) => (
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-[1.1] mb-5">
+                {title}
+              </h2>
+              <p className="text-gray-500 text-base leading-relaxed mb-8">
+                {subtitle}
+              </p>
+            </div>
             <Link
-              key={service.id}
-              href={`/${locale}/services/${service.slug}`}
-              className="svc-card group relative h-full bg-white rounded-[32px] p-10 border border-[#eff3f1] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block"
+              href={`/${locale}/services`}
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-70"
+              style={{ color: "var(--color-brand-purple)" }}
             >
-              {/* Sliding Hover Background */}
-              <div className="absolute inset-0 bg-brand-purple translate-y-[101%] transition-transform duration-500 ease-out group-hover:translate-y-0" />
-              
-              {/* Content Wrapper */}
-              <div className="relative z-10 h-full flex flex-col">
-                 {/* Icon Box */}
-                 <div className="w-14 h-14 rounded-2xl bg-brand-purple/10 flex items-center justify-center mb-8 text-brand-purple transition-all duration-500 group-hover:bg-white group-hover:text-brand-green">
-                    <div className="w-8 h-8 relative">
-                       <Image 
-                         src={service.icon} 
-                         alt={isAr ? service.name.ar : service.name.en} 
-                         fill 
-                         className="object-contain transition-all duration-500 group-hover:brightness-100 group-hover:contrast-100"
-                         unoptimized
-                       />
-                    </div>
-                 </div>
-
-                 {/* Text Content */}
-                 <h3 className="text-2xl font-black text-physio-dark mb-4 tracking-tight leading-tight transition-colors duration-500 group-hover:text-white">
-                    {isAr ? service.name.ar : service.name.en}
-                 </h3>
-                 <p className="text-base text-gray-500 font-medium leading-relaxed mb-8 transition-colors duration-500 group-hover:text-white/80 line-clamp-3">
-                    {isAr ? service.shortDesc.ar : service.shortDesc.en}
-                 </p>
-
-                 {/* Bottom Arrow Button */}
-                 <div className="mt-auto flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-physio-dark transition-all duration-500 group-hover:bg-white group-hover:text-brand-green group-hover:border-white">
-                       <ArrowRight size={18} className={isAr ? "rotate-180" : ""} />
-                    </div>
-                 </div>
-              </div>
+              {isAr ? "عرض جميع الخدمات" : "View All Services"}
+              <ArrowRight size={14} className={isAr ? "rotate-180" : ""} />
             </Link>
-          ))}
-        </div>
+          </div>
 
+          {/* Right panel — 2/3, service rows */}
+          <div className="lg:w-2/3">
+            <div className="divide-y divide-gray-100">
+              {services.map((service, index) => {
+                const num = String(index + 1).padStart(2, "0");
+                const name = isAr ? service.name.ar : service.name.en;
+
+                return (
+                  <Link
+                    key={service.id}
+                    href={`/${locale}/services/${service.slug}`}
+                    className="group flex items-center gap-5 py-5 first:pt-0 last:pb-0 transition-colors"
+                  >
+                    {/* Number */}
+                    <span className="text-[13px] font-mono text-gray-300 w-7 shrink-0 select-none">
+                      {num}
+                    </span>
+
+                    {/* Service name */}
+                    <span
+                      className={`flex-1 text-base leading-snug transition-colors group-hover:opacity-80 ${
+                        service.featured
+                          ? "font-bold text-gray-900"
+                          : "font-medium text-gray-700"
+                      }`}
+                    >
+                      {name}
+                      {service.featured && (
+                        <span
+                          className="ms-2 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                          style={{
+                            backgroundColor: `rgba(var(--color-brand-purple-rgb), 0.08)`,
+                            color: "var(--color-brand-purple)",
+                          }}
+                        >
+                          {isAr ? "مميز" : "Featured"}
+                        </span>
+                      )}
+                    </span>
+
+                    {/* Duration badge */}
+                    <span className="shrink-0 flex items-center gap-1.5 text-xs text-gray-400 border border-gray-200 rounded-full px-3 py-1">
+                      <Clock size={10} />
+                      {service.durationMinutes}&thinsp;{isAr ? "د" : "min"}
+                    </span>
+
+                    {/* Arrow */}
+                    <span
+                      className="shrink-0 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center transition-all group-hover:border-transparent group-hover:text-white"
+                      style={{
+                        // applied via inline because Tailwind can't interpolate CSS vars in group-hover
+                      }}
+                      aria-hidden="true"
+                    >
+                      <ArrowRight
+                        size={13}
+                        className={`transition-colors text-gray-400 group-hover:text-[var(--color-brand-purple)] ${isAr ? "rotate-180" : ""}`}
+                      />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

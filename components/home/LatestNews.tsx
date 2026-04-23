@@ -1,132 +1,158 @@
-"use client";
-
-import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import type { BlogPost } from "@/lib/data/blog";
-import { ArrowRight } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import type { NewsPost } from "@/lib/data/news";
+import { ArrowRight, Calendar } from "lucide-react";
 
-if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, useGSAP);
+interface LatestNewsProps {
+  locale: string;
+  posts: NewsPost[];
+}
 
-interface LatestNewsProps { locale: string; posts: BlogPost[]; }
+function formatDate(dateStr: string, isAr: boolean) {
+  return new Date(dateStr).toLocaleDateString(isAr ? "ar-SA" : "en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export function LatestNews({ locale, posts }: LatestNewsProps) {
   const isAr = locale === "ar";
-  const sectionRef = useRef<HTMLElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const displayPosts = posts.slice(0, 3);
+  const display = posts.slice(0, 3);
+  const featured = display[0];
+  const secondary = display.slice(1, 3);
 
-  useGSAP(() => {
-    gsap.fromTo(".news-hdr", 
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power2.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 85%", toggleActions: "play none none none" },
-      }
-    );
-    gsap.fromTo(".news-card", 
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1, y: 0, duration: 0.7, stagger: 0.15, ease: "power2.out",
-        scrollTrigger: { trigger: gridRef.current, start: "top 88%", toggleActions: "play none none none" },
-      }
-    );
-    // Force refresh to handle dynamic layout shifts
-    setTimeout(() => ScrollTrigger.refresh(), 500);
-  }, { scope: sectionRef });
+  if (!featured) return null;
+
+  const featuredHref = `/${locale}/news/${featured.slug}`;
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-28" style={{ background: "#fff" }}>
-      <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
+    <section
+      dir={isAr ? "rtl" : "ltr"}
+      className="py-20 lg:py-28"
+      style={{ backgroundColor: "#f8f9fb" }}
+    >
+      <div className="max-w-7xl mx-auto px-6">
 
-        {/* Header row */}
-        <div className={`flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16 ${isAr ? "sm:flex-row-reverse" : ""}`}>
-          <div className={isAr ? "text-right" : "text-left"}>
-            <span className="news-hdr inline-block text-xs font-bold uppercase tracking-[0.20em] px-5 py-2 rounded-full mb-5"
-              style={{ background: "rgba(76,175,80,0.12)", color: "#388e3c", border: "1px solid rgba(76,175,80,0.22)" }}>
-              {isAr ? "المقالات والأخبار" : "Blog & Articles"}
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+          <div>
+            <span
+              className="text-[10px] font-bold uppercase tracking-[0.25em] mb-2 block"
+              style={{ color: "var(--color-brand-purple)" }}
+            >
+              {isAr ? "الأخبار والفعاليات" : "News & Events"}
             </span>
-            <h2 className="news-hdr text-4xl sm:text-5xl font-black leading-tight" style={{ color: "#0f2d1f" }}>
-              {isAr ? "أحدث القصص والأخبار" : "Latest Stories & News"}
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+              {isAr ? "آخر الأخبار" : "Latest News"}
             </h2>
           </div>
           <Link
-            href={`/${locale}/blog`}
-            className="news-hdr shrink-0 inline-flex items-center gap-2 group px-8 py-4 rounded-full font-bold text-sm transition-all duration-300"
-            style={{ color: "#0f2d1f", border: "1.5px solid #0f2d1f" }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="#0f2d1f"; el.style.color="#fff"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="transparent"; el.style.color="#0f2d1f"; }}
+            href={`/${locale}/news`}
+            className="shrink-0 inline-flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-70"
+            style={{ color: "var(--color-brand-purple)" }}
           >
-            {isAr ? "جميع الأخبار" : "View All News"}
-            <ArrowRight size={18} className={`transition-transform duration-300 group-hover:translate-x-1 ${isAr ? "-scale-x-100" : ""}`} />
+            {isAr ? "جميع الأخبار" : "View All"}
+            <ArrowRight size={14} className={isAr ? "rotate-180" : ""} />
           </Link>
         </div>
 
-        {/* Cards grid */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayPosts.map((post, i) => {
-            const date = new Date(post.date).toLocaleDateString(isAr ? "ar-SA" : "en-US", { month: "long", day: "numeric", year: "numeric" });
-            return (
-              <article key={post.slug} className="news-card group flex flex-col rounded-[2rem] overflow-hidden transition-all duration-500 bg-white"
-                style={{ border: "1px solid #E6EEEC" }}
-                onMouseEnter={e => { 
-                  const el = e.currentTarget as HTMLElement; 
-                  el.style.boxShadow="0 25px 50px rgba(15, 45, 31, 0.08)"; 
-                  el.style.transform="translateY(-10px)"; 
-                }}
-                onMouseLeave={e => { 
-                  const el = e.currentTarget as HTMLElement; 
-                  el.style.boxShadow="none"; 
-                  el.style.transform="translateY(0)"; 
-                }}
+        {/* Editorial layout */}
+        <div className="grid lg:grid-cols-5 gap-4">
+
+          {/* Featured article — spans 3 cols */}
+          <Link
+            href={featuredHref}
+            className="group relative rounded-2xl overflow-hidden lg:col-span-3 flex flex-col"
+            style={{ minHeight: "360px", background: "#0f2b3d" }}
+          >
+            <Image
+              src={featured.image}
+              alt={isAr ? featured.title.ar : featured.title.en}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              unoptimized
+            />
+            {/* Overlay */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(to top, rgba(7,20,30,0.92) 0%, rgba(7,20,30,0.4) 55%, transparent 100%)",
+              }}
+            />
+            {/* Text */}
+            <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
+              <span
+                className="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3 self-start"
+                style={{ background: "var(--color-brand-green)", color: "white" }}
               >
-                {/* Image */}
-                <Link href={`/${locale}/blog/${post.slug}`} className="block relative overflow-hidden h-64">
-                  <Image
-                    src={post.image} alt={isAr ? post.title.ar : post.title.en}
-                    fill className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="(max-width:768px) 100vw, 33vw"
-                    unoptimized
-                  />
-                  {/* Date badge floats on image bottom-right */}
-                  <div 
-                    className={`absolute bottom-6 ${isAr ? "left-6" : "right-6"} bg-white px-4 py-2 rounded-full font-black text-xs uppercase tracking-wider`}
-                    style={{ color: "#0f2d1f", boxShadow: "0 8px 16px rgba(0,0,0,0.1)" }}
-                  >
-                    {date}
+                {isAr ? featured.category.ar : featured.category.en}
+              </span>
+              <h3 className="text-lg md:text-xl font-bold text-white leading-snug mb-2">
+                {isAr ? featured.title.ar : featured.title.en}
+              </h3>
+              <span className="flex items-center gap-1.5 text-xs text-white/50">
+                <Calendar size={10} />
+                {formatDate(featured.date, isAr)}
+              </span>
+            </div>
+          </Link>
+
+          {/* Secondary articles — spans 2 cols */}
+          <div className="flex flex-col gap-4 lg:col-span-2">
+            {secondary.map((post) => {
+              const href = `/${locale}/news/${post.slug}`;
+              return (
+                <Link
+                  key={post.slug}
+                  href={href}
+                  className="group flex gap-4 bg-white rounded-2xl border border-gray-200 hover:border-transparent hover:shadow-md transition-all duration-200 overflow-hidden flex-1"
+                  style={{ minHeight: "160px" }}
+                >
+                  {/* Thumbnail */}
+                  <div className="relative w-32 shrink-0" style={{ background: "#e5e7eb" }}>
+                    <Image
+                      src={post.image}
+                      alt={isAr ? post.title.ar : post.title.en}
+                      fill
+                      className="object-cover"
+                      sizes="128px"
+                      unoptimized
+                    />
+                  </div>
+
+                  {/* Text */}
+                  <div className="flex flex-col justify-center py-4 pr-4 gap-2 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className="text-[10px] font-bold uppercase tracking-widest"
+                        style={{ color: "var(--color-brand-green)" }}
+                      >
+                        {isAr ? post.category.ar : post.category.en}
+                      </span>
+                      <span className="text-gray-300">·</span>
+                      <span className="flex items-center gap-1 text-[10px] text-gray-400">
+                        <Calendar size={10} />
+                        {formatDate(post.date, isAr)}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-3 group-hover:text-brand-purple transition-colors">
+                      {isAr ? post.title.ar : post.title.en}
+                    </h3>
+                    <span
+                      className="inline-flex items-center gap-1 text-xs font-semibold mt-auto"
+                      style={{ color: "var(--color-brand-purple)" }}
+                    >
+                      {isAr ? "اقرأ المزيد" : "Read More"}
+                      <ArrowRight size={11} className={isAr ? "rotate-180" : ""} />
+                    </span>
                   </div>
                 </Link>
+              );
+            })}
+          </div>
 
-                {/* Content */}
-                <div className="p-8 sm:p-10 flex flex-col flex-1">
-                   <div className="flex items-center gap-2 mb-4">
-                     <span className="w-1.5 h-6 rounded-full bg-brand-green"></span>
-                     <span className="text-xs font-black uppercase tracking-widest text-brand-green">
-                       {isAr ? post.category.ar : post.category.en}
-                     </span>
-                   </div>
-
-                   <h3 className="text-xl font-black leading-snug mb-8 group-hover:text-brand-purple transition-colors duration-300 flex-1" style={{ color: "#0f2d1f" }}>
-                    <Link href={`/${locale}/blog/${post.slug}`}>{isAr ? post.title.ar : post.title.en}</Link>
-                  </h3>
-                  
-                  <Link
-                    href={`/${locale}/blog/${post.slug}`}
-                    className="inline-flex items-center gap-3 self-start text-sm font-black transition-colors duration-300 group-hover:gap-5"
-                    style={{ color: "#0f2d1f" }}
-                  >
-                    {isAr ? "اقرأ المزيد" : "Read More"}
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center border border-gray-200 group-hover:bg-[#0f2d1f] group-hover:border-[#0f2d1f] transition-all">
-                      <ArrowRight size={14} className={`group-hover:text-white ${isAr ? "-scale-x-100" : ""}`} />
-                    </div>
-                  </Link>
-                </div>
-              </article>
-            );
-          })}
         </div>
       </div>
     </section>

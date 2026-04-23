@@ -39,9 +39,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const cta = await getTranslations("cta");
 
   const navT = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare"),
+    home: nav("home"), services: nav("services"),
+    about: nav("about"), packages: nav("packages"),
+    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"),
   };
   const footerT = {
     tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"),
@@ -49,8 +49,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly"),
   };
   const navForFooter = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
+    home: nav("home"), services: nav("services"),
+    about: nav("about"), packages: nav("packages"),
     blog: nav("blog"), faq: nav("faq"), contact: nav("contact"),
   };
 

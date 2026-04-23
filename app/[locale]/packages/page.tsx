@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { OffersContent } from "./OffersContent";
@@ -24,9 +23,9 @@ export default async function OffersPage({ params }: { params: Promise<{ locale:
   const cta = await getTranslations("cta");
 
   const navT = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare"),
+    home: nav("home"), services: nav("services"),
+    about: nav("about"), packages: nav("packages"),
+    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"),
   };
   const footerT = {
     tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"),
@@ -34,14 +33,13 @@ export default async function OffersPage({ params }: { params: Promise<{ locale:
     privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly"),
   };
   const navForFooter = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
+    home: nav("home"), services: nav("services"),
+    about: nav("about"), packages: nav("packages"),
     blog: nav("blog"), faq: nav("faq"), contact: nav("contact"),
   };
 
   return (
     <>
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navT} />
       <OffersContent locale={locale} ctaBook={cta("book")} ctaWhatsapp={cta("whatsapp")} ctaTitle={cta("title")} />
       <Footer locale={locale} t={footerT} nav={navForFooter} />

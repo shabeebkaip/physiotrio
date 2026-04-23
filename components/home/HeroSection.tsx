@@ -1,13 +1,7 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Play, HeartPulse, ShieldCheck } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { motion } from "framer-motion";
 
 interface HeroSectionProps {
   locale: string;
@@ -24,129 +18,144 @@ interface HeroSectionProps {
   };
 }
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      delay,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    },
+  }),
+};
+
 export function HeroSection({ locale, t }: HeroSectionProps) {
   const isAr = locale === "ar";
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useGSAP(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-    // Entrance sequence
-    tl.fromTo(".hero-reveal",
-      { y: 60, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 1.2, stagger: 0.15, clearProps: "all" }
-    );
-
-    tl.fromTo(".hero-video-bg",
-      { scale: 1.2, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 2, ease: "power2.out" },
-      0
-    );
-
-    // Subtle parallax on scroll
-    gsap.to(".hero-content-wrap", {
-      y: 100,
-      opacity: 0.3,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-
-    // Pulse animation for the play button
-    gsap.to(".play-pulse", {
-      scale: 1.4,
-      opacity: 0,
-      duration: 1.5,
-      repeat: -1,
-      ease: "sine.out"
-    });
-
-  }, { scope: containerRef });
 
   return (
     <section
-      ref={containerRef}
+      className="relative flex flex-col overflow-hidden"
+      style={{ minHeight: "100svh" }}
       dir={isAr ? "rtl" : "ltr"}
-      className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center bg-physio-dark pt-32 lg:pt-40"
     >
-      {/* ── Video Background ── */}
+      {/* Video background */}
       <div className="absolute inset-0 z-0">
         <video
-          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          className="hero-video-bg h-full w-full object-cover"
+          className="w-full h-full object-cover object-center"
+          poster="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
         >
-          {/* Using a high-quality clinical placeholder video */}
-          <source src="/images/home/hero2.mp4" type="video/mp4" />
+          <source src="/hero.mp4" type="video/mp4" />
         </video>
+        <div
+          className="absolute inset-0"
+          style={{
+            background: isAr
+              ? "linear-gradient(to left, rgba(7,20,30,0.88) 0%, rgba(7,20,30,0.65) 55%, rgba(7,20,30,0.25) 100%)"
+              : "linear-gradient(to right, rgba(7,20,30,0.88) 0%, rgba(7,20,30,0.65) 55%, rgba(7,20,30,0.25) 100%)",
+          }}
+        />
       </div>
-        <div className="absolute inset-0 z-[1] bg-black/30 backdrop-brightness-90"/>
-      {/* ── Content Container ── */}
-      <div className="hero-content-wrap relative z-10 w-full max-w-7xl px-6 text-center">
 
-        {/* Eyebrow Badge */}
-        <div className="hero-reveal mb-8 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-2 backdrop-blur-md transition-all hover:border-white/50">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-white"></span>
-            </span>
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white">
-              {t.eyebrow}
-            </span>
-          </div>
-        </div>
+      {/* Content — pinned to bottom-start */}
+      <div className="relative z-10 flex-1 flex items-end">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pb-16 sm:pb-24">
+          <div className="flex flex-col gap-6 max-w-xl">
 
-        {/* Massive Headline */}
-        <h1 className="hero-reveal mb-8 text-[48px] font-semibold leading-[1.05] tracking-tight text-white sm:text-[72px] lg:text-[96px]">
-          <span className="block">{t.headline1}</span>
-          <span className="text-brand-green">{t.headline2}</span>
-        </h1>
+            {/* Eyebrow */}
+            <motion.div initial="hidden" animate="show" custom={0} variants={fadeUp}>
+              <span
+                className="inline-flex items-center gap-3 text-xs font-semibold uppercase"
+                style={{ color: "rgba(255,255,255,0.55)", letterSpacing: "0.14em" }}
+              >
+                <span
+                  className="inline-block h-px w-8 shrink-0"
+                  style={{ background: "var(--color-brand-green)" }}
+                />
+                {t.eyebrow}
+              </span>
+            </motion.div>
 
-        {/* Subheadline Text */}
-        <div className="hero-reveal mb-12 flex justify-center">
-          <p className="max-w-2xl text-lg font-medium leading-relaxed text-white/80 md:text-xl">
-            {t.subheadline}
-          </p>
-        </div>
+            {/* Headline */}
+            <motion.h1
+              initial="hidden"
+              animate="show"
+              custom={0.1}
+              variants={fadeUp}
+              className="font-bold text-white leading-tight"
+              style={{ fontSize: "clamp(34px, 5.5vw, 72px)" }}
+            >
+              {t.headline1}
+              <br />
+              <span style={{ color: "var(--color-brand-green)" }}>{t.headline2}</span>
+            </motion.h1>
 
-        {/* Main Actions */}
-        <div className="hero-reveal flex flex-col items-center justify-center gap-4 sm:gap-6 sm:flex-row w-full sm:w-auto px-4 sm:px-0">
-          <Link
-            href={`/${locale}/book/riyadh`}
-            className="group relative flex h-16 w-full items-center justify-center gap-6 overflow-hidden rounded-xl  px-8 text-lg font-bold text-white transition-all active:scale-95 sm:w-auto border-2 border-white"
-          >
-            {t.bookAppointment}
-            <ArrowRight size={20} className={`${isAr ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"} transition-transform`} />
-          </Link>
+            {/* Subheadline */}
+            <motion.p
+              initial="hidden"
+              animate="show"
+              custom={0.18}
+              variants={fadeUp}
+              className="text-base leading-relaxed"
+              style={{ color: "rgba(255,255,255,0.65)", maxWidth: "420px" }}
+            >
+              {t.subheadline}
+            </motion.p>
 
-          <Link
-            href={`/${locale}/services`}
-            className="group relative overflow-hidden inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-xl font-bold text-lg text-white transition-all duration-300 sm:w-auto bg-brand-purple border-2 border-brand-purple hover:opacity-90"
-          >
-            {t.exploreServices}
-            {/* <ArrowRight size={18} className={`transition-transform ${isAr ? "rotate-180 group-hover:-translate-x-1.5" : "group-hover:translate-x-1.5"}`} /> */}
-          </Link>
-        </div>
+            {/* CTAs */}
+            <motion.div
+              initial="hidden"
+              animate="show"
+              custom={0.26}
+              variants={fadeUp}
+              className="flex flex-col sm:flex-row gap-3"
+            >
+              <Link
+                href={`/${locale}/book/riyadh`}
+                className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg font-semibold text-sm text-white transition-opacity hover:opacity-90"
+                style={{ background: "var(--color-brand-purple)" }}
+              >
+                {t.bookAppointment}
+              </Link>
+              <Link
+                href={`/${locale}/services`}
+                className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg font-semibold text-sm text-white transition-all hover:bg-white/10"
+                style={{ border: "1px solid rgba(255,255,255,0.3)" }}
+              >
+                {t.exploreServices}
+              </Link>
+            </motion.div>
 
-        {/* Floating Metrics / Trust Strip */}
-        <div className="hero-reveal mt-8 border-t border-white/10 pt-12">
-          <div className="flex flex-nowrap items-center justify-start sm:justify-center gap-x-6 overflow-x-auto px-2 no-scrollbar">
-            {[t.trust1, t.trust2, t.trust3].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:text-white/80">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/40 bg-white/5 text-white">
-                  <ShieldCheck size={14} />
-                </div>
-                {item}
-              </div>
-            ))}
+            {/* Trust row */}
+            <motion.div
+              initial="hidden"
+              animate="show"
+              custom={0.34}
+              variants={fadeUp}
+              className="flex flex-wrap gap-5 pt-2"
+            >
+              {[t.trust1, t.trust2, t.trust3].map((item, i) => (
+                <span
+                  key={i}
+                  className="flex items-center gap-2 text-xs font-medium"
+                  style={{ color: "rgba(255,255,255,0.55)" }}
+                >
+                  <span
+                    className="w-4 h-4 rounded-full flex items-center justify-center text-white shrink-0"
+                    style={{ background: "var(--color-brand-green)", fontSize: "9px" }}
+                  >
+                    ✓
+                  </span>
+                  {item}
+                </span>
+              ))}
+            </motion.div>
+
           </div>
         </div>
       </div>

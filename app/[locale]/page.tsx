@@ -2,25 +2,24 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
+import { BookingCTABand } from "@/components/common/BookingCTABand";
+import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { HeroSection } from "@/components/home/HeroSection";
 import { InsuranceBar } from "@/components/home/InsuranceBar";
-import { FeaturesStrip } from "@/components/home/FeaturesStrip";
-import { BodyPartsSection } from "@/components/home/BodyPartsSection";
+import { StatsSection } from "@/components/home/StatsSection";
+import { AboutSnippet } from "@/components/home/AboutSnippet";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
 import { TeamCarousel } from "@/components/home/TeamCarousel";
-import { OffersTeaser } from "@/components/home/OffersTeaser";
+import { ProgramsTeaser } from "@/components/home/ProgramsTeaser";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
-import { LatestNews } from "@/components/home/LatestNews";
-import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
-import { StatsSection } from "@/components/home/StatsSection";
-import { ExcellenceSection } from "@/components/home/ExcellenceSection";
+import { NewsBlog } from "@/components/home/NewsBlog";
 import { services } from "@/lib/data/services";
 import { therapists } from "@/lib/data/therapists";
 import { testimonials } from "@/lib/data/testimonials";
-import { blogPosts } from "@/lib/data/blog";
+import { programs } from "@/lib/data/programs";
+import { newsPosts } from "@/lib/data/news";
 
 export async function generateMetadata({
   params,
@@ -30,20 +29,11 @@ export async function generateMetadata({
   const { locale } = await params;
   return {
     title: locale === "ar"
-      ? "فيزيوتريو — مركز العلاج الطبيعي المتميز | الرياض · مكة · الدمام"
-      : "PhysioTrio — Premium Physiotherapy Center | Riyadh · Makkah · Dammam",
+      ? "فيزيوتريو — مركز العلاج الطبيعي المتميز | الرياض · مكة"
+      : "PhysioTrio — Premium Physiotherapy Center | Riyadh · Makkah",
     description: locale === "ar"
       ? "مركز العلاج الطبيعي المتميز في المملكة العربية السعودية. جزء من مجموعة برجيل القابضة. خدمات متخصصة في الرياض ومكة المكرمة."
-      : "Premium physiotherapy center in Saudi Arabia. A Burjeel Holdings Company. Specialized services in Riyadh, Makkah & Dammam.",
-    keywords: [
-      "physiotherapy saudi arabia",
-      "علاج طبيعي الرياض",
-      "physiotrio",
-      "فيزيوتريو",
-      "burjeel holdings",
-      "physical therapy riyadh",
-      "neurological rehabilitation",
-    ],
+      : "Premium physiotherapy center in Saudi Arabia. A Burjeel Holdings Company. Specialized services in Riyadh & Makkah.",
     openGraph: {
       type: "website",
       images: [{ url: "https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg" }],
@@ -59,16 +49,13 @@ export default async function HomePage({
   const { locale } = await params;
   const t = await getTranslations("hero");
   const nav = await getTranslations("nav");
-  const statsT = await getTranslations("stats");
   const servicesT = await getTranslations("services");
   const whyT = await getTranslations("why");
-  const branchesT = await getTranslations("branches");
-  const ctaT = await getTranslations("cta");
   const teamT = await getTranslations("team");
-  const offersT = await getTranslations("offers");
   const testimonialT = await getTranslations("testimonials");
   const footerT = await getTranslations("footer");
   const insuranceT = await getTranslations("insurance");
+  const ctaT = await getTranslations("cta");
 
   const heroTranslations = {
     eyebrow: t("eyebrow"),
@@ -85,10 +72,8 @@ export default async function HomePage({
   const navTranslations = {
     home: nav("home"),
     services: nav("services"),
-    branches: nav("branches"),
-    team: nav("team"),
     about: nav("about"),
-    offers: nav("offers"),
+    packages: nav("packages"),
     blog: nav("blog"),
     contact: nav("contact"),
     bookNow: nav("bookNow"),
@@ -125,10 +110,8 @@ export default async function HomePage({
   const navForFooter = {
     home: nav("home"),
     services: nav("services"),
-    branches: nav("branches"),
-    team: nav("team"),
     about: nav("about"),
-    offers: nav("offers"),
+    packages: nav("packages"),
     blog: nav("blog"),
     faq: nav("faq"),
     contact: nav("contact"),
@@ -136,14 +119,13 @@ export default async function HomePage({
 
   return (
     <div className="flex flex-col min-h-screen">
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navTranslations} />
-      
+
       <main className="flex-1">
         <HeroSection locale={locale} t={heroTranslations} />
         <InsuranceBar label={insuranceT("label")} />
-        <FeaturesStrip locale={locale} />
-        <WhyPhysioTrio locale={locale} t={whyTranslations} />
+        <StatsSection locale={locale} />
+        <AboutSnippet locale={locale} />
         <ServicesGrid
           locale={locale}
           services={services}
@@ -151,9 +133,13 @@ export default async function HomePage({
           subtitle={servicesT("subtitle")}
           bookNowText={servicesT("bookNow")}
         />
-        <ExcellenceSection locale={locale} />
-        <BodyPartsSection locale={locale} />
-        <StatsSection locale={locale} />
+        <WhyPhysioTrio locale={locale} t={whyTranslations} />
+        <BookingCTABand
+          locale={locale}
+          title={ctaT("title")}
+          bookText={ctaT("book")}
+          whatsappText={ctaT("whatsapp")}
+        />
         <TeamCarousel
           locale={locale}
           therapists={therapists}
@@ -161,19 +147,13 @@ export default async function HomePage({
           subtitle={teamT("subtitle")}
           bookWithText={teamT("bookWith")}
         />
-        <OffersTeaser
-          locale={locale}
-          eyebrow={offersT("eyebrow")}
-          title={offersT("title")}
-          viewAllText={offersT("viewAll")}
-          purchaseText={offersT("purchase")}
-        />
+        <ProgramsTeaser locale={locale} programs={programs} />
         <TestimonialsCarousel
           locale={locale}
           testimonials={testimonials}
           title={testimonialT("title")}
         />
-        <LatestNews locale={locale} posts={blogPosts} />
+        <NewsBlog locale={locale} posts={newsPosts} />
       </main>
 
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />

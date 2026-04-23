@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { TeamContent } from "./TeamContent";
@@ -21,13 +20,12 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
   const footer = await getTranslations("footer");
   const cta = await getTranslations("cta");
 
-  const navT = { home: nav("home"), services: nav("services"), branches: nav("branches"), team: nav("team"), about: nav("about"), offers: nav("offers"), blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare") };
+  const navT = { home: nav("home"), services: nav("services"), about: nav("about"), packages: nav("packages"), blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow") };
   const footerT = { tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"), branchesTitle: footer("branchesTitle"), contact: footer("contact"), rights: footer("rights"), privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly") };
-  const navForFooter = { home: nav("home"), services: nav("services"), branches: nav("branches"), team: nav("team"), about: nav("about"), offers: nav("offers"), blog: nav("blog"), faq: nav("faq"), contact: nav("contact") };
+  const navForFooter = { home: nav("home"), services: nav("services"), about: nav("about"), packages: nav("packages"), blog: nav("blog"), faq: nav("faq"), contact: nav("contact") };
 
   return (
     <>
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navT} />
       <TeamContent locale={locale} ctaBook={cta("book")} ctaWhatsapp={cta("whatsapp")} ctaTitle={cta("title")} />
       <Footer locale={locale} t={footerT} nav={navForFooter} />

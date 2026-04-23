@@ -41,7 +41,7 @@ export function TeamContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
         style={{ height: "55vh", minHeight: "360px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1920&q=85&fit=crop"
+          src="/center-images/DSC07303.jpg"
           alt="PhysioTrio Team"
           fill
           priority

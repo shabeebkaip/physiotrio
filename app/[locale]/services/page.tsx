@@ -70,7 +70,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
         <section className="relative overflow-hidden flex flex-col justify-end" style={{ height: "70vh", minHeight: "420px" }}>
           {/* Background photo */}
           <Image
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=85&fit=crop"
+            src="/center-images/DSC07546.jpg"
             alt="PhysioTrio Services"
             fill
             priority

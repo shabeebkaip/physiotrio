@@ -163,7 +163,7 @@ export function StatsSection({ locale }: { locale: string }) {
 
         {/* Image 1 */}
         <ImageCard
-          src="https://static.zawya.com/view/acePublic/alias/contentid/cbec1451-ab27-4cfd-aa7d-851f20a53c55/0/erabianetwork-jpg.webp?f=3%3A2&q=0.75&w=1920"
+          src="/center-images/DSC07303.jpg"
           alt="PhysioTrio clinic session"
         />
 
@@ -211,7 +211,7 @@ export function StatsSection({ locale }: { locale: string }) {
 
         {/* Image 2 */}
         <ImageCard
-          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80"
+          src="/center-images/DSC07439.jpg"
           alt="Physiotherapy session"
         />
       </div>

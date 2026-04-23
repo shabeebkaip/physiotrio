@@ -2,15 +2,12 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
 import { InsuranceBar } from "@/components/home/InsuranceBar";
-import { StatsStrip } from "@/components/home/StatsStrip";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
 import { CenterGallery } from "@/components/home/CenterGallery";
-import { BranchesPreview } from "@/components/home/BranchesPreview";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { TeamCarousel } from "@/components/home/TeamCarousel";
 import { ProgramsTeaser } from "@/components/home/ProgramsTeaser";
@@ -22,7 +19,6 @@ import { newsPosts } from "@/lib/data/news";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { StatsSection } from "@/components/home/StatsSection";
 import { services } from "@/lib/data/services";
-import { branches } from "@/lib/data/branches";
 import { therapists } from "@/lib/data/therapists";
 import { testimonials } from "@/lib/data/testimonials";
 
@@ -63,10 +59,8 @@ export default async function HomePage({
   const { locale } = await params;
   const t = await getTranslations("hero");
   const nav = await getTranslations("nav");
-  const statsT = await getTranslations("stats");
   const servicesT = await getTranslations("services");
   const whyT = await getTranslations("why");
-  const branchesT = await getTranslations("branches");
   const ctaT = await getTranslations("cta");
   const teamT = await getTranslations("team");
   const testimonialT = await getTranslations("testimonials");
@@ -96,12 +90,6 @@ export default async function HomePage({
     bookNow: nav("bookNow"),
   };
 
-  const statsData = [
-    { value: "2", label: statsT("branches") },
-    { value: "35+", label: statsT("therapists") },
-    { value: "10,000+", label: statsT("patients") },
-    { value: "9", label: statsT("services") },
-  ];
 
   const whyTranslations = {
     title: whyT("title"),

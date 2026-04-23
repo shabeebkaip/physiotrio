@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Phone, Activity, Heart, Brain, Bone, Zap, Plus, Stethoscope } from "lucide-react";
 
 interface BookingCTABandProps {
   locale: string;
@@ -20,7 +20,18 @@ export function BookingCTABand({ locale, title, bookText, whatsappText }: Bookin
         <div className="rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 min-h-[280px]">
 
           {/* Left — dark panel */}
-          <div className="bg-[#111827] px-8 sm:px-12 py-12 flex flex-col justify-center gap-8">
+          <div className="bg-[#111827] px-8 sm:px-12 py-12 flex flex-col justify-center gap-8 relative overflow-hidden">
+            {/* Medical background elements */}
+            <div className="pointer-events-none select-none absolute inset-0" aria-hidden="true">
+              <Activity size={18} className="absolute top-6 right-8 text-white/[0.06] rotate-12" />
+              <Heart size={14} className="absolute top-14 right-20 text-white/[0.05] -rotate-6" />
+              <Plus size={16} className="absolute top-8 left-6 text-white/[0.06] rotate-45" />
+              <Stethoscope size={20} className="absolute bottom-10 left-8 text-white/[0.06] -rotate-12" />
+              <Brain size={15} className="absolute bottom-16 right-10 text-white/[0.05] rotate-6" />
+              <Bone size={13} className="absolute bottom-6 right-24 text-white/[0.05] rotate-45" />
+              <Zap size={14} className="absolute top-1/2 right-6 text-white/[0.05] -translate-y-1/2 rotate-3" />
+              <Activity size={22} className="absolute bottom-8 left-1/3 text-white/[0.04] -rotate-6" />
+            </div>
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-green mb-3">
                 {isAr ? "ابدأ رحلتك" : "Start Your Journey"}

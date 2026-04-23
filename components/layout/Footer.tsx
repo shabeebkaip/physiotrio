@@ -1,7 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, MapPin, Phone, Mail, ArrowRight, ArrowUpRight, Clock } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  MessageCircle, 
+  MapPin, 
+  Phone, 
+  Mail, 
+  ArrowRight, 
+  ArrowUpRight, 
+  Clock,
+  Instagram,
+  Twitter,
+  Facebook,
+  Linkedin
+} from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
 interface FooterProps {
@@ -34,14 +47,14 @@ export function Footer({ locale, t, nav }: FooterProps) {
   const isRTL = locale === "ar";
 
   const quickLinks = [
-    { href: "/",         label: nav.home },
-    { href: "/about",    label: nav.about },
+    { href: "/", label: nav.home },
+    { href: "/about", label: nav.about },
     { href: "/services", label: nav.services },
     { href: "/branches", label: nav.branches },
-    { href: "/team",     label: nav.team },
-    { href: "/offers",   label: nav.offers },
-    { href: "/blog",     label: nav.blog },
-    { href: "/faq",      label: nav.faq },
+    { href: "/team", label: nav.team },
+    { href: "/offers", label: nav.offers },
+    { href: "/blog", label: nav.blog },
+    { href: "/faq", label: nav.faq },
   ];
 
   const branches = [
@@ -65,292 +78,229 @@ export function Footer({ locale, t, nav }: FooterProps) {
     },
   ];
 
+  const socialLinks = [
+    { icon: Instagram, href: "#" },
+    { icon: Twitter, href: "#" },
+    { icon: Facebook, href: "#" },
+    { icon: Linkedin, href: "#" },
+  ];
+
   return (
     <footer
       dir={isRTL ? "rtl" : "ltr"}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden font-display bg-white"
     >
-      {/* ── Pre-Footer Contact Strip ── */}
-      <div className="relative py-12 px-6 lg:px-12" style={{ background: "#E9F0EE" }}>
-        <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
-          {/* Work Hours */}
-          <div className={`flex items-center gap-5 ${isRTL ? "flex-row-reverse text-right" : ""}`}>
-             <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(15,45,31,0.06)" }}>
-               <Clock size={24} style={{ color: "#0f2d1f" }} />
-             </div>
-             <div>
-                <h4 className="text-base font-black leading-none mb-1.5" style={{ color: "#0f2d1f" }}>
+      {/* ── Pre-Footer Service Cards ── */}
+      <div className="relative py-16 px-6 lg:px-12 bg-gray-50/50">
+        <div className="max-w-[1300px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Work Hours Card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className={`p-8 rounded-[2rem] bg-white border border-gray-100 shadow-sm flex items-center gap-6 ${isRTL ? "flex-row-reverse text-right" : ""}`}
+            >
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-brand-green/5 text-brand-green">
+                <Clock size={28} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-900 mb-1">
                   {isRTL ? "ساعات العمل" : "Working Hours"}
                 </h4>
-                <p className="text-sm font-bold opacity-60" style={{ color: "#0f2d1f" }}>
+                <p className="text-sm font-medium text-gray-500">
                   {isRTL ? "السبت - الخميس: 9ص - 9م" : "Sat - Thu: 9AM - 9PM"}
                 </p>
-             </div>
-          </div>
+              </div>
+            </motion.div>
 
-          {/* Emergency */}
-          <div className={`flex items-center gap-5 ${isRTL ? "flex-row-reverse text-right" : ""}`}>
-             <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(15,45,31,0.06)" }}>
-               <Phone size={24} style={{ color: "#0f2d1f" }} />
-             </div>
-             <div>
-                <h4 className="text-base font-black leading-none mb-1.5" style={{ color: "#0f2d1f" }}>
+            {/* Emergency Card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className={`p-8 rounded-[2rem] bg-white border border-gray-100 shadow-sm flex items-center gap-6 ${isRTL ? "flex-row-reverse text-right" : ""}`}
+            >
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-brand-purple/5 text-brand-purple">
+                <Phone size={28} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-900 mb-1">
                   {isRTL ? "للطوارئ" : "Emergency Contact"}
                 </h4>
-               <p className="text-sm font-black" style={{ color: "#0f2d1f" }}>+966 920 000 000</p>
-             </div>
-          </div>
-
-          {/* CTA */}
-          <div className={`flex ${isRTL ? "justify-start" : "justify-end"}`}>
-             <Link 
-               href={`/${locale}/book/riyadh`}
-               className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-black text-sm text-white transition-all hover:scale-[1.03] shadow-lg"
-               style={{ background: "#880772" }}
-             >
-               {isRTL ? "احجز موعدك" : "Book Appointment"}
-               <ArrowRight size={18} className={isRTL ? "-scale-x-100" : ""} />
-             </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="relative py-20" style={{ background: "#0f2d1f" }}>
-      {/* Subtle dot grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      {/* Purple glow blob */}
-      <div
-        className="absolute top-0 pointer-events-none"
-        style={{
-          [isRTL ? "left" : "right"]: "0",
-          width: "500px", height: "500px",
-          background: "radial-gradient(circle, rgba(136,7,114,0.12) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* Main Grid — 4 Columns */}
-
-      {/* ── Main Grid ── */}
-      <div className="relative max-w-[1300px] mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-
-        {/* Col 1 — Brand */}
-        <div className="sm:col-span-2 lg:col-span-1">
-          <div className="mb-5 opacity-90">
-            <PhysioTrioLogo height={44} />
-          </div>
-          <p
-            className="text-xs font-black uppercase tracking-[0.2em] mb-4"
-            style={{ color: "#4caf50" }}
-          >
-            {isRTL ? "كل ما تحتاج في مركز واحد" : "Everything in one place"}
-          </p>
-          <p
-            className="font-medium leading-relaxed mb-8 max-w-xs text-sm"
-            style={{ color: "rgba(255,255,255,0.50)" }}
-          >
-            {t.tagline}
-          </p>
-
-          {/* Contact pills */}
-          <div className="flex flex-col gap-3">
-            <a
-              href="mailto:hello@physiotrio.com"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-250"
-              style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.08)" }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#fff"; el.style.borderColor = "rgba(76,175,80,0.40)"; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "rgba(255,255,255,0.55)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
-            >
-              <Mail size={13} />
-              hello@physiotrio.com
-            </a>
-            <a
-              href="tel:920000000"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-250"
-              style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.08)" }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#fff"; el.style.borderColor = "rgba(136,7,114,0.50)"; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "rgba(255,255,255,0.55)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
-            >
-              <Phone size={13} />
-              920 000 000
-            </a>
-          </div>
-        </div>
-
-        {/* Col 2 Ã¢â‚¬â€ Quick Links */}
-        <div>
-          <h3
-            className="font-black text-xs mb-6 tracking-[0.2em] uppercase"
-            style={{ color: "rgba(255,255,255,0.35)" }}
-          >
-            {t.quickLinks}
-          </h3>
-          <ul className="space-y-3">
-            {quickLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={`/${locale}${link.href}`}
-                  className="group flex items-center gap-2 text-sm font-medium transition-all duration-200"
-                  style={{ color: "rgba(255,255,255,0.55)" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.55)"; }}
-                >
-                  <span
-                    className="w-0 group-hover:w-3 h-px transition-all duration-300"
-                    style={{ background: "#4caf50" }}
-                  />
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Col 3 Ã¢â‚¬â€ Branches */}
-        <div>
-          <h3
-            className="font-black text-xs mb-6 tracking-[0.2em] uppercase"
-            style={{ color: "rgba(255,255,255,0.35)" }}
-          >
-            {t.branchesTitle}
-          </h3>
-          <div className="space-y-6">
-            {branches.map((b) => (
-              <div key={b.city.en}>
-                <div className="flex items-center gap-2 mb-2">
-                  <div
-                    className={`w-2 h-2 rounded-full flex-shrink-0 ${b.active ? "bg-green-400 animate-pulse" : "bg-white/20"}`}
-                  />
-                  <p className="font-black text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
-                    {isRTL ? b.city.ar : b.city.en}
-                  </p>
-                  {!b.active && (
-                    <span
-                      className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider"
-                      style={{ background: "rgba(136,7,114,0.30)", color: "#c97ec0" }}
-                    >
-                      {isRTL ? "قريباً" : "Soon"}
-                    </span>
-                  )}
-                </div>
-                {b.address && (
-                  <div className="flex items-start gap-2 ml-4">
-                    <MapPin size={11} className="mt-0.5 flex-shrink-0" style={{ color: "rgba(255,255,255,0.35)" }} />
-                    <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.40)" }}>
-                      {isRTL ? b.address.ar : b.address.en}
-                    </p>
-                  </div>
-                )}
-                {b.phone && (
-                  <div className="flex items-center gap-2 ml-4 mt-1">
-                    <Phone size={11} style={{ color: "#4caf50" }} className="flex-shrink-0" />
-                    <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{b.phone}</p>
-                  </div>
-                )}
+                <p className="text-lg font-black text-brand-purple">920 000 000</p>
               </div>
-            ))}
+            </motion.div>
+
+            {/* CTA Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="flex items-center"
+            >
+              <Link 
+                href={`/${locale}/book/riyadh`}
+                className="group w-full h-full flex items-center justify-between p-8 rounded-[2rem] bg-brand-purple text-white shadow-xl shadow-brand-purple/20 transition-all hover:scale-[1.02] hover:shadow-2xl hover:bg-brand-purple-dark"
+              >
+                <div className={isRTL ? "text-right" : "text-left"}>
+                  <p className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">
+                    {isRTL ? "متوفر الآن" : "Available Now"}
+                  </p>
+                  <h4 className="text-xl font-black">
+                    {isRTL ? "احجز موعدك" : "Book Appointment"}
+                  </h4>
+                </div>
+                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                  <ArrowRight size={24} className={isRTL ? "rotate-180" : ""} />
+                </div>
+              </Link>
+            </motion.div>
           </div>
         </div>
+      </div>
 
-        {/* Col 4 Ã¢â‚¬â€ Contact */}
-        <div>
-          <h3
-            className="font-black text-xs mb-6 tracking-[0.2em] uppercase"
-            style={{ color: "rgba(255,255,255,0.35)" }}
-          >
-            {t.contact}
-          </h3>
-
-          <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "rgba(255,255,255,0.35)" }}>
-            {isRTL ? "الرقم المجاني" : "Toll-Free"}
-          </p>
-          <a
-            href="tel:920000000"
-            className="text-4xl font-black mb-8 block transition-colors duration-200"
-            style={{ color: "#fff" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#c97ec0"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-          >
-            920 000 000
-          </a>
-
-          <a
-            href="mailto:hello@physiotrio.com"
-            className="flex items-center gap-3 mb-8 group transition-colors duration-200"
-            style={{ color: "rgba(255,255,255,0.55)" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.55)"; }}
-          >
-            <div
-              className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 group-hover:border-green-400"
-              style={{ border: "1px solid rgba(255,255,255,0.15)" }}
-            >
-              <Mail size={15} />
+      {/* ── Main Footer Content ── */}
+      <div className="relative pt-24 pb-12 bg-brand-purple text-white">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+        
+        <div className="relative max-w-[1300px] mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12 mb-12">
+            
+            {/* Col 1: Brand */}
+            <div className="space-y-8">
+              <PhysioTrioLogo height={48} />
+              <div className="space-y-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-green">
+                  {isRTL ? "نحو حياة أفضل" : "Towards a better life"}
+                </p>
+                <p className="text-sm leading-relaxed text-white/80 max-w-xs font-medium">
+                  {t.tagline}
+                </p>
+              </div>
+              <div className="flex items-center gap-4">
+                {socialLinks.map((social, idx) => (
+                  <motion.a
+                    key={idx}
+                    href={social.href}
+                    whileHover={{ y: -4, scale: 1.1 }}
+                    className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-purple hover:border-white/20 transition-all text-white/40 hover:text-white"
+                  >
+                    <social.icon size={18} />
+                  </motion.a>
+                ))}
+              </div>
             </div>
-            <span className="text-sm font-bold">hello@physiotrio.com</span>
-          </a>
 
-          <Link
-            href={`/${locale}/book/riyadh`}
-            className="group w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-sm transition-all duration-200"
-            style={{
-              color: "rgba(255,255,255,0.80)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.background = "rgba(136,7,114,0.25)";
-              el.style.borderColor = "rgba(136,7,114,0.60)";
-              el.style.color = "#fff";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.background = "rgba(255,255,255,0.04)";
-              el.style.borderColor = "rgba(255,255,255,0.12)";
-              el.style.color = "rgba(255,255,255,0.80)";
-            }}
-          >
-            {isRTL ? "احجز موعدك" : "Book Appointment"}
-            <ArrowUpRight size={18} className="transition-transform group-hover:rotate-12" style={{ color: "#c97ec0" }} />
-          </Link>
-        </div>
-      </div>
+            {/* Col 2: Quick Links */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 mb-8">
+                {t.quickLinks}
+              </h3>
+              <ul className="space-y-4">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={`/${locale}${link.href}`}
+                      className="group flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white transition-colors"
+                    >
+                      <span className="w-0 group-hover:w-3 h-px bg-brand-green transition-all duration-300" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-      {/* ── Bottom Bar ── */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-        <div className="max-w-[1300px] mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>{t.rights}</p>
-          <div className="flex items-center gap-6">
-            <Link
-              href={`/${locale}/privacy-policy`}
-              className="text-xs font-medium transition-colors duration-200"
-              style={{ color: "rgba(255,255,255,0.35)" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.35)"; }}
-            >
-              {t.privacy}
-            </Link>
-            <span style={{ color: "rgba(255,255,255,0.20)" }}>•</span>
-            <Link
-              href={`/${locale}/terms`}
-              className="text-xs font-medium transition-colors duration-200"
-              style={{ color: "rgba(255,255,255,0.35)" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.35)"; }}
-            >
-              {t.terms}
-            </Link>
+            {/* Col 3: Branches */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 mb-8">
+                {t.branchesTitle}
+              </h3>
+              <div className="space-y-8">
+                {branches.map((b) => (
+                  <div key={b.city.en} className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={`w-2 h-2 rounded-full ${b.active ? "bg-brand-green shadow-[0_0_8px_rgba(76,175,80,0.6)] animate-pulse" : "bg-white/20"}`} />
+                      <span className="font-bold text-sm text-white/90 group-hover:text-white transition-colors">
+                        {isRTL ? b.city.ar : b.city.en}
+                      </span>
+                      {!b.active && (
+                        <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-white/5 text-white/30 border border-white/5 tracking-wider">
+                          {isRTL ? "قريباً" : "Soon"}
+                        </span>
+                      )}
+                    </div>
+                    {b.address && (
+                      <div className={`flex items-start gap-2 ${isRTL ? "mr-5" : "ml-5"}`}>
+                        <MapPin size={12} className="mt-1 text-white/20 shrink-0" />
+                        <p className="text-xs leading-relaxed text-white/70">
+                          {isRTL ? b.address.ar : b.address.en}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Col 4: Contact */}
+            <div>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 mb-8">
+                {t.contact}
+              </h3>
+              <div className="space-y-8">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/20">
+                    {isRTL ? "الرقم المجاني" : "Toll-Free"}
+                  </p>
+                  <a
+                    href="tel:920000000"
+                    className="text-4xl font-black text-white hover:text-brand-green transition-colors block"
+                  >
+                    920 000 000
+                  </a>
+                </div>
+                <div className="space-y-4">
+                  <a
+                    href="mailto:hello@physiotrio.com"
+                    className="flex items-center gap-3 group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-brand-green/10 group-hover:border-brand-green/20 transition-all text-white/30 group-hover:text-brand-green">
+                      <Mail size={16} />
+                    </div>
+                    <span className="text-sm font-bold text-white/80 group-hover:text-white transition-colors">
+                      hello@physiotrio.com
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-xs font-black uppercase tracking-wider" style={{ color: "#4caf50" }}>{t.proudly}</p>
+
+          {/* ── Bottom Bar ── */}
+          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
+            <p className="text-[13px] font-medium text-white/60">
+              {t.rights}
+            </p>
+            <div className="flex items-center gap-8">
+              <Link href={`/${locale}/privacy-policy`} className="text-[13px] font-medium text-white/60 hover:text-white transition-colors">
+                {t.privacy}
+              </Link>
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              <Link href={`/${locale}/terms`} className="text-[13px] font-medium text-white/60 hover:text-white transition-colors">
+                {t.terms}
+              </Link>
+            </div>
+            <p className="text-[11px] font-black uppercase tracking-widest text-brand-green">
+              {t.proudly}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </footer>
   );
 }

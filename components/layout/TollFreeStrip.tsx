@@ -6,8 +6,8 @@ export function TollFreeStrip({ locale }: { locale: string }) {
   return (
     <div
       dir={isAr ? "rtl" : "ltr"}
-      className="fixed top-0 left-0 right-0 w-full hidden md:flex items-center justify-between py-2 px-6 lg:px-12 text-[11px] text-white/80 font-medium z-[60]"
-      style={{ background: "#0f2d1f", height: "42px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+      className="fixed top-0 left-0 right-0 w-full hidden md:flex items-center justify-between py-2 px-6 lg:px-12 text-[11px] text-white/80 font-medium z-[60] bg-brand-purple"
+      style={{ height: "42px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
     >
       {/* Left: Contact Info */}
       <div className="flex items-center gap-6">

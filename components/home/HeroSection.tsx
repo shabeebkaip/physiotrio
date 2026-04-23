@@ -105,9 +105,9 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
         </div>
 
         {/* Massive Headline */}
-        <h1 className="hero-reveal mb-8 text-[48px] font-black leading-[1.05] tracking-tight text-white sm:text-[72px] lg:text-[96px]">
-          {isAr ? "وجهتك المثالية" : "Elite Clinical"} <br />
-          {isAr ? "للتعافي والراحة" : "Recovery & Movement"}
+        <h1 className="hero-reveal mb-8 text-[48px] font-semibold leading-[1.05] tracking-tight text-white sm:text-[72px] lg:text-[96px]">
+          <span className="block">{t.headline1}</span>
+          <span className="text-brand-green">{t.headline2}</span>
         </h1>
 
         {/* Subheadline Text */}
@@ -121,7 +121,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
         <div className="hero-reveal flex flex-col items-center justify-center gap-4 sm:gap-6 sm:flex-row w-full sm:w-auto px-4 sm:px-0">
           <Link
             href={`/${locale}/book/riyadh`}
-            className="group relative flex h-16 w-full items-center justify-center gap-6 overflow-hidden rounded-full bg-white px-8 sm:px-12 text-base font-black text-physio-dark transition-all hover:bg-white/90 active:scale-95 sm:w-auto"
+            className="group relative flex h-16 w-full items-center justify-center gap-6 overflow-hidden rounded-xl  px-8 text-lg font-bold text-white transition-all active:scale-95 sm:w-auto border-2 border-white"
           >
             {t.bookAppointment}
             <ArrowRight size={20} className={`${isAr ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"} transition-transform`} />
@@ -129,11 +129,10 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
 
           <Link
             href={`/${locale}/services`}
-            className="group relative overflow-hidden inline-flex w-full items-center justify-center gap-3 px-8 sm:px-12 py-5 rounded-full font-bold text-base text-white transition-all duration-300 sm:w-auto"
-            style={{ background: "linear-gradient(135deg, var(--color-brand-green), var(--color-brand-green-dark))", boxShadow: "0 12px 40px rgba(76,175,80,0.3)" }}
+            className="group relative overflow-hidden inline-flex w-full items-center justify-center gap-3 px-8 py-5 rounded-xl font-bold text-lg text-white transition-all duration-300 sm:w-auto bg-brand-purple border-2 border-brand-purple hover:opacity-90"
           >
             {t.exploreServices}
-            <ArrowRight size={18} className={`transition-transform ${isAr ? "rotate-180 group-hover:-translate-x-1.5" : "group-hover:translate-x-1.5"}`} />
+            {/* <ArrowRight size={18} className={`transition-transform ${isAr ? "rotate-180 group-hover:-translate-x-1.5" : "group-hover:translate-x-1.5"}`} /> */}
           </Link>
         </div>
 

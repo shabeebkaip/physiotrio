@@ -93,7 +93,7 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
               className="svc-card group relative h-full bg-white rounded-[32px] p-10 border border-[#eff3f1] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block"
             >
               {/* Sliding Hover Background */}
-              <div className="absolute inset-0 bg-physio-dark translate-y-[101%] transition-transform duration-500 ease-out group-hover:translate-y-0" />
+              <div className="absolute inset-0 bg-brand-purple translate-y-[101%] transition-transform duration-500 ease-out group-hover:translate-y-0" />
               
               {/* Content Wrapper */}
               <div className="relative z-10 h-full flex flex-col">

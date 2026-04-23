@@ -131,9 +131,9 @@ export function ExcellenceSection({ locale }: ExcellenceSectionProps) {
 
            {/* Overlapping Central Expert Image */}
            <div ref={expertRef} className="ex-expert-img absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] pointer-events-none z-20 hidden lg:block">
-              <div className="relative aspect-[9/9] w-full">
+              <div className="relative aspect-[10/10] w-full">
                  <Image 
-                   src="/images/home/doctor.png" 
+                   src="/images/home/doctor1.png" 
                    alt="Physiotherapy Expert"
                    fill
                    className="object-contain object-bottom"

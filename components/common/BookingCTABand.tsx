@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 
 interface BookingCTABandProps {
   locale: string;
@@ -12,59 +12,58 @@ interface BookingCTABandProps {
 }
 
 export function BookingCTABand({ locale, title, bookText, whatsappText }: BookingCTABandProps) {
+  const isAr = locale === "ar";
+
   return (
-    <section className="py-6 px-3 sm:px-4 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="relative overflow-hidden rounded-2xl md:rounded-[32px] py-10 sm:py-16 px-5 sm:px-8 md:px-20"
-          style={{ background: "var(--color-brand-purple)" }}
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Decorative blur blobs */}
-          <div
-            className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
-            style={{ background: "rgba(var(--color-brand-green-rgb),0.25)", filter: "blur(60px)" }}
-          />
-          <div
-            className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full pointer-events-none"
-            style={{ background: "rgba(255,255,255,0.12)", filter: "blur(48px)" }}
-          />
+    <section dir={isAr ? "rtl" : "ltr"} className="bg-white py-16">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 min-h-[280px]">
 
-          <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
-            <h2
-              className="text-xl sm:text-3xl md:text-4xl font-bold text-white max-w-lg leading-tight text-center md:text-start"
-            >
-              {title}
-            </h2>
+          {/* Left — dark panel */}
+          <div className="bg-[#111827] px-8 sm:px-12 py-12 flex flex-col justify-center gap-8">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-green mb-3">
+                {isAr ? "ابدأ رحلتك" : "Start Your Journey"}
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                {title}
+              </h2>
+            </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              {/* Primary CTA — Pharma pill button */}
+            <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href={`/${locale}/book/riyadh`}
-                className="inline-flex items-center gap-2 pl-6 pr-2 py-2 rounded-full font-semibold text-sm transition-all hover:shadow-xl group"
-                style={{ background: "#1a1a2e", color: "white" }}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-purple px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
               >
                 {bookText}
-                <span
-                  className="w-8 h-8 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-0.5"
-                  style={{ background: "var(--color-brand-green)" }}
-                >
-                  <ArrowRight size={15} className="text-white" />
-                </span>
+                <ArrowRight size={14} className={isAr ? "rotate-180" : ""} />
               </Link>
-
               <a
                 href="https://wa.me/966500000001"
-                className="text-white/80 text-sm font-medium hover:text-white transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 hover:text-white hover:border-white/40 transition-all"
               >
+                <Phone size={14} />
                 {whatsappText}
               </a>
             </div>
           </div>
-        </motion.div>
+
+          {/* Right — real center photo */}
+          <div className="relative hidden md:block">
+            <Image
+              src="/center-images/DSC07546.jpg"
+              alt="PhysioTrio rehabilitation center"
+              fill
+              className="object-cover object-center"
+              sizes="50vw"
+            />
+            {/* Subtle dark edge fade toward the left panel */}
+            <div
+              className={`absolute inset-0 ${isAr ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-[#111827]/60 via-transparent to-transparent`}
+            />
+          </div>
+
+        </div>
       </div>
     </section>
   );

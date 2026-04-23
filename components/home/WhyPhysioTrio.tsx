@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ShieldCheck, CalendarCheck2, Languages, HeartHandshake } from "lucide-react";
+import { ArrowRight, ShieldCheck, CalendarCheck, Languages, HeartHandshake } from "lucide-react";
 
 interface WhyPhysioTrioProps {
   locale: string;
@@ -22,145 +21,88 @@ interface WhyPhysioTrioProps {
   };
 }
 
-const ICONS = [ShieldCheck, CalendarCheck2, Languages, HeartHandshake];
+const ICONS = [ShieldCheck, CalendarCheck, Languages, HeartHandshake];
+
+const PHOTOS = [
+  { src: "/center-images/DSC07444.jpg", alt: "PhysioTrio treatment room" },
+  { src: "/center-images/DSC07286.jpg", alt: "PhysioTrio women's rehabilitation" },
+  { src: "/center-images/DSC07771.jpg", alt: "PhysioTrio sports assessment" },
+  { src: "/center-images/DSC07439.jpg", alt: "PhysioTrio electrotherapy" },
+];
 
 export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
   const isAr = locale === "ar";
 
   const features = [
-    { title: t.feature1Title, desc: t.feature1Desc, Icon: ICONS[0] },
-    { title: t.feature2Title, desc: t.feature2Desc, Icon: ICONS[1] },
-    { title: t.feature3Title, desc: t.feature3Desc, Icon: ICONS[2] },
-    { title: t.feature4Title, desc: t.feature4Desc, Icon: ICONS[3] },
+    { Icon: ICONS[0], title: t.feature1Title, desc: t.feature1Desc },
+    { Icon: ICONS[1], title: t.feature2Title, desc: t.feature2Desc },
+    { Icon: ICONS[2], title: t.feature3Title, desc: t.feature3Desc },
+    { Icon: ICONS[3], title: t.feature4Title, desc: t.feature4Desc },
   ];
 
   return (
-    <section className="relative overflow-hidden" style={{ minHeight: "560px" }}>
+    <section
+      dir={isAr ? "rtl" : "ltr"}
+      className="py-20 lg:py-28 bg-white border-t border-gray-100"
+    >
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-      {/* ── Background image + overlays ── */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
-          alt="PhysioTrio Saudi Arabia clinic"
-          fill
-          sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center 30%" }}
-        />
-        {/* Dark gradient overlay with Saudi green tint */}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, rgba(7,20,30,0.97) 0%, rgba(7,20,30,0.88) 45%, rgba(0,100,60,0.45) 100%)" }}
-        />
-        {/* Subtle Saudi green accent line at top */}
-        <div
-          className="absolute top-0 left-0 right-0 h-1"
-          style={{ background: "linear-gradient(to right, transparent, #006C35, transparent)" }}
-        />
-        {/* Decorative purple glow */}
-        <div
-          className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(var(--color-brand-purple-rgb),0.25) 0%, transparent 70%)" }}
-        />
-      </div>
+          {/* Left — text */}
+          <div>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-purple mb-4 block">
+              {isAr ? "لماذا فيزيوتريو" : "Why PhysioTrio"}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-5">
+              {t.title}
+            </h2>
+            <p className="text-gray-500 text-base leading-relaxed mb-8">
+              {t.body1}
+            </p>
 
-      {/* ── Content ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-
-        {/* Top: eyebrow + headline + body */}
-        <motion.div
-          className="max-w-3xl mb-16"
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <span
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-5 px-3 py-1.5 rounded-full"
-            style={{ background: "rgba(var(--color-brand-green-rgb),0.15)", color: "var(--color-brand-green)", border: "1px solid rgba(var(--color-brand-green-rgb),0.3)" }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-            {isAr ? "لماذا فيزيوتريو" : "Why PhysioTrio"}
-          </span>
-
-          <h2
-            className="font-black leading-tight text-white mb-5"
-            style={{ fontSize: "clamp(28px, 4.5vw, 54px)" }}
-          >
-            {t.title}
-          </h2>
-
-          <p className="text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", maxWidth: "600px" }}>
-            {t.body1}
-          </p>
-        </motion.div>
-
-        {/* Feature cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              className="flex flex-col gap-4 p-6 rounded-2xl"
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                backdropFilter: "blur(12px)",
-              }}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            >
-              <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                style={{ background: "rgba(var(--color-brand-green-rgb),0.15)", border: "1px solid rgba(var(--color-brand-green-rgb),0.25)" }}
-              >
-                <feature.Icon size={20} style={{ color: "var(--color-brand-green)" }} strokeWidth={1.75} />
-              </div>
-              <div>
-                <h3 className="font-bold text-white text-base mb-1.5 leading-snug">
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
-                  {feature.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Bottom CTA row */}
-        <motion.div
-          className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <Link
-            href={`/${locale}/book`}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-white text-sm transition-all hover:opacity-90"
-            style={{ background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)", boxShadow: "0 6px 24px rgba(var(--color-brand-purple-rgb),0.45)" }}
-          >
-            {isAr ? "احجز موعدك الآن" : "Book Your Appointment"}
-          </Link>
-
-          {/* Burjeel badge */}
-          <div className="flex items-center gap-3">
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black text-white shrink-0"
-              style={{ background: "var(--color-brand-purple)" }}
-            >
-              B
+            <div className="divide-y divide-gray-100 mb-10">
+              {features.map(({ Icon, title, desc }, i) => (
+                <div key={i} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+                  <div className="w-9 h-9 rounded-lg bg-brand-purple/8 flex items-center justify-center shrink-0 mt-0.5">
+                    <Icon size={17} className="text-brand-purple" strokeWidth={1.75} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-0.5">{title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div>
-              <p className="text-xs font-semibold text-white">Burjeel Holdings</p>
-              <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
-                {isAr ? "شريكنا الموثوق" : "Our trusted parent group"}
-              </p>
-            </div>
+
+            <Link
+              href={`/${locale}/book/riyadh`}
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-purple px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+            >
+              {isAr ? "احجز موعداً" : "Book Appointment"}
+              <ArrowRight size={14} className={isAr ? "rotate-180" : ""} />
+            </Link>
           </div>
-        </motion.div>
+
+          {/* Right — 2×2 photo grid */}
+          <div className="grid grid-cols-2 gap-3">
+            {PHOTOS.map((photo, i) => (
+              <div
+                key={i}
+                className={`relative overflow-hidden rounded-2xl bg-gray-100 ${i === 0 ? "row-span-1" : ""}`}
+                style={{ aspectRatio: "4/3" }}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
     </section>
   );

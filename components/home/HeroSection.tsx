@@ -47,7 +47,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
           loop
           playsInline
           className="w-full h-full object-cover object-center"
-          poster="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80"
+          poster="/center-images/DSC07546.jpg"
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>

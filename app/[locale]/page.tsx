@@ -9,6 +9,7 @@ import { InsuranceBar } from "@/components/home/InsuranceBar";
 import { StatsStrip } from "@/components/home/StatsStrip";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
+import { CenterGallery } from "@/components/home/CenterGallery";
 import { BranchesPreview } from "@/components/home/BranchesPreview";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { TeamCarousel } from "@/components/home/TeamCarousel";
@@ -154,6 +155,7 @@ export default async function HomePage({
           bookNowText={servicesT("bookNow")}
         />
         <WhyPhysioTrio locale={locale} t={whyTranslations} />
+        <CenterGallery locale={locale} />
         <BookingCTABand
           locale={locale}
           title={ctaT("title")}

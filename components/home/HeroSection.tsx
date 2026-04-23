@@ -48,7 +48,7 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
           loop
           playsInline
           className="w-full h-full object-cover object-center"
-          poster="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
+          poster="/center-images/DSC07546.jpg"
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>

@@ -44,12 +44,11 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
           {/* Left — clinical photo */}
           <div className="relative h-80 lg:h-[520px] rounded-2xl overflow-hidden shrink-0">
             <Image
-              src="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
+              src="/center-images/DSC07444.jpg"
               alt={isAr ? "جلسة علاج طبيعي" : "Physiotherapy session"}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
-              unoptimized
             />
             {/* Subtle dark gradient overlay at bottom */}
             <div

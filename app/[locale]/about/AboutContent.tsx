@@ -112,11 +112,10 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <Image
-              src="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
+              src="/center-images/DSC07444.jpg"
               alt="PhysioTrio Clinic"
               fill
               className="object-cover"
-              unoptimized
             />
             <div
               className="absolute bottom-4 left-4 px-4 py-2.5 rounded-xl text-sm"

@@ -102,11 +102,10 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
 
           <motion.div className="relative h-80 lg:h-96 rounded-3xl overflow-hidden" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2, duration: 0.6 }}>
             <Image
-              src="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
+              src="/center-images/DSC07303.jpg"
               alt="PhysioTrio Clinic"
               fill
               className="object-cover"
-              unoptimized
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(var(--color-brand-purple-rgb),0.2), transparent)" }} />
             {/* Floating badge */}
@@ -171,11 +170,10 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
 
           <motion.div className="relative h-72 rounded-3xl overflow-hidden" initial={{ opacity: 0, scale: 0.93 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <Image
-              src="https://physiotherabia.com/wp-content/uploads/2025/08/Screenshot-2025-08-27-145843.png"
+              src="/center-images/DSC07597.jpg"
               alt="Burjeel Holdings"
               fill
               className="object-cover"
-              unoptimized
             />
             <div className="absolute inset-0 rounded-3xl" style={{ border: "1px solid rgba(var(--color-brand-purple-rgb),0.15)" }} />
           </motion.div>

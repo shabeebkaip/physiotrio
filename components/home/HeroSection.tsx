@@ -27,7 +27,7 @@ const slides = [
     labelAr: "الرياض",
     addressEn: "Al Olaya District, King Fahd Road",
     addressAr: "حي العليا، طريق الملك فهد",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80",
+    image: "/center-images/DSC07546.jpg",
   },
   {
     id: "makkah",
@@ -35,7 +35,7 @@ const slides = [
     labelAr: "مكة المكرمة",
     addressEn: "Al Zaher District, Ibrahim Al Khalil Road",
     addressAr: "حي الزاهر، طريق إبراهيم الخليل",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1920&q=80",
+    image: "/center-images/DSC07303.jpg",
   },
 ];
 

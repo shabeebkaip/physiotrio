@@ -70,7 +70,7 @@ export function OffersTeaser({ locale, eyebrow, title, viewAllText, purchaseText
             <div className={`relative w-full h-[350px] lg:h-auto overflow-hidden ${isAr ? 'order-1 lg:order-2' : ''}`}>
               <div className="offer-parallax-img absolute inset-0 w-full h-[120%] -top-[10%]">
                 <Image
-                  src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
+                  src="/center-images/DSC07750.jpg"
                   alt="Physiotherapy stretching"
                   fill
                   className="object-cover"

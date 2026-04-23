@@ -75,168 +75,149 @@ const plainLinks = [
 function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { locale: string; onClose: () => void; onMouseEnter: () => void; onMouseLeave: () => void }) {
   const isAr = locale === "ar";
 
+  const flatServices = [
+    { en: "Physical Therapy", ar: "العلاج الطبيعي", slug: "physiotherapy", Icon: Activity, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
+    { en: "Speech Therapy", ar: "العلاج التخاطبي", slug: "speech-therapy", Icon: Radio, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
+    { en: "Occupational Therapy", ar: "العلاج الوظيفي", slug: "occupational-therapy", Icon: Hand, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
+    { en: "Lymphatic Drainage (LDT)", ar: "التصريف الليمفاوي", slug: "lymphatic-drainage", Icon: Droplets, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
+    { en: "Rehabilitation", ar: "التأهيل", slug: "neurological-rehabilitation", Icon: Brain, accent: "var(--color-brand-green)", bg: "rgba(var(--color-brand-green-rgb),0.07)", cat: isAr ? "التأهيل والعافية" : "Rehab & Wellness" },
+    { en: "Fitness & Wellness", ar: "اللياقة والعافية", slug: "fitness-wellness", Icon: Dumbbell, accent: "var(--color-brand-green)", bg: "rgba(var(--color-brand-green-rgb),0.07)", cat: isAr ? "التأهيل والعافية" : "Rehab & Wellness" },
+    { en: "Home Physical Therapy", ar: "العلاج الطبيعي المنزلي", slug: "home-physiotherapy", Icon: Heart, accent: "var(--color-brand-green)", bg: "rgba(var(--color-brand-green-rgb),0.07)", cat: isAr ? "التأهيل والعافية" : "Rehab & Wellness" },
+    { en: "Advanced Technology", ar: "الأجهزة المتقدمة", slug: "device-based-therapy", Icon: Zap, accent: "#0A8FA0", bg: "rgba(10,143,160,0.07)", cat: isAr ? "التكنولوجيا المتقدمة" : "Advanced Technology" },
+  ];
+
+  const grouped = flatServices.reduce<Record<string, typeof flatServices>>((acc, svc) => {
+    (acc[svc.cat] = acc[svc.cat] || []).push(svc);
+    return acc;
+  }, {});
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className="absolute top-full left-0 right-0 pointer-events-auto pt-2"
-      style={{ zIndex: 60 }}
+      initial={{ opacity: 0, y: -6, scale: 0.99 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -6, scale: 0.99 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className="absolute top-full left-0 pointer-events-auto pt-3"
+      style={{ zIndex: 60, width: "min(800px, calc(100vw - 32px))" }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <div
-        className="mx-auto rounded-[20px] overflow-hidden"
         style={{
           background: "#fff",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.05)",
-          maxWidth: "calc(100% - 2px)",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.13), 0 0 0 1px rgba(0,0,0,0.05)",
+          borderRadius: "20px",
+          overflow: "hidden",
         }}
       >
-        <div className="grid grid-cols-[220px_1fr_auto]">
+        <div className="flex">
 
-          {/* ── Left intro panel ── */}
+          {/* ── Left dark intro panel ── */}
           <div
-            className="flex flex-col justify-between p-7"
-            style={{ background: "var(--color-dark-surface)", borderRadius: "16px 0 0 16px" }}
+            className="flex flex-col justify-between p-6 shrink-0"
+            style={{ width: 192, background: "var(--color-dark-surface)" }}
           >
             <div>
               <div
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full mb-5"
+                className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-4"
                 style={{ background: "rgba(var(--color-brand-green-rgb),0.2)", color: "var(--color-brand-green)" }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                 {isAr ? "خدماتنا" : "Our Services"}
               </div>
-              <h3 className="text-white font-black text-xl leading-snug mb-3">
-                {isAr ? "علاج متقدم\nلكل حالة" : "Advanced Care\nFor Every Need"}
+              <h3 className="text-white font-black text-lg leading-snug mb-2.5">
+                {isAr ? "علاج متقدم\nلكل حالة" : "Advanced\nCare For\nEvery Need"}
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+              <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
                 {isAr
-                  ? "من العلاج الطبيعي الأساسي إلى أحدث التقنيات الطبية."
-                  : "From core physiotherapy to cutting-edge rehabilitation technology."}
+                  ? "من العلاج الطبيعي إلى أحدث التقنيات."
+                  : "From physiotherapy to cutting-edge rehabilitation."}
               </p>
             </div>
 
-            <div className="mt-8 space-y-3">
+            <div className="mt-6 space-y-2">
               <Link
                 href={`/${locale}/services`}
                 onClick={onClose}
-                className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:bg-white/10"
+                className="flex items-center justify-between w-full px-3.5 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:bg-white/10"
                 style={{ border: "1px solid rgba(255,255,255,0.15)" }}
               >
                 {isAr ? "جميع الخدمات" : "View All Services"}
-                <ArrowUpRight size={14} />
+                <ArrowUpRight size={13} />
               </Link>
               <Link
                 href={`/${locale}/book/riyadh`}
                 onClick={onClose}
-                className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
+                className="flex items-center justify-between w-full px-3.5 py-2 rounded-xl text-xs font-bold text-white"
                 style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
               >
                 {isAr ? "احجز جلسة" : "Book a Session"}
-                <ArrowRight size={14} />
+                <ArrowRight size={13} />
               </Link>
             </div>
           </div>
 
-          {/* ── Service categories grid ── */}
-          <div className="grid grid-cols-3 divide-x divide-gray-100 py-6">
-            {serviceCategories.map((cat) => (
-              <div key={cat.title.en} className="px-6">
-                {/* Category header */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ background: cat.accent }}
-                  />
-                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: cat.accent }}>
-                    {isAr ? cat.title.ar : cat.title.en}
-                  </span>
-                </div>
-
-                {/* Service items */}
-                <ul className="space-y-1">
-                  {cat.services.map((svc) => (
-                    <li key={svc.en}>
+          {/* ── Right: grouped services ── */}
+          <div className="flex-1 p-5 overflow-hidden">
+            <div className="space-y-4">
+              {Object.entries(grouped).map(([cat, svcs]) => (
+                <div key={cat}>
+                  {/* Category label */}
+                  <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5 px-1" style={{ color: "#9CA3AF" }}>
+                    {cat}
+                  </p>
+                  {/* Services in 2-col grid */}
+                  <div className="grid grid-cols-2 gap-0.5">
+                    {svcs.map((svc) => (
                       <Link
+                        key={svc.en}
                         href={`/${locale}/services/${svc.slug}`}
                         onClick={onClose}
-                        className="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-all group hover:shadow-sm"
-                        style={{ ["--hover-bg" as string]: cat.bg } as React.CSSProperties}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = cat.bg; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all"
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.background = svc.bg;
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.background = "transparent";
+                        }}
                       >
                         <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors"
-                          style={{ background: cat.bg }}
+                          className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                          style={{ background: svc.bg }}
                         >
-                          <svc.Icon size={14} style={{ color: cat.accent }} strokeWidth={1.75} />
+                          <svc.Icon size={13} style={{ color: svc.accent }} strokeWidth={1.8} />
                         </div>
-                        <div>
-                          <p className="text-sm font-semibold leading-tight transition-colors group-hover:text-brand-purple" style={{ color: "#1a1a2e" }}>
-                            {isAr ? svc.ar : svc.en}
-                          </p>
-                          <p className="text-xs mt-0.5 leading-snug" style={{ color: "#9CA3AF" }}>
-                            {isAr ? svc.desc.ar : svc.desc.en}
-                          </p>
-                        </div>
+                        <span className="text-sm font-medium leading-tight" style={{ color: "#1a1a2e" }}>
+                          {isAr ? svc.ar : svc.en}
+                        </span>
                       </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* ── Right CTA panel ── */}
-          <div className="w-52 flex flex-col p-5 border-l border-gray-100">
-            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#9CA3AF" }}>
-              {isAr ? "الأكثر طلباً" : "Most Requested"}
-            </p>
-            <div className="space-y-2 flex-1">
-              {[
-                { en: "Senior Physiotherapist", ar: "معالج أول", slug: "physiotherapy" },
-                { en: "Physiotherapist Specialist", ar: "أخصائي علاج طبيعي", slug: "physiotherapy" },
-                { en: "Home Physiotherapy", ar: "علاج طبيعي منزلي", slug: "physiotherapy" },
-              ].map((item) => (
-                <Link
-                  key={item.en}
-                  href={`/${locale}/services/${item.slug}`}
-                  onClick={onClose}
-                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all hover:bg-gray-50 group"
-                  style={{ color: "#374151" }}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors"
-                    style={{ background: "var(--color-brand-purple)" }}
-                  />
-                  <span className="group-hover:text-brand-purple transition-colors leading-tight">
-                    {isAr ? item.ar : item.en}
-                  </span>
-                </Link>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
 
-            {/* Promo banner */}
+            {/* Bottom CTA strip */}
             <div
-              className="mt-4 p-3.5 rounded-xl"
-              style={{ background: "linear-gradient(135deg, rgba(var(--color-brand-purple-rgb),0.08), rgba(var(--color-brand-green-rgb),0.08))", border: "1px solid rgba(var(--color-brand-purple-rgb),0.12)" }}
+              className="mt-4 flex items-center justify-between px-4 py-2.5 rounded-xl"
+              style={{ background: "rgba(136,7,114,0.05)", border: "1px solid rgba(136,7,114,0.10)" }}
             >
-              <p className="text-xs font-bold mb-0.5" style={{ color: "var(--color-brand-purple)" }}>
-                {isAr ? "استشارة مجانية" : "Free Consultation"}
-              </p>
-              <p className="text-xs" style={{ color: "#6B7280" }}>
-                {isAr ? "احجز تقييمك الأول مجاناً" : "Book your first assessment free"}
-              </p>
+              <div>
+                <p className="text-xs font-bold" style={{ color: "var(--color-brand-purple)" }}>
+                  {isAr ? "استشارة مجانية" : "Free First Consultation"}
+                </p>
+                <p className="text-[11px]" style={{ color: "#6B7280" }}>
+                  {isAr ? "احجز تقييمك الأول مجاناً" : "Book your first assessment at no cost"}
+                </p>
+              </div>
               <Link
                 href={`/${locale}/book/riyadh`}
                 onClick={onClose}
-                className="mt-2 inline-flex items-center gap-1 text-xs font-bold"
-                style={{ color: "var(--color-brand-purple)" }}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-white shrink-0"
+                style={{ background: "var(--color-brand-purple)" }}
               >
-                {isAr ? "ابدأ الآن" : "Get Started"} <ArrowRight size={11} />
+                {isAr ? "ابدأ الآن" : "Get Started"}
+                <ArrowRight size={11} />
               </Link>
             </div>
           </div>

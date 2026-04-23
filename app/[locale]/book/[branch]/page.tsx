@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Clock, MapPin, Phone } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { branches } from "@/lib/data/branches";
@@ -61,7 +60,6 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navT} />
       <main className="pt-36 pb-20 min-h-screen" style={{ background: "#F8FAFC" }}>
         <div className="max-w-6xl mx-auto px-4 md:px-6">

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { TeamContent } from "./TeamContent";
@@ -27,7 +26,6 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navT} />
       <TeamContent locale={locale} ctaBook={cta("book")} ctaWhatsapp={cta("whatsapp")} ctaTitle={cta("title")} />
       <Footer locale={locale} t={footerT} nav={navForFooter} />

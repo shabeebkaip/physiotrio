@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { AboutContent } from "./AboutContent";
@@ -39,7 +38,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   return (
     <>
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navT} />
       <AboutContent locale={locale} ctaBook={cta("book")} ctaWhatsapp={cta("whatsapp")} ctaTitle={cta("title")} />
       <Footer locale={locale} t={footerT} nav={navForFooter} />

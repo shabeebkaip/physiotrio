@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { TollFreeStrip } from "@/components/layout/TollFreeStrip";
 import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -141,7 +140,6 @@ export default async function HomePage({
 
   return (
     <>
-      <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navTranslations} />
       <main >
         <HeroSection locale={locale} t={heroTranslations} />
@@ -184,10 +182,10 @@ export default async function HomePage({
         <NewsBlog locale={locale} posts={newsPosts} />
       </main>
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />
-      <StickyBookingBar
+      {/* <StickyBookingBar
         locale={locale}
         bookText={nav("bookNow")}
-      />
+      /> */}
       <WhatsAppButton locale={locale} />
       <ChatbotWidget locale={locale} />
     </>

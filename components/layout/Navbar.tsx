@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu, X, Globe, ArrowRight, ChevronDown,
+  Menu, X, Globe, ArrowRight, ChevronDown, Phone,
   Activity, Dumbbell, Brain, Heart,
   Droplets, Zap, Radio, Hand,
   ArrowUpRight,
@@ -87,7 +87,7 @@ function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { loc
       onMouseLeave={onMouseLeave}
     >
       <div
-        className="mx-auto rounded-2xl overflow-hidden"
+        className="mx-auto rounded-[20px] overflow-hidden"
         style={{
           background: "#fff",
           boxShadow: "0 24px 80px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.05)",
@@ -283,89 +283,175 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
   return (
     <>
-      {/* Floating pill wrapper — also anchors the mega menu */}
-      <div className="fixed top-9 left-0 right-0 z-50 px-4 pointer-events-none">
-        <motion.nav
-          className="pointer-events-auto max-w-7xl mx-auto flex items-center justify-between h-16 px-5 rounded-2xl relative"
-          style={{
-            background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.88)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(0,0,0,0.06)",
-            boxShadow: scrolled
-              ? "0 8px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.8) inset"
-              : "0 2px 12px rgba(0,0,0,0.04)",
-          }}
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {/* Logo */}
-          <Link href={`/${locale}`}>
-            <PhysioTrioLogo variant="color" height={52} />
-          </Link>
+      {/* ── Two floating pills ────────────────────────────────────────── */}
+      <div className="fixed top-4 left-0 right-0 z-50 px-5 pointer-events-none">
+        <div className="max-w-[1400px] mx-auto flex items-center gap-4">
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1">
-            {/* Home */}
-            <Link
-              href={`/${locale}`}
-              className="relative px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50"
-              style={{ color: pathname === `/${locale}` ? "var(--color-brand-purple)" : "#374151" }}
-            >
-              {translations.home}
+          {/* ── Pill 1: Logo + Navigation ── */}
+          <motion.nav
+            className="pointer-events-auto flex items-center py-2 px-3 rounded-[32px] relative flex-1 min-w-0"
+            style={{
+              background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.90)",
+              backdropFilter: "blur(24px)",
+              border: "1px solid rgba(0,0,0,0.07)",
+              boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.10)" : "0 2px 16px rgba(0,0,0,0.06)",
+            }}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Logo */}
+            <Link href={`/${locale}`} className="shrink-0 pl-2 pr-5">
+              <PhysioTrioLogo variant="color" height={53} />
             </Link>
 
-            {/* Services — mega menu trigger */}
-            <div
-              className="relative"
-              onMouseEnter={openServices}
-              onMouseLeave={closeServices}
-            >
-              <button
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50"
-                style={{ color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151" }}
-              >
-                {translations.services}
-                <motion.span
-                  animate={{ rotate: servicesOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronDown size={14} strokeWidth={2} />
-                </motion.span>
-              </button>
+            {/* Logo / nav divider */}
+            <span className="w-px h-7 bg-gray-200 shrink-0 mr-5" />
 
-              {/* Active underline */}
-              {isServicesActive && (
-                <span
-                  className="absolute -bottom-1 left-3 right-3 h-0.5 rounded-full"
-                  style={{ background: "var(--color-brand-purple)" }}
-                />
-              )}
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center justify-between flex-1 pr-2">
+              {/* Home */}
+              <Link
+                href={`/${locale}`}
+                className="px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
+                style={{
+                  color: pathname === `/${locale}` ? "var(--color-brand-purple)" : "#374151",
+                  background: pathname === `/${locale}` ? "rgba(136,7,114,0.09)" : "transparent",
+                  border: pathname === `/${locale}` ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
+                }}
+                onMouseEnter={(e) => {
+                  if (pathname !== `/${locale}`) {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
+                    (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
+                    (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (pathname !== `/${locale}`) {
+                    (e.currentTarget as HTMLElement).style.background = "transparent";
+                    (e.currentTarget as HTMLElement).style.color = "#374151";
+                    (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
+                  }
+                }}
+              >
+                {translations.home}
+              </Link>
+
+              {/* Services — mega menu trigger */}
+              <div className="relative" onMouseEnter={openServices} onMouseLeave={closeServices}>
+                <button
+                  className="flex items-center gap-1 px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
+                  style={{
+                    color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151",
+                    background: isServicesActive || servicesOpen ? "rgba(136,7,114,0.09)" : "transparent",
+                    border: isServicesActive || servicesOpen ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isServicesActive && !servicesOpen) {
+                      (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
+                      (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
+                      (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isServicesActive && !servicesOpen) {
+                      (e.currentTarget as HTMLElement).style.background = "transparent";
+                      (e.currentTarget as HTMLElement).style.color = "#374151";
+                      (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
+                    }
+                  }}
+                >
+                  {translations.services}
+                  <motion.span animate={{ rotate: servicesOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                    <ChevronDown size={14} strokeWidth={2} />
+                  </motion.span>
+                </button>
+              </div>
+
+              {/* Plain links */}
+              {plainLinks.map((link) => {
+                const href = `/${locale}${link.href}`;
+                const isActive = pathname === href || pathname.startsWith(href);
+                return (
+                  <Link
+                    key={link.key}
+                    href={href}
+                    className="px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
+                    style={{
+                      color: isActive ? "var(--color-brand-purple)" : "#374151",
+                      background: isActive ? "rgba(136,7,114,0.09)" : "transparent",
+                      border: isActive ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
+                        (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
+                        (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLElement).style.background = "transparent";
+                        (e.currentTarget as HTMLElement).style.color = "#374151";
+                        (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
+                      }
+                    }}
+                  >
+                    {translations[link.key as keyof typeof translations]}
+                  </Link>
+                );
+              })}
             </div>
 
-            {/* Plain links */}
-            {plainLinks.map((link) => {
-              const href = `/${locale}${link.href}`;
-              const isActive = pathname === href || pathname.startsWith(href);
-              return (
-                <Link
-                  key={link.key}
-                  href={href}
-                  className="relative px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50 group"
-                  style={{ color: isActive ? "var(--color-brand-purple)" : "#374151" }}
-                >
-                  {translations[link.key as keyof typeof translations]}
-                  <span
-                    className="absolute -bottom-1 left-3 right-3 h-0.5 rounded-full transition-all duration-300"
-                    style={{ background: "var(--color-brand-purple)", width: isActive ? "calc(100% - 24px)" : "0%" }}
-                  />
-                </Link>
-              );
-            })}
-          </div>
+            {/* Mobile menu button */}
+            <button
+              className="lg:hidden p-2 rounded-lg transition-colors ml-auto"
+              style={{ color: "var(--color-brand-purple)" }}
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={22} />
+            </button>
 
-          {/* Right actions */}
-          <div className="hidden lg:flex items-center gap-3">
+            {/* Mega menu */}
+            <AnimatePresence>
+              {servicesOpen && (
+                <ServicesMegaMenu
+                  locale={locale}
+                  onClose={() => setServicesOpen(false)}
+                  onMouseEnter={openServices}
+                  onMouseLeave={closeServices}
+                />
+              )}
+            </AnimatePresence>
+          </motion.nav>
+
+          {/* ── Pill 2: Contacts + Actions ── */}
+          <motion.div
+            className="pointer-events-auto hidden lg:flex items-center gap-3 py-2 px-4 rounded-[32px] shrink-0 self-stretch"
+            style={{
+              background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.90)",
+              backdropFilter: "blur(24px)",
+              border: "1px solid rgba(0,0,0,0.07)",
+              boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.10)" : "0 2px 16px rgba(0,0,0,0.06)",
+            }}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Toll-free */}
+            <a
+              href="tel:8001000246"
+              className="flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75"
+              style={{ color: "var(--color-brand-green)" }}
+            >
+              <Phone size={13} />
+              800 100 0246
+            </a>
+
+            <span className="w-px h-4 bg-gray-200" />
+
+            {/* Language */}
             <Link
               href={getLocalePath(otherLocale)}
               className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full transition-all hover:bg-gray-50"
@@ -375,6 +461,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
               {otherLocale === "ar" ? "عربي" : "EN"}
             </Link>
 
+            {/* Book Now */}
             <Link
               href={`/${locale}/book/riyadh`}
               className="inline-flex items-center gap-2 pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm text-white transition-all group hover:shadow-lg"
@@ -388,30 +475,9 @@ export function Navbar({ locale, translations }: NavbarProps) {
                 <ArrowRight size={14} className="text-white" />
               </span>
             </Link>
-          </div>
+          </motion.div>
 
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden p-2 rounded-lg transition-colors"
-            style={{ color: "var(--color-brand-purple)" }}
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu size={22} />
-          </button>
-
-          {/* Mega menu — anchored to full nav width */}
-          <AnimatePresence>
-            {servicesOpen && (
-              <ServicesMegaMenu
-                locale={locale}
-                onClose={() => setServicesOpen(false)}
-                onMouseEnter={openServices}
-                onMouseLeave={closeServices}
-              />
-            )}
-          </AnimatePresence>
-        </motion.nav>
+        </div>
       </div>
 
       {/* Mobile menu overlay */}

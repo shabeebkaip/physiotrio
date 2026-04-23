@@ -13,10 +13,12 @@ import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
 import { BranchesPreview } from "@/components/home/BranchesPreview";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { TeamCarousel } from "@/components/home/TeamCarousel";
-import { OffersTeaser } from "@/components/home/OffersTeaser";
+import { ProgramsTeaser } from "@/components/home/ProgramsTeaser";
+import { programs } from "@/lib/data/programs";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
-import { InstagramFeed } from "@/components/home/InstagramFeed";
-import { getInstagramAssets } from "@/lib/utils/getInstagramAssets";
+import { NewsBlog } from "@/components/home/NewsBlog";
+import { AboutSnippet } from "@/components/home/AboutSnippet";
+import { newsPosts } from "@/lib/data/news";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { StatsSection } from "@/components/home/StatsSection";
 import { services } from "@/lib/data/services";
@@ -33,7 +35,7 @@ export async function generateMetadata({
   return {
     title: locale === "ar"
       ? "فيزيوتريو — مركز العلاج الطبيعي المتميز | الرياض · مكة · الدمام"
-      : "PhysioTrio — Premium Physiotherapy Center | Riyadh · Makkah · Dammam",
+      : "PhysioTrio — Premium Physiotherapy Center | Riyadh · Makkah",
     description: locale === "ar"
       ? "مركز العلاج الطبيعي المتميز في المملكة العربية السعودية. جزء من مجموعة برجيل القابضة. خدمات متخصصة في الرياض ومكة المكرمة."
       : "Premium physiotherapy center in Saudi Arabia. A Burjeel Holdings Company. Specialized services in Riyadh, Makkah & Dammam.",
@@ -59,7 +61,6 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const instagramAssets = getInstagramAssets();
   const t = await getTranslations("hero");
   const nav = await getTranslations("nav");
   const statsT = await getTranslations("stats");
@@ -68,7 +69,6 @@ export default async function HomePage({
   const branchesT = await getTranslations("branches");
   const ctaT = await getTranslations("cta");
   const teamT = await getTranslations("team");
-  const offersT = await getTranslations("offers");
   const testimonialT = await getTranslations("testimonials");
   const footerT = await getTranslations("footer");
   const insuranceT = await getTranslations("insurance");
@@ -88,19 +88,17 @@ export default async function HomePage({
   const navTranslations = {
     home: nav("home"),
     services: nav("services"),
-    branches: nav("branches"),
-    team: nav("team"),
     about: nav("about"),
-    offers: nav("offers"),
-    blog: nav("blog"),
+    packages: nav("packages"),
+    news: nav("news"),
     contact: nav("contact"),
-    bookNow: nav("bookNow"),
     homeCare: nav("homeCare"),
+    bookNow: nav("bookNow"),
   };
 
   const statsData = [
-    { value: "3", label: statsT("branches") },
-    { value: "50+", label: statsT("therapists") },
+    { value: "2", label: statsT("branches") },
+    { value: "35+", label: statsT("therapists") },
     { value: "10,000+", label: statsT("patients") },
     { value: "9", label: statsT("services") },
   ];
@@ -134,11 +132,9 @@ export default async function HomePage({
   const navForFooter = {
     home: nav("home"),
     services: nav("services"),
-    branches: nav("branches"),
-    team: nav("team"),
     about: nav("about"),
-    offers: nav("offers"),
-    blog: nav("blog"),
+    packages: nav("packages"),
+    news: nav("news"),
     faq: nav("faq"),
     contact: nav("contact"),
   };
@@ -151,6 +147,7 @@ export default async function HomePage({
         <HeroSection locale={locale} t={heroTranslations} />
         <InsuranceBar label={insuranceT("label")} />
         <StatsSection locale={locale} />
+        <AboutSnippet locale={locale} />
         <ServicesGrid
           locale={locale}
           services={services}
@@ -159,16 +156,6 @@ export default async function HomePage({
           bookNowText={servicesT("bookNow")}
         />
         <WhyPhysioTrio locale={locale} t={whyTranslations} />
-        <BranchesPreview
-          locale={locale}
-          branches={branches}
-          title={branchesT("title")}
-          getDirectionsText={branchesT("getDirections")}
-          bookHereText={branchesT("bookHere")}
-          comingSoonText={branchesT("comingSoon")}
-          therapistsText={branchesT("therapists")}
-          servicesText={branchesT("services")}
-        />
         <BookingCTABand
           locale={locale}
           title={ctaT("title")}
@@ -182,13 +169,7 @@ export default async function HomePage({
           subtitle={teamT("subtitle")}
           bookWithText={teamT("bookWith")}
         />
-        <OffersTeaser
-          locale={locale}
-          eyebrow={offersT("eyebrow")}
-          title={offersT("title")}
-          viewAllText={offersT("viewAll")}
-          purchaseText={offersT("purchase")}
-        />
+        <ProgramsTeaser locale={locale} programs={programs} />
         <BookingCTABand
           locale={locale}
           title={ctaT("title")}
@@ -200,7 +181,7 @@ export default async function HomePage({
           testimonials={testimonials}
           title={testimonialT("title")}
         />
-        <InstagramFeed locale={locale} localPosts={instagramAssets} />
+        <NewsBlog locale={locale} posts={newsPosts} />
       </main>
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />
       <StickyBookingBar

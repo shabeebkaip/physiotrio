@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, MapPin, Phone, Mail, ArrowRight } from "lucide-react";
+import { MessageCircle, MapPin, Mail, ArrowRight, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
 interface FooterProps {
@@ -20,11 +20,9 @@ interface FooterProps {
   nav: {
     home: string;
     services: string;
-    branches: string;
-    team: string;
     about: string;
-    offers: string;
-    blog: string;
+    packages: string;
+    news: string;
     faq: string;
     contact: string;
   };
@@ -37,31 +35,24 @@ export function Footer({ locale, t, nav }: FooterProps) {
     { href: "/", label: nav.home },
     { href: "/about", label: nav.about },
     { href: "/services", label: nav.services },
-    { href: "/branches", label: nav.branches },
-    { href: "/team", label: nav.team },
-    { href: "/offers", label: nav.offers },
-    { href: "/blog", label: nav.blog },
+    { href: "/packages", label: nav.packages },
+    { href: "/news", label: nav.news },
     { href: "/faq", label: nav.faq },
+    { href: "/contact", label: nav.contact },
   ];
 
   const branches = [
     {
       city: { en: "Riyadh", ar: "الرياض" },
-      address: { en: "Al Olaya District, King Fahd Road", ar: "حي العليا، طريق الملك فهد" },
-      phone: "+966-11-XXX-XXXX",
+      address: { en: "Al Olaya District, King Fahd Road, Riyadh 12211", ar: "حي العليا، طريق الملك فهد، الرياض 12211" },
+      mapUrl: "https://maps.google.com/?q=24.6877,46.7219",
       active: true,
     },
     {
       city: { en: "Makkah", ar: "مكة المكرمة" },
-      address: { en: "Al Zaher District, Ibrahim Al Khalil Rd", ar: "حي الزاهر، طريق إبراهيم الخليل" },
-      phone: "+966-12-XXX-XXXX",
+      address: { en: "Al Zaher District, Ibrahim Al Khalil Road, Makkah 24231", ar: "حي الزاهر، طريق إبراهيم الخليل، مكة المكرمة 24231" },
+      mapUrl: "https://maps.google.com/?q=21.3891,39.8579",
       active: true,
-    },
-    {
-      city: { en: "Dammam", ar: "الدمام" },
-      address: null,
-      phone: null,
-      active: false,
     },
   ];
 
@@ -85,13 +76,43 @@ export function Footer({ locale, t, nav }: FooterProps) {
 
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/966500000001"
+              href="https://wa.me/9668001000246"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105"
               style={{ background: "rgba(37,211,102,0.1)", color: "#16a34a", border: "1px solid rgba(37,211,102,0.3)" }}
             >
               <MessageCircle size={15} />
               WhatsApp
             </a>
+
+            {/* Social links */}
+            <div className="flex items-center gap-3 mt-5">
+              {[
+                { href: "https://www.linkedin.com/company/physiotrio", Icon: Linkedin, label: "LinkedIn" },
+                { href: "https://x.com/Physiotrio", Icon: Twitter, label: "X / Twitter" },
+                { href: "https://www.facebook.com/physiotrio.ksa", Icon: Facebook, label: "Facebook" },
+                { href: "https://www.instagram.com/physiotrio/", Icon: Instagram, label: "Instagram" },
+              ].map(({ href, Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                  style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "var(--color-brand-purple)";
+                    (e.currentTarget as HTMLElement).style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(var(--color-brand-purple-rgb),0.08)";
+                    (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
+                  }}
+                >
+                  <Icon size={14} />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Col 2 — Quick Links */}
@@ -149,18 +170,17 @@ export function Footer({ locale, t, nav }: FooterProps) {
                     )}
                   </div>
                   {b.address && (
-                    <div className="flex items-start gap-1.5">
+                    <a
+                      href={b.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-1.5 group/map"
+                    >
                       <MapPin size={11} className="mt-0.5 flex-shrink-0" style={{ color: "var(--color-brand-purple)" }} />
-                      <p className="text-xs leading-relaxed" style={{ color: "#6B7280" }}>
+                      <p className="text-xs leading-relaxed group-hover/map:underline" style={{ color: "#6B7280" }}>
                         {isRTL ? b.address.ar : b.address.en}
                       </p>
-                    </div>
-                  )}
-                  {b.phone && (
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <Phone size={11} style={{ color: "var(--color-brand-green)" }} />
-                      <p className="text-xs" style={{ color: "#6B7280" }}>{b.phone}</p>
-                    </div>
+                    </a>
                   )}
                 </div>
               ))}
@@ -180,20 +200,20 @@ export function Footer({ locale, t, nav }: FooterProps) {
                 <p className="text-xs font-medium mb-1" style={{ color: "#9CA3AF" }}>
                   {isRTL ? "الخط المجاني" : "Toll-Free"}
                 </p>
-                <p className="text-2xl font-black" style={{ color: "var(--color-brand-purple)" }}>
-                  920 000 000
-                </p>
+                <a href="tel:8001000246" className="text-2xl font-black transition-opacity hover:opacity-80" style={{ color: "var(--color-brand-purple)" }}>
+                  800 100 0246
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={14} style={{ color: "var(--color-brand-green)" }} />
                 <a
-                  href="mailto:hello@physiotrio.com"
+                  href="mailto:info@physiotrio.com"
                   className="text-sm transition-colors"
                   style={{ color: "#4B5563" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-brand-purple)")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#4B5563")}
                 >
-                  hello@physiotrio.com
+                  info@physiotrio.com
                 </a>
               </div>
 

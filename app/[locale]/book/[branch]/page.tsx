@@ -10,6 +10,8 @@ import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
 import { branches } from "@/lib/data/branches";
 import { services } from "@/lib/data/services";
 import { therapists } from "@/lib/data/therapists";
+import { programs } from "@/lib/data/programs";
+import { packages } from "@/lib/data/packages";
 import { BookingFlow } from "@/components/booking/BookingFlow";
 
 export async function generateStaticParams() {
@@ -40,9 +42,8 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
   const footer = await getTranslations("footer");
 
   const navT = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare"),
+    home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), contact: nav("contact"), homeCare: nav("homeCare"), bookNow: nav("bookNow"),
   };
   const footerT = {
     tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"),
@@ -50,9 +51,8 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
     privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly"),
   };
   const navForFooter = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), faq: nav("faq"), contact: nav("contact"),
+    home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), faq: nav("faq"), contact: nav("contact"),
   };
 
   const branchServices = services.filter((s) => s.branches.includes(branch));
@@ -92,6 +92,8 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                 branch={branchData}
                 services={branchServices}
                 therapists={branchTherapists}
+                programs={programs}
+                packages={packages}
               />
             </div>
 
@@ -124,8 +126,8 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
                       <Phone size={15} style={{ color: "var(--color-brand-purple)" }} />
                     </div>
-                    <a href="tel:8001000091" className="text-sm font-semibold" style={{ color: "var(--color-brand-purple)" }}>
-                      800 100 0091
+                    <a href="tel:8001000246" className="text-sm font-semibold" style={{ color: "var(--color-brand-purple)" }}>
+                      800 100 0246
                     </a>
                   </div>
                 </div>
@@ -151,7 +153,7 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
 
               {/* WhatsApp CTA */}
               <a
-                href={`https://wa.me/${branchData.whatsapp?.replace(/\D/g, "") ?? "9668001000091"}`}
+                href={`https://wa.me/${branchData.whatsapp?.replace(/\D/g, "") ?? "9668001000246"}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"

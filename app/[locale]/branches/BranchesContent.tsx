@@ -11,7 +11,6 @@ import { branches } from "@/lib/data/branches";
 const cityImages: Record<string, string> = {
   riyadh: "https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=800&q=80",
   makkah: "/makkah.jpg",
-  dammam: "https://images.unsplash.com/photo-1570516002611-6b0cf9d0f8c9?w=800&q=80",
 };
 
 interface Props { locale: string; ctaBook: string; ctaWhatsapp: string; ctaTitle: string; }
@@ -68,8 +67,8 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               {isAr
-                ? "ثلاثة فروع متكاملة في المملكة العربية السعودية — الرياض، مكة المكرمة، والدمام قريباً"
-                : "Three fully equipped branches across Saudi Arabia — Riyadh, Makkah & Dammam coming soon."}
+                ? "فرعان متكاملان في المملكة العربية السعودية — الرياض ومكة المكرمة"
+                : "Two fully equipped branches across Saudi Arabia — Riyadh & Makkah"}
             </motion.p>
 
             {/* Location pills */}
@@ -82,7 +81,6 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
               {[
                 { label: isAr ? "الرياض" : "Riyadh", active: true },
                 { label: isAr ? "مكة المكرمة" : "Makkah", active: true },
-                { label: isAr ? "الدمام — قريباً" : "Dammam — Soon", active: false },
               ].map((loc) => (
                 <span
                   key={loc.label}
@@ -138,21 +136,6 @@ export function BranchesContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Prop
               <div className="absolute top-3 right-3 w-2 h-2 rounded-full" style={{ background: "var(--color-brand-green)", boxShadow: "0 0 6px var(--color-brand-green)" }} />
             </motion.div>
 
-            {/* Dammam — small "coming soon" card, bottom center */}
-            <motion.div
-              className="absolute rounded-xl overflow-hidden"
-              style={{ width: 160, height: 100, bottom: -10, left: "50%", transform: "translateX(-50%)", boxShadow: "0 8px 24px rgba(0,0,0,0.1)", zIndex: 3 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
-            >
-              <Image src={cityImages.dammam} alt="Dammam" fill className="object-cover" style={{ filter: "grayscale(60%) brightness(1.1)" }} />
-              <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(255,255,255,0.55)", backdropFilter: "blur(4px)" }}>
-                <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "var(--color-brand-purple)", color: "#fff" }}>
-                  {isAr ? "الدمام — قريباً" : "Dammam — Soon"}
-                </span>
-              </div>
-            </motion.div>
           </div>
 
         </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Phone, Mail, Clock, MapPin, MessageCircle, ArrowRight, Send } from "lucide-react";
-import { PageHero } from "@/components/common/PageHero";
+// motion is still used in the enquiry form section below
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { branches } from "@/lib/data/branches";
 
@@ -15,123 +15,74 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
 
   return (
     <main>
-      <PageHero
-        eyebrow={isAr ? "اتصل بنا" : "Contact Us"}
-        title={isAr ? "نحن هنا لمساعدتك" : "We Are Here to Help"}
-        subtitle={isAr ? "تواصل معنا بأي طريقة تناسبك — هاتف أو بريد إلكتروني أو واتساب" : "Reach out in whatever way suits you best — phone, email, or WhatsApp"}
-      />
+      {/* ── Page header ─────────────────────────────────────────────────── */}
+      <div className="bg-white border-b" style={{ borderColor: "#E5E7EB" }}>
+        <div className="max-w-7xl mx-auto px-6 pt-28 pb-8" style={{ direction: isAr ? "rtl" : "ltr" }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--color-brand-purple)" }}>
+            {isAr ? "اتصل بنا" : "Contact Us"}
+          </p>
+          <h1 className="font-bold text-2xl md:text-3xl mb-1" style={{ color: "#111827" }}>
+            {isAr ? "نحن هنا لمساعدتك" : "We Are Here to Help"}
+          </h1>
+          <p className="text-sm" style={{ color: "#6B7280" }}>
+            {isAr ? "تواصل معنا بأي طريقة تناسبك — هاتف أو بريد إلكتروني أو واتساب" : "Reach out in whatever way suits you best — phone, email, or WhatsApp"}
+          </p>
+        </div>
+      </div>
 
-      {/* Branch cards */}
-      <section className="py-24" style={{ background: "linear-gradient(180deg, var(--color-surface-light) 0%, var(--color-brand-green-muted) 100%)" }}>
+      {/* ── Branch cards ─────────────────────────────────────────────────── */}
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <motion.div
-              className="flex items-center justify-center gap-2 mb-4"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-brand-green)" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-brand-green)" }}>
-                {isAr ? "فروعنا" : "Our Branches"}
-              </span>
-            </motion.div>
-            <motion.h2
-              className="font-black mb-3"
-              style={{ fontSize: "clamp(28px, 3.5vw, 48px)", color: "var(--color-hero-bg)" }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
-              {isAr ? "معلومات الفروع" : "Branch Information"}
-            </motion.h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {activeBranches.map((branch, i) => (
-              <motion.div
+          <div className="grid md:grid-cols-2 gap-6">
+            {activeBranches.map((branch) => (
+              <div
                 key={branch.id}
-                className="bg-white rounded-3xl overflow-hidden group"
-                style={{ boxShadow: "0 4px 30px rgba(var(--color-brand-purple-rgb),0.08)" }}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                whileHover={{ y: -8, boxShadow: "0 24px 60px rgba(var(--color-brand-purple-rgb),0.15)" }}
+                className="rounded-xl border p-6"
+                style={{ borderColor: "#E5E7EB" }}
               >
-                {/* Top accent bar */}
-                <div className="h-1.5" style={{ background: "linear-gradient(90deg, var(--color-brand-green), var(--color-brand-purple))" }} />
+                <h2 className="text-lg font-bold mb-5" style={{ color: "#111827" }}>
+                  {isAr ? branch.city.ar : branch.city.en}
+                </h2>
 
-                <div className="p-8">
-                  <h3 className="text-2xl font-black mb-6" style={{ color: "var(--color-brand-purple)" }}>
-                    {isAr ? branch.city.ar : branch.city.en}
-                  </h3>
-
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
-                        <MapPin size={14} style={{ color: "var(--color-brand-purple)" }} />
-                      </div>
-                      <span className="text-sm font-light leading-relaxed mt-1.5" style={{ color: "#555" }}>
-                        {isAr ? branch.address.ar : branch.address.en}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-green-rgb),0.08)" }}>
-                        <Phone size={14} style={{ color: "var(--color-brand-green)" }} />
-                      </div>
-                      <a
-                        href={`tel:${branch.phone}`}
-                        className="text-sm font-medium transition-colors hover:underline"
-                        style={{ color: "#444" }}
-                      >
-                        {branch.phone}
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
-                        <Mail size={14} style={{ color: "var(--color-brand-purple)" }} />
-                      </div>
-                      <a
-                        href={`mailto:${branch.email}`}
-                        className="text-sm font-medium transition-colors hover:underline"
-                        style={{ color: "#444" }}
-                      >
-                        {branch.email}
-                      </a>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-green-rgb),0.08)" }}>
-                        <Clock size={14} style={{ color: "var(--color-brand-green)" }} />
-                      </div>
-                      <span className="text-sm font-light leading-relaxed mt-1.5" style={{ color: "#555" }}>
-                        {isAr ? branch.hours.ar : branch.hours.en}
-                      </span>
-                    </div>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-start gap-2.5 text-sm" style={{ color: "#4B5563" }}>
+                    <MapPin size={15} className="mt-0.5 shrink-0" style={{ color: "var(--color-brand-purple)" }} />
+                    {isAr ? branch.address.ar : branch.address.en}
                   </div>
-
-                  <div className="flex gap-3">
-                    <Link
-                      href={`/${locale}/book/${branch.id}`}
-                      className="flex-1 py-3 rounded-full text-sm font-bold text-center text-white transition-all hover:scale-105 flex items-center justify-center gap-1.5"
-                      style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
-                    >
-                      {isAr ? "احجز الآن" : "Book Now"} <ArrowRight size={14} />
-                    </Link>
-                    <a
-                      href={`https://wa.me/${branch.whatsapp.replace(/\D/g, "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 py-3 rounded-full text-sm font-bold text-center text-white transition-all hover:scale-105 flex items-center justify-center gap-1.5"
-                      style={{ background: "#25D366" }}
-                    >
-                      <MessageCircle size={14} />
-                      WhatsApp
-                    </a>
+                  <div className="flex items-center gap-2.5 text-sm" style={{ color: "#4B5563" }}>
+                    <Phone size={15} className="shrink-0" style={{ color: "var(--color-brand-purple)" }} />
+                    <a href="tel:8001000246" className="hover:underline">800 100 0246</a>
+                  </div>
+                  <div className="flex items-center gap-2.5 text-sm" style={{ color: "#4B5563" }}>
+                    <Mail size={15} className="shrink-0" style={{ color: "var(--color-brand-purple)" }} />
+                    <a href="mailto:info@physiotrio.com" className="hover:underline">info@physiotrio.com</a>
+                  </div>
+                  <div className="flex items-start gap-2.5 text-sm" style={{ color: "#4B5563" }}>
+                    <Clock size={15} className="mt-0.5 shrink-0" style={{ color: "var(--color-brand-purple)" }} />
+                    {isAr ? branch.hours.ar : branch.hours.en}
                   </div>
                 </div>
-              </motion.div>
+
+                <div className="flex gap-3">
+                  <Link
+                    href={`/${locale}/book/${branch.id}`}
+                    className="flex-1 py-2.5 rounded-lg text-sm font-semibold text-center text-white flex items-center justify-center gap-1.5 transition-opacity hover:opacity-90"
+                    style={{ background: "var(--color-brand-purple)" }}
+                  >
+                    {isAr ? "احجز الآن" : "Book Now"} <ArrowRight size={13} />
+                  </Link>
+                  <a
+                    href="https://wa.me/9668001000246"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2.5 rounded-lg text-sm font-semibold text-center text-white flex items-center justify-center gap-1.5 transition-opacity hover:opacity-90"
+                    style={{ background: "#25D366" }}
+                  >
+                    <MessageCircle size={13} />
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -243,7 +194,7 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
             </p>
           </div>
           <a
-            href="https://wa.me/966500000001"
+            href="https://wa.me/9668001000246"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3.5 rounded-full font-bold text-white transition-all hover:scale-105 flex items-center gap-2"

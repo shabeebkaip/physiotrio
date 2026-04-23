@@ -21,9 +21,9 @@ export default async function BranchesPage({ params }: { params: Promise<{ local
   const footer = await getTranslations("footer");
   const cta = await getTranslations("cta");
 
-  const navT = { home: nav("home"), services: nav("services"), branches: nav("branches"), team: nav("team"), about: nav("about"), offers: nav("offers"), blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare") };
+  const navT = { home: nav("home"), services: nav("services"), about: nav("about"), packages: nav("packages"), news: nav("news"), contact: nav("contact"), homeCare: nav("homeCare"), bookNow: nav("bookNow") };
   const footerT = { tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"), branchesTitle: footer("branchesTitle"), contact: footer("contact"), rights: footer("rights"), privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly") };
-  const navForFooter = { home: nav("home"), services: nav("services"), branches: nav("branches"), team: nav("team"), about: nav("about"), offers: nav("offers"), blog: nav("blog"), faq: nav("faq"), contact: nav("contact") };
+  const navForFooter = { home: nav("home"), services: nav("services"), about: nav("about"), packages: nav("packages"), news: nav("news"), faq: nav("faq"), contact: nav("contact") };
 
   return (
     <>

@@ -47,9 +47,8 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const cta = await getTranslations("cta");
 
   const navT = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare"),
+    home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), contact: nav("contact"), homeCare: nav("homeCare"), bookNow: nav("bookNow"),
   };
   const footerT = {
     tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"),
@@ -57,9 +56,8 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly"),
   };
   const navForFooter = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), faq: nav("faq"), contact: nav("contact"),
+    home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), faq: nav("faq"), contact: nav("contact"),
   };
 
   const isAr = locale === "ar";
@@ -152,22 +150,19 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
                   >
                     {/* Icon box */}
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-white/20"
-                      style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}
+                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300 bg-[rgba(var(--color-brand-purple-rgb),0.08)] group-hover:bg-white/20"
                     >
                       <Icon
                         size={22}
                         strokeWidth={1.5}
-                        className="transition-colors duration-300 group-hover:text-white"
-                        style={{ color: "var(--color-brand-purple)" }}
+                        className="transition-colors duration-300 text-[var(--color-brand-purple)] group-hover:text-white"
                       />
                     </div>
 
                     {/* Women only badge */}
                     {service.privateService && (
                       <span
-                        className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full mb-3 transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white"
-                        style={{ background: "rgba(var(--color-brand-green-rgb),0.1)", color: "var(--color-brand-green-dark)" }}
+                        className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full mb-3 transition-colors duration-300 bg-[rgba(var(--color-brand-green-rgb),0.1)] text-[var(--color-brand-green-dark)] group-hover:bg-white/20 group-hover:text-white"
                       >
                         <Lock size={10} />
                         {isAr ? "خدمة خاصة للسيدات" : "Women Only"}
@@ -176,16 +171,14 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
 
                     {/* Name */}
                     <h2
-                      className="text-lg font-bold mb-2 leading-snug transition-colors duration-300 group-hover:text-white"
-                      style={{ color: "#1a1a2e" }}
+                      className="text-lg font-bold mb-2 leading-snug transition-colors duration-300 text-[#1a1a2e] group-hover:text-white"
                     >
                       {name}
                     </h2>
 
                     {/* Description */}
                     <p
-                      className="text-sm leading-relaxed mb-5 transition-colors duration-300 group-hover:text-white/80"
-                      style={{ color: "#6B7280" }}
+                      className="text-sm leading-relaxed mb-5 transition-colors duration-300 text-[#6B7280] group-hover:text-white/80"
                     >
                       {desc}
                     </p>
@@ -193,14 +186,12 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
                     {/* Footer row */}
                     <div className="flex items-center justify-between">
                       <span
-                        className="text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white"
-                        style={{ background: "#F1F5F9", color: "var(--color-brand-purple)" }}
+                        className="text-xs font-semibold px-3 py-1 rounded-full transition-colors duration-300 bg-[#F1F5F9] text-[var(--color-brand-purple)] group-hover:bg-white/20 group-hover:text-white"
                       >
                         {service.durationMinutes} {isAr ? "دقيقة" : "min"}
                       </span>
                       <span
-                        className="flex items-center gap-1 text-sm font-semibold transition-colors duration-300 group-hover:text-white"
-                        style={{ color: "var(--color-brand-purple)" }}
+                        className="flex items-center gap-1 text-sm font-semibold transition-colors duration-300 text-[var(--color-brand-purple)] group-hover:text-white"
                       >
                         {isAr ? "اعرف أكثر" : "Learn More"}
                         <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />

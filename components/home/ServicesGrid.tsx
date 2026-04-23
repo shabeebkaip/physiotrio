@@ -104,13 +104,6 @@ export function ServicesGrid({ locale, services, title, subtitle, bookNowText }:
                     {isAr ? service.name.ar : service.name.en}
                   </h3>
 
-                  {/* Description */}
-                  <p
-                    className="text-sm leading-relaxed mb-6 transition-colors duration-300 text-[#6B7280] group-hover:text-white/80"
-                  >
-                    {isAr ? service.shortDesc.ar : service.shortDesc.en}
-                  </p>
-
                   {/* Footer */}
                   <div className="flex items-center justify-between mt-auto">
                     <span

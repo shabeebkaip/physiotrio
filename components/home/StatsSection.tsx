@@ -171,7 +171,7 @@ export function StatsSection({ locale }: { locale: string }) {
         <StatCard
           locale={locale}
           icon="therapist"
-          value={50}
+          value={36}
           suffix="+"
           label={{ en: "Expert Therapists", ar: "معالج متخصص" }}
         />
@@ -182,7 +182,7 @@ export function StatsSection({ locale }: { locale: string }) {
         <StatCard
           locale={locale}
           icon="activity"
-          value={22}
+          value={13}
           suffix="+"
           label={{ en: "Years Experience", ar: "سنة خبرة" }}
         />
@@ -205,7 +205,7 @@ export function StatsSection({ locale }: { locale: string }) {
         <StatCard
           locale={locale}
           icon="map-pin"
-          value={3}
+          value={2}
           label={{ en: "KSA Branches", ar: "فروع في المملكة" }}
         />
 

@@ -36,8 +36,8 @@ export async function generateMetadata({
     },
     description:
       locale === "ar"
-        ? "مركز العلاج الطبيعي المتميز في الرياض ومكة المكرمة والدمام. جزء من بورجيل القابضة."
-        : "Premium physiotherapy center across Riyadh, Makkah & Dammam. A Burjeel Holdings Company.",
+        ? "مركز العلاج الطبيعي المتميز في الرياض ومكة المكرمة. جزء من بورجيل القابضة."
+        : "Premium physiotherapy center across Riyadh & Makkah. A Burjeel Holdings Company.",
     keywords: ["physiotherapy", "physiotherapy saudi arabia", "علاج طبيعي", "فيزيوتريو"],
     openGraph: {
       type: "website",

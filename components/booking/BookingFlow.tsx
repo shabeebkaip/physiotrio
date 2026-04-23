@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 import type { Branch } from "@/lib/data/branches";
 import type { Service } from "@/lib/data/services";
 import type { Therapist } from "@/lib/data/therapists";
+import type { Program } from "@/lib/data/programs";
+import type { Package } from "@/lib/data/packages";
 import {
   CheckCircle2, Star, Clock, Calendar, User, ChevronRight,
   Dumbbell, Brain, Hand, Baby, Leaf, Zap, MoveUp, Activity,
@@ -17,6 +19,8 @@ interface BookingFlowProps {
   branch: Branch;
   services: Service[];
   therapists: Therapist[];
+  programs: Program[];
+  packages: Package[];
 }
 
 const DAYS = {
@@ -53,16 +57,16 @@ function StepBar({ step, labels }: { step: number; labels: string[] }) {
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300"
                 style={{
-                  background: done ? "var(--color-brand-purple)" : active ? "var(--color-brand-purple)" : "#F1F5F9",
+                  background: done ? "var(--color-brand-green)" : active ? "var(--color-brand-green)" : "#F1F5F9",
                   color: done || active ? "white" : "#9CA3AF",
-                  boxShadow: active ? "0 0 0 4px rgba(var(--color-brand-purple-rgb),0.15)" : "none",
+                  boxShadow: active ? "0 0 0 4px rgba(var(--color-brand-green-rgb),0.15)" : "none",
                 }}
               >
                 {done ? <CheckCircle2 size={16} /> : idx}
               </div>
               <span
                 className="text-[10px] font-semibold uppercase tracking-wide hidden sm:block"
-                style={{ color: active ? "var(--color-brand-purple)" : done ? "var(--color-brand-purple)" : "#9CA3AF" }}
+                style={{ color: active ? "var(--color-brand-green)" : done ? "var(--color-brand-green)" : "#9CA3AF" }}
               >
                 {label}
               </span>
@@ -70,7 +74,7 @@ function StepBar({ step, labels }: { step: number; labels: string[] }) {
             {i < labels.length - 1 && (
               <div
                 className="flex-1 h-0.5 mx-2 mb-4 rounded-full transition-all duration-500"
-                style={{ background: step > idx ? "var(--color-brand-purple)" : "#E5E7EB" }}
+                style={{ background: step > idx ? "var(--color-brand-green)" : "#E5E7EB" }}
               />
             )}
           </div>
@@ -108,7 +112,7 @@ function NavButtons({
           disabled={nextDisabled}
           className="flex-1 inline-flex items-center justify-center gap-2 pl-6 pr-2 py-2.5 rounded-xl font-semibold text-sm text-white transition-all group"
           style={{
-            background: nextDisabled ? "#E5E7EB" : "var(--color-brand-purple)",
+            background: nextDisabled ? "#E5E7EB" : "var(--color-brand-green)",
             color: nextDisabled ? "#9CA3AF" : "white",
             cursor: nextDisabled ? "not-allowed" : "pointer",
           }}
@@ -130,17 +134,27 @@ function NavButtons({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function BookingFlow({ locale, branch, services, therapists }: BookingFlowProps) {
+export function BookingFlow({ locale, branch, services, therapists, programs, packages }: BookingFlowProps) {
   const searchParams = useSearchParams();
   const isAr = locale === "ar";
 
-  const [step, setStep] = useState(1);
-  const [selectedService, setSelectedService] = useState<Service | null>(
-    (() => { const s = searchParams?.get("service"); return s ? (services.find((x) => x.slug === s) ?? null) : null; })()
-  );
-  const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(
-    (() => { const t = searchParams?.get("therapist"); return t ? (therapists.find((x) => x.id === t) ?? null) : null; })()
-  );
+  const preService = (() => { const s = searchParams?.get("service"); return s ? (services.find((x) => x.slug === s) ?? null) : null; })();
+  const preProgram = (() => { const p = searchParams?.get("program"); return p ? (programs.find((x) => x.slug === p) ?? null) : null; })();
+  const prePackage = (() => { const p = searchParams?.get("package"); return p ? (packages.find((x) => x.slug === p) ?? null) : null; })();
+  const preTherapist = (() => { const t = searchParams?.get("therapist"); return t ? (therapists.find((x) => x.id === t) ?? null) : null; })();
+
+  const hasPreSelection = !!(preService || preProgram || prePackage);
+
+  const [step, setStep] = useState(() => {
+    if (hasPreSelection && preTherapist) return 3;
+    if (hasPreSelection) return 2;
+    return 1;
+  });
+  const [tab, setTab] = useState<"services" | "programs">((preProgram || prePackage) ? "programs" : "services");
+  const [selectedService, setSelectedService] = useState<Service | null>(preService);
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(preProgram);
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(prePackage);
+  const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(preTherapist);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", email: "", notes: "" });
@@ -157,7 +171,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
       <div className="bg-white rounded-2xl p-8 md:p-12 text-center border border-gray-100">
         <div
           className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
-          style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
+          style={{ background: "linear-gradient(135deg, var(--color-brand-green), var(--color-brand-green))" }}
         >
           <CheckCircle2 size={36} className="text-white" />
         </div>
@@ -173,20 +187,20 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
         {/* Summary grid */}
         <div className="grid grid-cols-2 gap-3 mb-8 text-left">
           {[
-            { label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
+            { label: isAr ? "الاختيار" : "Selection", value: selectedPackage ? (isAr ? selectedPackage.name.ar : selectedPackage.name.en) : selectedProgram ? (isAr ? selectedProgram.title.ar : selectedProgram.title.en) : selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
             { label: isAr ? "الفرع" : "Branch", value: isAr ? branch.city.ar : branch.city.en },
             { label: isAr ? "التاريخ" : "Date", value: selectedDate?.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "short", month: "short", day: "numeric" }) ?? "—" },
             { label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—" },
           ].map((row, i) => (
             <div key={i} className="p-4 rounded-xl" style={{ background: "#F8FAFC" }}>
-              <p className="text-xs font-semibold mb-1" style={{ color: "var(--color-brand-purple)" }}>{row.label}</p>
+              <p className="text-xs font-semibold mb-1" style={{ color: "var(--color-brand-green)" }}>{row.label}</p>
               <p className="text-sm font-medium" style={{ color: "#1a1a2e" }}>{row.value}</p>
             </div>
           ))}
         </div>
 
         <a
-          href={`https://wa.me/${branch.whatsapp?.replace(/\D/g, "") ?? "9668001000091"}`}
+          href={`https://wa.me/${branch.whatsapp?.replace(/\D/g, "") ?? "9668001000246"}`}
           className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-white text-sm transition-all hover:opacity-90"
           style={{ background: "#25D366" }}
         >
@@ -198,59 +212,190 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
 
   return (
     <div className="bg-white rounded-2xl p-6 md:p-10 border border-gray-100">
+      {/* Pre-selected banner */}
+      {(selectedService || selectedProgram || selectedPackage) && step > 1 && (
+        <div
+          className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl mb-6"
+          style={{ background: "rgba(var(--color-brand-green-rgb),0.08)", border: "1px solid rgba(var(--color-brand-green-rgb),0.2)" }}
+        >
+          <div className="flex items-center gap-3">
+            <CheckCircle2 size={16} style={{ color: "var(--color-brand-green)", flexShrink: 0 }} />
+            <div>
+              <p className="text-xs font-semibold" style={{ color: "var(--color-brand-green-dark)" }}>
+                {selectedPackage
+                  ? (isAr ? "الباقة المختارة" : "Selected Package")
+                  : selectedProgram
+                    ? (isAr ? "البرنامج المختار" : "Selected Program")
+                    : (isAr ? "الخدمة المختارة" : "Selected Service")}
+              </p>
+              <p className="text-sm font-bold" style={{ color: "#0f2b1f" }}>
+                {selectedPackage
+                  ? (isAr ? selectedPackage.name.ar : selectedPackage.name.en)
+                  : selectedProgram
+                    ? (isAr ? selectedProgram.title.ar : selectedProgram.title.en)
+                    : selectedService
+                      ? (isAr ? selectedService.name.ar : selectedService.name.en)
+                      : ""}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => { setSelectedService(null); setSelectedProgram(null); setSelectedPackage(null); setStep(1); }}
+            className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:opacity-80"
+            style={{ background: "rgba(var(--color-brand-green-rgb),0.15)", color: "var(--color-brand-green-dark)" }}
+          >
+            {isAr ? "تغيير" : "Change"}
+          </button>
+        </div>
+      )}
+
       <StepBar step={step} labels={stepLabels} />
 
-      {/* ── Step 1: Service ─────────────────────────────────────────────── */}
+      {/* ── Step 1: Service / Program ───────────────────────────────────── */}
       {step === 1 && (
         <div>
           <h2 className="text-xl font-bold mb-1" style={{ color: "#1a1a2e" }}>
-            {isAr ? "اختر الخدمة" : "Choose a Service"}
+            {isAr ? "ماذا تحتاج؟" : "What do you need?"}
           </h2>
-          <p className="text-sm mb-8" style={{ color: "#6B7280" }}>
-            {isAr ? "اختر نوع العلاج المناسب لاحتياجك" : "Select the treatment type that fits your needs"}
+          <p className="text-sm mb-6" style={{ color: "#6B7280" }}>
+            {isAr ? "اختر خدمة أو برنامجاً علاجياً مناسباً لحالتك" : "Choose a service or a treatment program that fits your condition"}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {services.map((service) => {
-              const Icon = serviceIconMap[service.icon] ?? Stethoscope;
-              const isSelected = selectedService?.id === service.id;
-              return (
-                <button
-                  key={service.id}
-                  onClick={() => { setSelectedService(service); setStep(2); }}
-                  className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{
-                    background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
-                    borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
-                  }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200"
-                      style={{ background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.12)" : "#F1F5F9" }}
-                    >
-                      <Icon size={18} strokeWidth={1.5} style={{ color: "var(--color-brand-purple)" }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
-                        {isAr ? service.name.ar : service.name.en}
-                      </p>
-                      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#9CA3AF" }}>
-                        {isAr ? service.shortDesc.ar : service.shortDesc.en}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
-                    <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--color-brand-purple)" }}>
-                      <Clock size={11} />
-                      {service.durationMinutes} {isAr ? "دقيقة" : "min"}
-                    </span>
-                    <ChevronRight size={14} style={{ color: "#D1D5DB" }} />
-                  </div>
-                </button>
-              );
-            })}
+          {/* Tabs */}
+          <div className="flex gap-2 mb-6 p-1 rounded-xl" style={{ background: "#F1F5F9" }}>
+            {(["services", "programs"] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all"
+                style={{
+                  background: tab === t ? "white" : "transparent",
+                  color: tab === t ? "#0f2b1f" : "#6B7280",
+                  boxShadow: tab === t ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
+                }}
+              >
+                {t === "services"
+                  ? (isAr ? "الخدمات" : "Services")
+                  : (isAr ? "البرامج والباقات" : "Programs & Packages")}
+              </button>
+            ))}
           </div>
+
+          {/* Services tab */}
+          {tab === "services" && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {services.map((service) => {
+                const Icon = serviceIconMap[service.icon] ?? Stethoscope;
+                return (
+                  <button
+                    key={service.id}
+                    onClick={() => { setSelectedService(service); setSelectedProgram(null); setStep(2); }}
+                    className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                    style={{ background: "white", borderColor: "#E5E7EB" }}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-green-rgb),0.1)" }}>
+                        <Icon size={18} strokeWidth={1.5} style={{ color: "var(--color-brand-green)" }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
+                          {isAr ? service.name.ar : service.name.en}
+                        </p>
+                        <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#9CA3AF" }}>
+                          {isAr ? service.shortDesc.ar : service.shortDesc.en}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                      <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--color-brand-green)" }}>
+                        <Clock size={11} />
+                        {service.durationMinutes} {isAr ? "دقيقة" : "min"}
+                      </span>
+                      <ChevronRight size={14} style={{ color: "#D1D5DB" }} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Programs & Packages tab */}
+          {tab === "programs" && (
+            <div className="space-y-6">
+              {/* Programs */}
+              {programs.length > 0 && (
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#9CA3AF" }}>
+                    {isAr ? "البرامج العلاجية" : "Treatment Programs"}
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {programs.map((program) => (
+                      <button
+                        key={program.id}
+                        onClick={() => { setSelectedProgram(program); setSelectedService(null); setSelectedPackage(null); setStep(2); }}
+                        className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                        style={{ background: "white", borderColor: "#E5E7EB" }}
+                      >
+                        <div className="flex items-start gap-4">
+                          <span className="text-2xl leading-none mt-0.5">{program.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
+                              {isAr ? program.title.ar : program.title.en}
+                            </p>
+                            <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#9CA3AF" }}>
+                              {isAr ? program.tagline.ar : program.tagline.en}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-end mt-3 pt-3 border-t border-gray-100">
+                          <ChevronRight size={14} style={{ color: "#D1D5DB" }} />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Packages */}
+              {packages.length > 0 && (
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#9CA3AF" }}>
+                    {isAr ? "الباقات" : "Packages"}
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {packages.map((pkg) => (
+                      <button
+                        key={pkg.id}
+                        onClick={() => { setSelectedPackage(pkg); setSelectedService(null); setSelectedProgram(null); setStep(2); }}
+                        className="group text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                        style={{ background: "white", borderColor: "#E5E7EB" }}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(var(--color-brand-green-rgb),0.1)" }}>
+                            <Stethoscope size={17} style={{ color: "var(--color-brand-green)" }} strokeWidth={1.5} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-sm mb-0.5" style={{ color: "#1a1a2e" }}>
+                              {isAr ? pkg.name.ar : pkg.name.en}
+                            </p>
+                            <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#9CA3AF" }}>
+                              {isAr ? pkg.description.ar : pkg.description.en}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                          <span className="text-xs font-semibold" style={{ color: "var(--color-brand-green)" }}>
+                            {pkg.sessions} {isAr ? "جلسة" : "sessions"}
+                          </span>
+                          <ChevronRight size={14} style={{ color: "#D1D5DB" }} />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 
@@ -273,14 +418,14 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                   onClick={() => { setSelectedTherapist(therapist); setStep(3); }}
                   className="text-left p-5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                   style={{
-                    background: isSelected ? "rgba(var(--color-brand-purple-rgb),0.06)" : "white",
-                    borderColor: isSelected ? "var(--color-brand-purple)" : "#E5E7EB",
+                    background: isSelected ? "rgba(var(--color-brand-green-rgb),0.06)" : "white",
+                    borderColor: isSelected ? "var(--color-brand-green)" : "#E5E7EB",
                   }}
                 >
                   <div className="flex items-center gap-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden"
-                      style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
+                      style={{ background: "linear-gradient(135deg, var(--color-brand-green), var(--color-brand-green))" }}
                     >
                       {therapist.image ? (
                         <Image src={therapist.image} alt={therapist.initials} width={48} height={48} className="object-cover w-full h-full" unoptimized />
@@ -297,9 +442,9 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                       </p>
                       <div className="flex items-center gap-1">
                         {[1,2,3,4,5].map((s) => (
-                          <Star key={s} size={10} fill={s <= Math.floor(therapist.rating) ? "var(--color-brand-purple)" : "none"} color={s <= Math.floor(therapist.rating) ? "var(--color-brand-purple)" : "#D1D5DB"} />
+                          <Star key={s} size={10} fill={s <= Math.floor(therapist.rating) ? "var(--color-brand-green)" : "none"} color={s <= Math.floor(therapist.rating) ? "var(--color-brand-green)" : "#D1D5DB"} />
                         ))}
-                        <span className="text-xs font-semibold ml-1" style={{ color: "var(--color-brand-purple)" }}>{therapist.rating}</span>
+                        <span className="text-xs font-semibold ml-1" style={{ color: "var(--color-brand-green)" }}>{therapist.rating}</span>
                       </div>
                     </div>
                   </div>
@@ -345,10 +490,10 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                     disabled={isFri}
                     className="flex flex-col items-center px-3.5 py-3 rounded-xl transition-all duration-200 min-w-[56px]"
                     style={{
-                      background: isSelected ? "var(--color-brand-purple)" : "white",
-                      border: `1px solid ${isSelected ? "var(--color-brand-purple)" : "#E5E7EB"}`,
+                      background: isSelected ? "var(--color-brand-green)" : "white",
+                      border: `1px solid ${isSelected ? "var(--color-brand-green)" : "#E5E7EB"}`,
                       opacity: isFri ? 0.35 : 1,
-                      boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-purple-rgb),0.25)" : "none",
+                      boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-green-rgb),0.25)" : "none",
                     }}
                   >
                     <span className="text-[10px] font-semibold uppercase mb-1" style={{ color: isSelected ? "rgba(255,255,255,0.7)" : "#9CA3AF" }}>
@@ -378,10 +523,10 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                       onClick={() => setSelectedTime(time)}
                       className="py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5"
                       style={{
-                        background: isSelected ? "var(--color-brand-purple)" : "white",
+                        background: isSelected ? "var(--color-brand-green)" : "white",
                         color: isSelected ? "white" : "#374151",
-                        border: `1px solid ${isSelected ? "var(--color-brand-purple)" : "#E5E7EB"}`,
-                        boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-purple-rgb),0.25)" : "none",
+                        border: `1px solid ${isSelected ? "var(--color-brand-green)" : "#E5E7EB"}`,
+                        boxShadow: isSelected ? "0 4px 12px rgba(var(--color-brand-green-rgb),0.25)" : "none",
                       }}
                     >
                       {time}
@@ -433,7 +578,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                     color: "#1a1a2e",
                   }}
                   placeholder={placeholder}
-                  onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-purple)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-purple-rgb),0.1)"; }}
+                  onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-green)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-green-rgb),0.1)"; }}
                   onBlur={(e) => { e.target.style.borderColor = "#E5E7EB"; e.target.style.boxShadow = "none"; }}
                 />
               </div>
@@ -449,7 +594,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-all"
                 style={{ background: "white", border: "1.5px solid #E5E7EB", color: "#1a1a2e" }}
                 placeholder={isAr ? "تاريخ الإصابة، التأمين الصحي..." : "Injury history, insurance provider..."}
-                onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-purple)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-purple-rgb),0.1)"; }}
+                onFocus={(e) => { e.target.style.borderColor = "var(--color-brand-green)"; e.target.style.boxShadow = "0 0 0 3px rgba(var(--color-brand-green-rgb),0.1)"; }}
                 onBlur={(e) => { e.target.style.borderColor = "#E5E7EB"; e.target.style.boxShadow = "none"; }}
               />
             </div>
@@ -477,7 +622,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
 
           <div className="rounded-2xl overflow-hidden border border-gray-100 mb-6">
             {[
-              { icon: <Stethoscope size={15} />, label: isAr ? "الخدمة" : "Service", value: selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
+              { icon: <Stethoscope size={15} />, label: isAr ? "الاختيار" : "Selection", value: selectedPackage ? (isAr ? selectedPackage.name.ar : selectedPackage.name.en) : selectedProgram ? (isAr ? selectedProgram.title.ar : selectedProgram.title.en) : selectedService ? (isAr ? selectedService.name.ar : selectedService.name.en) : "—" },
               { icon: <User size={15} />, label: isAr ? "المعالج" : "Therapist", value: selectedTherapist ? (isAr ? selectedTherapist.name.ar : selectedTherapist.name.en) : (isAr ? "أي معالج متاح" : "Any available") },
               { icon: <Calendar size={15} />, label: isAr ? "التاريخ" : "Date", value: selectedDate?.toLocaleDateString(isAr ? "ar-SA" : "en-US", { weekday: "long", month: "long", day: "numeric" }) ?? "—" },
               { icon: <Clock size={15} />, label: isAr ? "الوقت" : "Time", value: selectedTime ?? "—" },
@@ -489,7 +634,7 @@ export function BookingFlow({ locale, branch, services, therapists }: BookingFlo
                 className="flex items-center gap-4 px-5 py-4"
                 style={{ borderBottom: i < arr.length - 1 ? "1px solid #F1F5F9" : "none" }}
               >
-                <span style={{ color: "var(--color-brand-purple)" }}>{row.icon}</span>
+                <span style={{ color: "var(--color-brand-green)" }}>{row.icon}</span>
                 <span className="text-xs font-semibold w-20 flex-shrink-0" style={{ color: "#9CA3AF" }}>{row.label}</span>
                 <span className="text-sm font-medium" style={{ color: "#1a1a2e" }}>{row.value}</span>
               </div>

@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { ShieldCheck, CalendarCheck2, Languages, HeartHandshake } from "lucide-react";
 
 interface WhyPhysioTrioProps {
   locale: string;
@@ -20,92 +22,145 @@ interface WhyPhysioTrioProps {
   };
 }
 
+const ICONS = [ShieldCheck, CalendarCheck2, Languages, HeartHandshake];
+
 export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
+  const isAr = locale === "ar";
+
   const features = [
-    { title: t.feature1Title, desc: t.feature1Desc },
-    { title: t.feature2Title, desc: t.feature2Desc },
-    { title: t.feature3Title, desc: t.feature3Desc },
-    { title: t.feature4Title, desc: t.feature4Desc },
+    { title: t.feature1Title, desc: t.feature1Desc, Icon: ICONS[0] },
+    { title: t.feature2Title, desc: t.feature2Desc, Icon: ICONS[1] },
+    { title: t.feature3Title, desc: t.feature3Desc, Icon: ICONS[2] },
+    { title: t.feature4Title, desc: t.feature4Desc, Icon: ICONS[3] },
   ];
 
   return (
-    <section className="py-24" style={{ background: "#ffffff" }}>
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left */}
+    <section className="relative overflow-hidden" style={{ minHeight: "560px" }}>
+
+      {/* ── Background image + overlays ── */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://physiotherabia.com/wp-content/uploads/2023/07/B-PH03-1.jpg"
+          alt="PhysioTrio Saudi Arabia clinic"
+          fill
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center 30%" }}
+        />
+        {/* Dark gradient overlay with Saudi green tint */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(135deg, rgba(7,20,30,0.97) 0%, rgba(7,20,30,0.88) 45%, rgba(0,100,60,0.45) 100%)" }}
+        />
+        {/* Subtle Saudi green accent line at top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1"
+          style={{ background: "linear-gradient(to right, transparent, #006C35, transparent)" }}
+        />
+        {/* Decorative purple glow */}
+        <div
+          className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(var(--color-brand-purple-rgb),0.25) 0%, transparent 70%)" }}
+        />
+      </div>
+
+      {/* ── Content ── */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+
+        {/* Top: eyebrow + headline + body */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="max-w-3xl mb-16"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-5 px-3 py-1.5 rounded-full"
+            style={{ background: "rgba(var(--color-brand-green-rgb),0.15)", color: "var(--color-brand-green)", border: "1px solid rgba(var(--color-brand-green-rgb),0.3)" }}
           >
-            {locale === "ar" ? "لماذا فيزيوتريو" : "Why PhysioTrio"}
+            <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+            {isAr ? "لماذا فيزيوتريو" : "Why PhysioTrio"}
           </span>
 
           <h2
-            className="text-3xl md:text-4xl font-bold leading-tight mb-6"
-            style={{ color: "#1a1a2e" }}
+            className="font-black leading-tight text-white mb-5"
+            style={{ fontSize: "clamp(28px, 4.5vw, 54px)" }}
           >
             {t.title}
           </h2>
 
-          <p className="text-base leading-relaxed mb-4" style={{ color: "#6B7280" }}>
+          <p className="text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", maxWidth: "600px" }}>
             {t.body1}
           </p>
-          <p className="text-base leading-relaxed" style={{ color: "#6B7280" }}>
-            {t.body2}
-          </p>
-
-          {/* Burjeel badge */}
-          <div
-            className="mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-xl"
-            style={{ background: "rgba(var(--color-brand-purple-rgb),0.05)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.12)" }}
-          >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black text-white"
-              style={{ background: "var(--color-brand-purple)" }}
-            >
-              B
-            </div>
-            <div>
-              <p className="text-xs font-semibold" style={{ color: "#1a1a2e" }}>Burjeel Holdings</p>
-              <p className="text-xs" style={{ color: "#9CA3AF" }}>
-                {locale === "ar" ? "شريكنا الموثوق" : "Our trusted parent group"}
-              </p>
-            </div>
-          </div>
         </motion.div>
 
-        {/* Right — Features */}
-        <div className="flex flex-col gap-4">
+        {/* Feature cards grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {features.map((feature, i) => (
             <motion.div
               key={i}
-              className="flex gap-4 p-5 rounded-2xl transition-all hover:shadow-md"
-              style={{ background: "#F8FAFC", border: "1px solid rgba(0,0,0,0.05)" }}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className="flex flex-col gap-4 p-6 rounded-2xl"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                backdropFilter: "blur(12px)",
+              }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -2 }}
+              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
             >
-              <div className="flex-shrink-0 mt-0.5">
-                <CheckCircle2 size={20} style={{ color: "var(--color-brand-purple)" }} />
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: "rgba(var(--color-brand-green-rgb),0.15)", border: "1px solid rgba(var(--color-brand-green-rgb),0.25)" }}
+              >
+                <feature.Icon size={20} style={{ color: "var(--color-brand-green)" }} strokeWidth={1.75} />
               </div>
               <div>
-                <h3 className="font-semibold text-base mb-1" style={{ color: "#1a1a2e" }}>
+                <h3 className="font-bold text-white text-base mb-1.5 leading-snug">
                   {feature.title}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#6B7280" }}>
+                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
                   {feature.desc}
                 </p>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Bottom CTA row */}
+        <motion.div
+          className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          <Link
+            href={`/${locale}/book`}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-white text-sm transition-all hover:opacity-90"
+            style={{ background: "linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-purple-light) 100%)", boxShadow: "0 6px 24px rgba(var(--color-brand-purple-rgb),0.45)" }}
+          >
+            {isAr ? "احجز موعدك الآن" : "Book Your Appointment"}
+          </Link>
+
+          {/* Burjeel badge */}
+          <div className="flex items-center gap-3">
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black text-white shrink-0"
+              style={{ background: "var(--color-brand-purple)" }}
+            >
+              B
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-white">Burjeel Holdings</p>
+              <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
+                {isAr ? "شريكنا الموثوق" : "Our trusted parent group"}
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

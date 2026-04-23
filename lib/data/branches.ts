@@ -51,22 +51,4 @@ export const branches: Branch[] = [
     serviceCount: 7,
     services: ["orthopedic-rehabilitation", "sports-physiotherapy", "manual-therapy", "geriatric-physiotherapy", "pediatric-physiotherapy", "recovery-program", "device-based-therapy"]
   },
-  {
-    id: "dammam",
-    his: null,
-    comingSoon: true,
-    city: { en: "Dammam", ar: "الدمام" },
-    address: { en: "Al Faisaliyah District, Dammam 32232", ar: "حي الفيصلية، الدمام 32232" },
-    phone: "+966-13-XXX-XXXX",
-    whatsapp: "+966500000003",
-    email: "dammam@physiotrio.com",
-    hours: {
-      en: "Coming Soon",
-      ar: "قريباً"
-    },
-    coordinates: { lat: 26.4207, lng: 50.0888 },
-    therapistCount: 0,
-    serviceCount: 0,
-    services: []
-  }
 ];

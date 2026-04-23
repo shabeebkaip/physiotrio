@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Globe, ArrowRight, ChevronDown,
-  Activity, Dumbbell, Brain, Baby, Users, Heart,
-  Droplets, Zap, Radio, Gauge, Layers, Bot, Hand,
-  ArrowUpRight, Stethoscope,
+  Activity, Dumbbell, Brain, Heart,
+  Droplets, Zap, Radio, Hand,
+  ArrowUpRight,
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
@@ -16,39 +16,32 @@ import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
 
 const serviceCategories = [
   {
-    title: { en: "Core Therapies", ar: "العلاجات الأساسية" },
+    title: { en: "Therapies", ar: "العلاجات" },
     accent: "var(--color-brand-purple)",
     bg: "rgba(var(--color-brand-purple-rgb),0.06)",
     services: [
-      { en: "Physiotherapy", ar: "العلاج الطبيعي", slug: "physiotherapy", desc: { en: "Pain relief & full recovery", ar: "تخفيف الألم والتعافي" }, Icon: Activity },
-      { en: "Sports Physiotherapy", ar: "علاج طبيعي رياضي", slug: "sports-physiotherapy", desc: { en: "Athlete recovery & performance", ar: "تعافي الرياضيين والأداء" }, Icon: Dumbbell },
-      { en: "Manual Therapy", ar: "العلاج اليدوي", slug: "manual-therapy", desc: { en: "Hands-on joint & tissue care", ar: "رعاية المفاصل والأنسجة" }, Icon: Hand },
-      { en: "Hydrotherapy", ar: "العلاج المائي", slug: "hydrotherapy", desc: { en: "Water-based rehabilitation", ar: "إعادة تأهيل مائية" }, Icon: Droplets },
+      { en: "Physical Therapy", ar: "العلاج الطبيعي", slug: "physiotherapy", desc: { en: "Pain relief & full recovery", ar: "تخفيف الألم والتعافي الكامل" }, Icon: Activity },
+      { en: "Speech Therapy", ar: "العلاج التخاطبي", slug: "speech-therapy", desc: { en: "Communication & swallowing care", ar: "رعاية التواصل والبلع" }, Icon: Radio },
+      { en: "Occupational Therapy", ar: "العلاج الوظيفي", slug: "occupational-therapy", desc: { en: "Restore daily life independence", ar: "استعادة الاستقلالية في الحياة اليومية" }, Icon: Hand },
+      { en: "Lymphatic Drainage Therapy (LDT)", ar: "العلاج التصريف الليمفاوي", slug: "lymphatic-drainage", desc: { en: "Reduce swelling & improve flow", ar: "تقليل التورم وتحسين الدورة" }, Icon: Droplets },
     ],
   },
   {
-    title: { en: "Specialist Programs", ar: "البرامج المتخصصة" },
+    title: { en: "Rehabilitation & Wellness", ar: "التأهيل والعافية" },
     accent: "var(--color-brand-green)",
     bg: "rgba(var(--color-brand-green-rgb),0.06)",
     services: [
-      { en: "Neurological Rehab", ar: "إعادة التأهيل العصبي", slug: "neurological-rehabilitation", desc: { en: "Stroke & brain injury recovery", ar: "التعافي من السكتة الدماغية" }, Icon: Brain },
-      { en: "Pediatric Physiotherapy", ar: "علاج طبيعي للأطفال", slug: "pediatric-physiotherapy", desc: { en: "Children's developmental care", ar: "رعاية النمو للأطفال" }, Icon: Baby },
-      { en: "Geriatric Physiotherapy", ar: "علاج لكبار السن", slug: "geriatric-physiotherapy", desc: { en: "Mobility & balance for seniors", ar: "الحركة والتوازن لكبار السن" }, Icon: Users },
-      { en: "Women's Health Program", ar: "برنامج صحة المرأة", slug: "womens-health", desc: { en: "Pelvic floor & postnatal care", ar: "قاع الحوض وما بعد الولادة" }, Icon: Heart },
+      { en: "Rehabilitation", ar: "التأهيل", slug: "neurological-rehabilitation", desc: { en: "Full recovery programs", ar: "برامج التعافي الشامل" }, Icon: Brain },
+      { en: "Fitness & Wellness", ar: "اللياقة والعافية", slug: "fitness-wellness", desc: { en: "Strength, mobility & wellbeing", ar: "القوة والحركة والعافية" }, Icon: Dumbbell },
+      { en: "Home Physical Therapy", ar: "العلاج الطبيعي المنزلي", slug: "home-physiotherapy", desc: { en: "Professional care at your home", ar: "رعاية احترافية في منزلك" }, Icon: Heart },
     ],
   },
   {
-    title: { en: "Advanced Technology", ar: "التقنية المتقدمة" },
+    title: { en: "Advanced Technology", ar: "الأجهزة المتقدمة" },
     accent: "var(--color-brand-purple-light)",
     bg: "rgba(10,143,160,0.06)",
     services: [
-      { en: "CryoTherapy Chamber", ar: "غرفة العلاج بالتبريد", slug: "device-based-therapy", desc: { en: "Full-body cold therapy", ar: "علاج بالبرودة الكاملة" }, Icon: Zap },
-      { en: "Shock Wave Therapy", ar: "علاج الموجات الصادمة", slug: "device-based-therapy", desc: { en: "Tendon & tissue healing", ar: "شفاء الأوتار والأنسجة" }, Icon: Radio },
-      { en: "Lokomat Neuro-Rehab", ar: "لوكومات العصبي", slug: "device-based-therapy", desc: { en: "Robotic walking rehab", ar: "إعادة التأهيل بالمشي الروبوتي" }, Icon: Bot },
-      { en: "IDD Therapy", ar: "علاج IDD", slug: "device-based-therapy", desc: { en: "Spinal decompression", ar: "تخفيف ضغط العمود الفقري" }, Icon: Layers },
-      { en: "Antigravity Treadmill", ar: "جهاز المشي بلا جاذبية", slug: "device-based-therapy", desc: { en: "Zero-impact gait training", ar: "تدريب المشي بدون تأثير" }, Icon: Activity },
-      { en: "VO2 MAX Testing", ar: "اختبار VO2 MAX", slug: "device-based-therapy", desc: { en: "Athletic performance analysis", ar: "تحليل الأداء الرياضي" }, Icon: Gauge },
-      { en: "David Spinal Solution", ar: "حل داود للعمود الفقري", slug: "device-based-therapy", desc: { en: "Targeted spine rehabilitation", ar: "إعادة تأهيل العمود الفقري" }, Icon: Stethoscope },
+      { en: "Advanced Technology & Sports Recovery", ar: "الأجهزة المتقدمة والاستشفاء الرياضي", slug: "device-based-therapy", desc: { en: "Cutting-edge devices & sports rehab", ar: "أجهزة متطورة وإعادة التأهيل الرياضي" }, Icon: Zap },
     ],
   },
 ];
@@ -60,21 +53,20 @@ interface NavbarProps {
   translations: {
     home: string;
     services: string;
-    branches: string;
-    team: string;
     about: string;
-    offers: string;
-    blog: string;
+    packages: string;
+    news: string;
     contact: string;
     bookNow: string;
+    homeCare: string;
   };
 }
 
 const plainLinks = [
-  { href: "/branches", key: "branches" },
-  { href: "/team", key: "team" },
   { href: "/about", key: "about" },
-  { href: "/offers", key: "offers" },
+  { href: "/packages", key: "packages" },
+  { href: "/news", key: "news" },
+  { href: "/home-care", key: "homeCare" },
   { href: "/contact", key: "contact" },
 ];
 

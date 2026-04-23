@@ -10,12 +10,7 @@ import { CheckCircle2, ArrowRight, Zap, Heart, Globe, Shield } from "lucide-reac
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { rehabTechnologies } from "@/lib/data/rehabTech";
 
-const stats = [
-  { value: "3", labelEn: "Branches", labelAr: "فروع" },
-  { value: "50+", labelEn: "Therapists", labelAr: "معالج" },
-  { value: "10K+", labelEn: "Patients Treated", labelAr: "مريض تلقى العلاج" },
-  { value: "9", labelEn: "Specialties", labelAr: "تخصص" },
-];
+
 
 const values = [
   {
@@ -124,19 +119,6 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section style={{ background: "linear-gradient(90deg, var(--color-brand-purple), var(--color-brand-green-dark))" }} className="py-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, i) => (
-              <motion.div key={i} className="text-center" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <div className="text-4xl font-black text-white mb-1">{stat.value}</div>
-                <div className="text-xs font-light" style={{ color: "rgba(255,255,255,0.75)" }}>{isAr ? stat.labelAr : stat.labelEn}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Burjeel Holdings */}
       <section className="py-28" style={{ background: "var(--color-surface-light)" }}>
@@ -237,10 +219,10 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
           <div className="text-center mb-16">
             <motion.div className="flex items-center justify-center gap-2 mb-4" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-brand-green)" }} />
-              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-brand-green)" }}>{isAr ? "تقنياتنا" : "Our Technology"}</span>
+              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-brand-green)" }}>{isAr ? "التقنيات والأجهزة" : "Technologies & Equipment"}</span>
             </motion.div>
             <motion.h2 className="font-black mb-4" style={{ fontSize: "clamp(28px, 3.5vw, 48px)", color: "var(--color-hero-bg)" }} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-              {isAr ? "معدات إعادة التأهيل المتقدمة" : "Advanced Rehab Equipment"}
+              {isAr ? "أحدث الأجهزة والتقنيات العلاجية" : "State-of-the-Art Treatment Technology"}
             </motion.h2>
           </div>
 

@@ -29,7 +29,6 @@ interface BranchesPreviewProps {
 const cityImages: Record<string, string> = {
   riyadh: "https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=800&q=80",
   makkah: "/makkah.jpg",
-  dammam: "https://images.unsplash.com/photo-1570516002611-6b0cf9d0f8c9?w=800&q=80",
 };
 
 export function BranchesPreview({ locale, branches, title, getDirectionsText, bookHereText, comingSoonText, therapistsText, servicesText }: BranchesPreviewProps) {

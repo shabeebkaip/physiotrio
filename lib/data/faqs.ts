@@ -20,7 +20,7 @@ export const faqs: FAQ[] = [
     id: "f1",
     category: "general",
     question: { en: "What is PhysioTrio?", ar: "ما هو فيزيوتريو؟" },
-    answer: { en: "PhysioTrio is a premium physiotherapy center operating under Burjeel Holdings, one of the GCC's largest healthcare groups. We offer specialized physiotherapy services across Riyadh and Makkah, with Dammam coming soon.", ar: "فيزيوتريو هو مركز علاج طبيعي متميز يعمل تحت مظلة بورجيل القابضة، إحدى أكبر مجموعات الرعاية الصحية في منطقة الخليج." }
+    answer: { en: "PhysioTrio is a premium physiotherapy center operating under Burjeel Holdings, one of the GCC's largest healthcare groups. We offer specialized physiotherapy services across Riyadh and Makkah.", ar: "فيزيوتريو هو مركز علاج طبيعي متميز يعمل تحت مظلة بورجيل القابضة، إحدى أكبر مجموعات الرعاية الصحية في منطقة الخليج. نقدم خدماتنا في الرياض ومكة المكرمة." }
   },
   {
     id: "f2",

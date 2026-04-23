@@ -11,6 +11,8 @@ import { branches } from "@/lib/data/branches";
 import { services } from "@/lib/data/services";
 import { therapists } from "@/lib/data/therapists";
 import { BookingFlow } from "@/components/booking/BookingFlow";
+import { programs } from "@/lib/data/programs";
+import { packages } from "@/lib/data/packages";
 
 export async function generateStaticParams() {
   const activeBranches = branches.filter((b) => !b.comingSoon);
@@ -92,6 +94,8 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                 branch={branchData}
                 services={branchServices}
                 therapists={branchTherapists}
+                programs={programs}
+                packages={packages}
               />
             </div>
 

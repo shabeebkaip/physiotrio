@@ -7,22 +7,21 @@ import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
 import { InsuranceBar } from "@/components/home/InsuranceBar";
-import { StatsStrip } from "@/components/home/StatsStrip";
+import { StatsSection } from "@/components/home/StatsSection";
+import { AboutSnippet } from "@/components/home/AboutSnippet";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
-import { BranchesPreview } from "@/components/home/BranchesPreview";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { TeamCarousel } from "@/components/home/TeamCarousel";
-import { OffersTeaser } from "@/components/home/OffersTeaser";
+import { ProgramsTeaser } from "@/components/home/ProgramsTeaser";
 import { TestimonialsCarousel } from "@/components/home/TestimonialsCarousel";
-import { LatestNews } from "@/components/home/LatestNews";
+import { NewsBlog } from "@/components/home/NewsBlog";
 import { ChatbotWidget } from "@/components/chatbot/ChatbotWidget";
-import { StatsSection } from "@/components/home/StatsSection";
 import { services } from "@/lib/data/services";
-import { branches } from "@/lib/data/branches";
 import { therapists } from "@/lib/data/therapists";
 import { testimonials } from "@/lib/data/testimonials";
-import { blogPosts } from "@/lib/data/blog";
+import { programs } from "@/lib/data/programs";
+import { newsPosts } from "@/lib/data/news";
 
 export async function generateMetadata({
   params,
@@ -61,13 +60,10 @@ export default async function HomePage({
   const { locale } = await params;
   const t = await getTranslations("hero");
   const nav = await getTranslations("nav");
-  const statsT = await getTranslations("stats");
   const servicesT = await getTranslations("services");
   const whyT = await getTranslations("why");
-  const branchesT = await getTranslations("branches");
   const ctaT = await getTranslations("cta");
   const teamT = await getTranslations("team");
-  const offersT = await getTranslations("offers");
   const testimonialT = await getTranslations("testimonials");
   const footerT = await getTranslations("footer");
   const insuranceT = await getTranslations("insurance");
@@ -87,22 +83,13 @@ export default async function HomePage({
   const navTranslations = {
     home: nav("home"),
     services: nav("services"),
-    branches: nav("branches"),
-    team: nav("team"),
     about: nav("about"),
-    offers: nav("offers"),
-    blog: nav("blog"),
+    packages: nav("packages"),
+    news: nav("news"),
     contact: nav("contact"),
-    bookNow: nav("bookNow"),
     homeCare: nav("homeCare"),
+    bookNow: nav("bookNow"),
   };
-
-  const statsData = [
-    { value: "3", label: statsT("branches") },
-    { value: "50+", label: statsT("therapists") },
-    { value: "10,000+", label: statsT("patients") },
-    { value: "9", label: statsT("services") },
-  ];
 
   const whyTranslations = {
     title: whyT("title"),
@@ -133,11 +120,9 @@ export default async function HomePage({
   const navForFooter = {
     home: nav("home"),
     services: nav("services"),
-    branches: nav("branches"),
-    team: nav("team"),
     about: nav("about"),
-    offers: nav("offers"),
-    blog: nav("blog"),
+    packages: nav("packages"),
+    news: nav("news"),
     faq: nav("faq"),
     contact: nav("contact"),
   };
@@ -146,10 +131,11 @@ export default async function HomePage({
     <>
       <TollFreeStrip locale={locale} />
       <Navbar locale={locale} translations={navTranslations} />
-      <main >
+      <main>
         <HeroSection locale={locale} t={heroTranslations} />
         <InsuranceBar label={insuranceT("label")} />
         <StatsSection locale={locale} />
+        <AboutSnippet locale={locale} />
         <ServicesGrid
           locale={locale}
           services={services}
@@ -158,22 +144,12 @@ export default async function HomePage({
           bookNowText={servicesT("bookNow")}
         />
         <WhyPhysioTrio locale={locale} t={whyTranslations} />
-        {/* <BranchesPreview
-          locale={locale}
-          branches={branches}
-          title={branchesT("title")}
-          getDirectionsText={branchesT("getDirections")}
-          bookHereText={branchesT("bookHere")}
-          comingSoonText={branchesT("comingSoon")}
-          therapistsText={branchesT("therapists")}
-          servicesText={branchesT("services")}
-        /> */}
-        {/* <BookingCTABand
+        <BookingCTABand
           locale={locale}
           title={ctaT("title")}
           bookText={ctaT("book")}
           whatsappText={ctaT("whatsapp")}
-        /> */}
+        />
         <TeamCarousel
           locale={locale}
           therapists={therapists}
@@ -181,31 +157,15 @@ export default async function HomePage({
           subtitle={teamT("subtitle")}
           bookWithText={teamT("bookWith")}
         />
-        <OffersTeaser
-          locale={locale}
-          eyebrow={offersT("eyebrow")}
-          title={offersT("title")}
-          viewAllText={offersT("viewAll")}
-          purchaseText={offersT("purchase")}
-        />
-        <BookingCTABand
-          locale={locale}
-          title={ctaT("title")}
-          bookText={ctaT("book")}
-          whatsappText={ctaT("whatsapp")}
-        />
+        <ProgramsTeaser locale={locale} programs={programs} />
         <TestimonialsCarousel
           locale={locale}
           testimonials={testimonials}
           title={testimonialT("title")}
         />
-        <LatestNews locale={locale} posts={blogPosts} />
+        <NewsBlog locale={locale} posts={newsPosts} />
       </main>
       <Footer locale={locale} t={footerTranslations} nav={navForFooter} />
-      <StickyBookingBar
-        locale={locale}
-        bookText={nav("bookNow")}
-      />
       <WhatsAppButton locale={locale} />
       <ChatbotWidget locale={locale} />
     </>

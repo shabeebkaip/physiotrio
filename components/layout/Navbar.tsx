@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Menu, X, Globe, ArrowRight, ChevronDown,
   Activity, Dumbbell, Brain, Baby, Users, Heart,
@@ -11,8 +11,6 @@ import {
   ArrowUpRight, Stethoscope,
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
-
-// ─── Mega menu data ───────────────────────────────────────────────────────────
 
 const serviceCategories = [
   {
@@ -53,209 +51,145 @@ const serviceCategories = [
   },
 ];
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface NavbarProps {
   locale: string;
   translations: {
     home: string;
     services: string;
-    branches: string;
-    team: string;
     about: string;
-    offers: string;
-    blog: string;
     contact: string;
     bookNow: string;
+    homeCare?: string;
+    packages?: string;
+    news?: string;
+    branches?: string;
+    team?: string;
+    offers?: string;
+    blog?: string;
   };
 }
 
 const plainLinks = [
-  { href: "/branches", key: "branches" },
-  { href: "/team", key: "team" },
+  { href: "/packages", key: "packages" },
+  { href: "/news", key: "news" },
   { href: "/about", key: "about" },
-  { href: "/offers", key: "offers" },
   { href: "/contact", key: "contact" },
 ];
 
-// ─── Mega Menu ────────────────────────────────────────────────────────────────
-
-function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { locale: string; onClose: () => void; onMouseEnter: () => void; onMouseLeave: () => void }) {
+function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: {
+  locale: string; onClose: () => void; onMouseEnter: () => void; onMouseLeave: () => void;
+}) {
   const isAr = locale === "ar";
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className="absolute top-full left-0 right-0 pointer-events-auto pt-2"
+      exit={{ opacity: 0, y: -4 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className="absolute top-full left-0 right-0 pointer-events-auto"
       style={{ zIndex: 60 }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div
-        className="mx-auto rounded-2xl overflow-hidden"
-        style={{
-          background: "#fff",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.05)",
-          maxWidth: "calc(100% - 2px)",
-        }}
-      >
-        <div className="grid grid-cols-[220px_1fr_auto]">
+      <div className="w-full border-t border-gray-100" style={{ background: "#fff", boxShadow: "0 16px 48px rgba(0,0,0,0.10)" }}>
+        <div className="max-w-[1300px] mx-auto px-6 lg:px-12 py-8">
+          <div className="grid grid-cols-[200px_1fr_200px] gap-8">
 
-          {/* ── Left intro panel ── */}
-          <div
-            className="flex flex-col justify-between p-7"
-            style={{ background: "var(--color-dark-surface)", borderRadius: "16px 0 0 16px" }}
-          >
-            <div>
-              <div
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full mb-5"
-                style={{ background: "rgba(var(--color-brand-green-rgb),0.2)", color: "var(--color-brand-green)" }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                {isAr ? "خدماتنا" : "Our Services"}
-              </div>
-              <h3 className="text-white font-black text-xl leading-snug mb-3">
-                {isAr ? "علاج متقدم\nلكل حالة" : "Advanced Care\nFor Every Need"}
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
-                {isAr
-                  ? "من العلاج الطبيعي الأساسي إلى أحدث التقنيات الطبية."
-                  : "From core physiotherapy to cutting-edge rehabilitation technology."}
-              </p>
-            </div>
-
-            <div className="mt-8 space-y-3">
-              <Link
-                href={`/${locale}/services`}
-                onClick={onClose}
-                className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:bg-white/10"
-                style={{ border: "1px solid rgba(255,255,255,0.15)" }}
-              >
-                {isAr ? "جميع الخدمات" : "View All Services"}
-                <ArrowUpRight size={14} />
-              </Link>
-              <Link
-                href={`/${locale}/book/riyadh`}
-                onClick={onClose}
-                className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
-                style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
-              >
-                {isAr ? "احجز جلسة" : "Book a Session"}
-                <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-
-          {/* ── Service categories grid ── */}
-          <div className="grid grid-cols-3 divide-x divide-gray-100 py-6">
-            {serviceCategories.map((cat) => (
-              <div key={cat.title.en} className="px-6">
-                {/* Category header */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ background: cat.accent }}
-                  />
-                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: cat.accent }}>
-                    {isAr ? cat.title.ar : cat.title.en}
-                  </span>
+            {/* Left intro */}
+            <div className="flex flex-col justify-between p-6 rounded-xl" style={{ background: "#0B162C" }}>
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full mb-5"
+                  style={{ background: "rgba(var(--color-brand-green-rgb),0.2)", color: "var(--color-brand-green)" }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                  {isAr ? "خدماتنا" : "Our Services"}
                 </div>
-
-                {/* Service items */}
-                <ul className="space-y-1">
-                  {cat.services.map((svc) => (
-                    <li key={svc.en}>
-                      <Link
-                        href={`/${locale}/services/${svc.slug}`}
-                        onClick={onClose}
-                        className="flex items-start gap-3 px-3 py-2.5 rounded-xl transition-all group hover:shadow-sm"
-                        style={{ ["--hover-bg" as string]: cat.bg } as React.CSSProperties}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = cat.bg; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-                      >
-                        <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors"
-                          style={{ background: cat.bg }}
-                        >
-                          <svc.Icon size={14} style={{ color: cat.accent }} strokeWidth={1.75} />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold leading-tight transition-colors group-hover:text-brand-purple" style={{ color: "#1a1a2e" }}>
-                            {isAr ? svc.ar : svc.en}
-                          </p>
-                          <p className="text-xs mt-0.5 leading-snug" style={{ color: "#9CA3AF" }}>
-                            {isAr ? svc.desc.ar : svc.desc.en}
-                          </p>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <h3 className="text-white font-black text-lg leading-snug mb-3">
+                  {isAr ? "علاج متقدم لكل حالة" : "Advanced Care For Every Need"}
+                </h3>
+                <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  {isAr ? "من العلاج الطبيعي الأساسي إلى أحدث التقنيات الطبية." : "From core physiotherapy to cutting-edge rehabilitation technology."}
+                </p>
               </div>
-            ))}
-          </div>
-
-          {/* ── Right CTA panel ── */}
-          <div className="w-52 flex flex-col p-5 border-l border-gray-100">
-            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#9CA3AF" }}>
-              {isAr ? "الأكثر طلباً" : "Most Requested"}
-            </p>
-            <div className="space-y-2 flex-1">
-              {[
-                { en: "Senior Physiotherapist", ar: "معالج أول", slug: "physiotherapy" },
-                { en: "Physiotherapist Specialist", ar: "أخصائي علاج طبيعي", slug: "physiotherapy" },
-                { en: "Home Physiotherapy", ar: "علاج طبيعي منزلي", slug: "physiotherapy" },
-              ].map((item) => (
-                <Link
-                  key={item.en}
-                  href={`/${locale}/services/${item.slug}`}
-                  onClick={onClose}
-                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all hover:bg-gray-50 group"
-                  style={{ color: "#374151" }}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors"
-                    style={{ background: "var(--color-brand-purple)" }}
-                  />
-                  <span className="group-hover:text-brand-purple transition-colors leading-tight">
-                    {isAr ? item.ar : item.en}
-                  </span>
+              <div className="mt-6 space-y-2">
+                <Link href={`/${locale}/services`} onClick={onClose}
+                  className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs font-semibold text-white transition-all hover:bg-white/10"
+                  style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
+                  {isAr ? "جميع الخدمات" : "View All Services"}<ArrowUpRight size={13} />
                 </Link>
+                <Link href={`/${locale}/book/riyadh`} onClick={onClose}
+                  className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs font-bold text-white"
+                  style={{ background: "var(--color-brand-purple)" }}>
+                  {isAr ? "احجز جلسة" : "Book a Session"}<ArrowRight size={13} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Service categories */}
+            <div className="grid grid-cols-3 gap-6">
+              {serviceCategories.map((cat) => (
+                <div key={cat.title.en}>
+                  <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-100">
+                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cat.accent }} />
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em]" style={{ color: cat.accent }}>
+                      {isAr ? cat.title.ar : cat.title.en}
+                    </span>
+                  </div>
+                  <ul className="space-y-0.5">
+                    {cat.services.map((svc) => (
+                      <li key={svc.en}>
+                        <Link href={`/${locale}/services/${svc.slug}`} onClick={onClose}
+                          className="flex items-start gap-2.5 px-2 py-2 rounded-lg transition-all group"
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = cat.bg; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+                          <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: cat.bg }}>
+                            <svc.Icon size={12} style={{ color: cat.accent }} strokeWidth={1.75} />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold leading-tight group-hover:text-[var(--color-brand-purple)] transition-colors" style={{ color: "#1a1a2e" }}>
+                              {isAr ? svc.ar : svc.en}
+                            </p>
+                            <p className="text-xs mt-0.5 leading-snug text-gray-400">{isAr ? svc.desc.ar : svc.desc.en}</p>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
 
-            {/* Promo banner */}
-            <div
-              className="mt-4 p-3.5 rounded-xl"
-              style={{ background: "linear-gradient(135deg, rgba(var(--color-brand-purple-rgb),0.08), rgba(var(--color-brand-green-rgb),0.08))", border: "1px solid rgba(var(--color-brand-purple-rgb),0.12)" }}
-            >
-              <p className="text-xs font-bold mb-0.5" style={{ color: "var(--color-brand-purple)" }}>
-                {isAr ? "استشارة مجانية" : "Free Consultation"}
+            {/* Right panel */}
+            <div className="flex flex-col border-l border-gray-100 pl-8">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-gray-400 mb-3">
+                {isAr ? "الأكثر طلباً" : "Most Requested"}
               </p>
-              <p className="text-xs" style={{ color: "#6B7280" }}>
-                {isAr ? "احجز تقييمك الأول مجاناً" : "Book your first assessment free"}
-              </p>
-              <Link
-                href={`/${locale}/book/riyadh`}
-                onClick={onClose}
-                className="mt-2 inline-flex items-center gap-1 text-xs font-bold"
-                style={{ color: "var(--color-brand-purple)" }}
-              >
-                {isAr ? "ابدأ الآن" : "Get Started"} <ArrowRight size={11} />
-              </Link>
+              <div className="space-y-1.5 flex-1">
+                {[
+                  { en: "Senior Physiotherapist", ar: "معالج أول", slug: "physiotherapy" },
+                  { en: "Physiotherapist Specialist", ar: "أخصائي علاج طبيعي", slug: "physiotherapy" },
+                  { en: "Home Physiotherapy", ar: "علاج طبيعي منزلي", slug: "physiotherapy" },
+                ].map((item) => (
+                  <Link key={item.en} href={`/${locale}/services/${item.slug}`} onClick={onClose}
+                    className="flex items-center gap-2 px-2 py-2 rounded-lg transition-all hover:bg-gray-50 group" style={{ color: "#374151" }}>
+                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--color-brand-purple)" }} />
+                    <span className="group-hover:text-[var(--color-brand-purple)] transition-colors text-xs">{isAr ? item.ar : item.en}</span>
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-4 p-3.5 rounded-xl" style={{ background: "rgba(var(--color-brand-purple-rgb),0.05)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.1)" }}>
+                <p className="text-xs font-bold mb-0.5" style={{ color: "var(--color-brand-purple)" }}>{isAr ? "استشارة مجانية" : "Free Consultation"}</p>
+                <p className="text-xs text-gray-400 mb-2">{isAr ? "احجز تقييمك الأول مجاناً" : "Book your first assessment free"}</p>
+                <Link href={`/${locale}/book/riyadh`} onClick={onClose} className="inline-flex items-center gap-1 text-xs font-bold" style={{ color: "var(--color-brand-purple)" }}>
+                  {isAr ? "ابدأ الآن" : "Get Started"} <ArrowRight size={11} />
+                </Link>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </motion.div>
   );
 }
-
-// ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar({ locale, translations }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
@@ -265,7 +199,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -291,176 +225,124 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
   return (
     <>
-      {/* Floating pill wrapper — also anchors the mega menu */}
-      <div className="fixed top-9 left-0 right-0 z-50 px-4 pointer-events-none">
-        <motion.nav
-          className="pointer-events-auto max-w-7xl mx-auto flex items-center justify-between h-16 px-5 rounded-2xl relative"
+      {/* Full-width bar — positioned below TollFreeStrip (36px tall) */}
+      <div className="fixed left-0 right-0 w-full z-50" style={{ top: "36px" }}>
+        <nav
+          className="w-full relative"
           style={{
-            background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.88)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(0,0,0,0.06)",
-            boxShadow: scrolled
-              ? "0 8px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.8) inset"
-              : "0 2px 12px rgba(0,0,0,0.04)",
+            background: scrolled ? "rgba(255,255,255,0.98)" : "rgba(255,255,255,0.95)",
+            backdropFilter: "blur(16px)",
+            borderBottom: scrolled ? "1px solid rgba(0,0,0,0.08)" : "1px solid rgba(0,0,0,0.05)",
+            boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.06)" : "none",
+            transition: "background 0.2s, box-shadow 0.2s, border-color 0.2s",
           }}
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          onMouseLeave={closeServices}
         >
-          {/* Logo */}
-          <Link href={`/${locale}`}>
-            <PhysioTrioLogo variant="color" height={52} />
-          </Link>
+          <div className="max-w-[1300px] mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1">
-            {/* Home */}
-            <Link
-              href={`/${locale}`}
-              className="relative px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50"
-              style={{ color: pathname === `/${locale}` ? "var(--color-brand-purple)" : "#374151" }}
-            >
-              {translations.home}
+            {/* Logo */}
+            <Link href={`/${locale}`} className="flex-shrink-0">
+              <PhysioTrioLogo variant="color" height={44} />
             </Link>
 
-            {/* Services — mega menu trigger */}
-            <div
-              className="relative"
-              onMouseEnter={openServices}
-              onMouseLeave={closeServices}
-            >
-              <button
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50"
-                style={{ color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151" }}
-              >
-                {translations.services}
-                <motion.span
-                  animate={{ rotate: servicesOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
+            {/* Desktop links */}
+            <div className="hidden lg:flex items-center gap-0.5">
+              <div className="relative" onMouseEnter={openServices}>
+                <button
+                  className="flex items-center gap-1 px-3.5 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-50"
+                  style={{ color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151" }}
                 >
-                  <ChevronDown size={14} strokeWidth={2} />
-                </motion.span>
-              </button>
+                  {translations.services}
+                  <motion.span animate={{ rotate: servicesOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                    <ChevronDown size={13} strokeWidth={2} />
+                  </motion.span>
+                </button>
+                {isServicesActive && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full" style={{ background: "var(--color-brand-purple)" }} />
+                )}
+              </div>
 
-              {/* Active underline */}
-              {isServicesActive && (
-                <span
-                  className="absolute -bottom-1 left-3 right-3 h-0.5 rounded-full"
-                  style={{ background: "var(--color-brand-purple)" }}
-                />
-              )}
+              {plainLinks.map((link) => {
+                const href = `/${locale}${link.href}`;
+                const label = translations[link.key as keyof typeof translations];
+                if (!label) return null;
+                const isActive = pathname === href || pathname.startsWith(href + "/");
+                return (
+                  <Link key={link.key} href={href}
+                    className="relative px-3.5 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-50"
+                    style={{ color: isActive ? "var(--color-brand-purple)" : "#374151" }}>
+                    {label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full" style={{ background: "var(--color-brand-purple)" }} />
+                    )}
+                  </Link>
+                );
+              })}
             </div>
 
-            {/* Plain links */}
-            {plainLinks.map((link) => {
-              const href = `/${locale}${link.href}`;
-              const isActive = pathname === href || pathname.startsWith(href);
-              return (
-                <Link
-                  key={link.key}
-                  href={href}
-                  className="relative px-3 py-1.5 text-sm font-medium transition-colors rounded-lg hover:bg-gray-50 group"
-                  style={{ color: isActive ? "var(--color-brand-purple)" : "#374151" }}
-                >
-                  {translations[link.key as keyof typeof translations]}
-                  <span
-                    className="absolute -bottom-1 left-3 right-3 h-0.5 rounded-full transition-all duration-300"
-                    style={{ background: "var(--color-brand-purple)", width: isActive ? "calc(100% - 24px)" : "0%" }}
-                  />
-                </Link>
-              );
-            })}
+            {/* Right actions */}
+            <div className="hidden lg:flex items-center gap-3">
+              <Link href={getLocalePath(otherLocale)}
+                className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md transition-all hover:bg-gray-50"
+                style={{ color: "#374151" }}>
+                <Globe size={14} className="text-gray-400" />
+                {otherLocale === "ar" ? "عربي" : "EN"}
+              </Link>
+              <div className="h-5 w-px bg-gray-200" />
+              <Link href={`/${locale}/book/riyadh`}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-md font-semibold text-sm text-white transition-all hover:opacity-90"
+                style={{ background: "var(--color-brand-purple)" }}>
+                {translations.bookNow}
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {/* Mobile burger */}
+            <button className="lg:hidden p-2 rounded-md transition-colors hover:bg-gray-50"
+              style={{ color: "#374151" }} onClick={() => setMenuOpen(true)} aria-label="Open menu">
+              <Menu size={22} />
+            </button>
           </div>
 
-          {/* Right actions */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link
-              href={getLocalePath(otherLocale)}
-              className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full transition-all hover:bg-gray-50"
-              style={{ color: "var(--color-brand-purple)", border: "1px solid rgba(var(--color-brand-purple-rgb),0.25)" }}
-            >
-              <Globe size={13} />
-              {otherLocale === "ar" ? "عربي" : "EN"}
-            </Link>
-
-            <Link
-              href={`/${locale}/book/riyadh`}
-              className="inline-flex items-center gap-2 pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm text-white transition-all group hover:shadow-lg"
-              style={{ background: "var(--color-brand-purple)" }}
-            >
-              {translations.bookNow}
-              <span
-                className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-0.5"
-                style={{ background: "var(--color-brand-green)" }}
-              >
-                <ArrowRight size={14} className="text-white" />
-              </span>
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden p-2 rounded-lg transition-colors"
-            style={{ color: "var(--color-brand-purple)" }}
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu size={22} />
-          </button>
-
-          {/* Mega menu — anchored to full nav width */}
+          {/* Mega menu */}
           <AnimatePresence>
             {servicesOpen && (
-              <ServicesMegaMenu
-                locale={locale}
-                onClose={() => setServicesOpen(false)}
-                onMouseEnter={openServices}
-                onMouseLeave={closeServices}
-              />
+              <ServicesMegaMenu locale={locale} onClose={() => setServicesOpen(false)}
+                onMouseEnter={openServices} onMouseLeave={closeServices} />
             )}
           </AnimatePresence>
-        </motion.nav>
+        </nav>
       </div>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            className="fixed inset-0 z-[100] flex flex-col overflow-y-auto"
-            style={{ background: "var(--color-hero-bg)" }}
-            initial={{ clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
-            animate={{ clipPath: "circle(150% at calc(100% - 40px) 40px)" }}
-            exit={{ clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="flex justify-end p-6">
-              <button className="p-2 text-white" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-                <X size={28} />
+          <motion.div className="fixed inset-0 z-[100] flex flex-col overflow-y-auto"
+            style={{ background: "#0B162C" }}
+            initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+              <PhysioTrioLogo variant="white" height={40} />
+              <button className="p-2 rounded-md text-white hover:bg-white/10 transition-colors"
+                onClick={() => setMenuOpen(false)} aria-label="Close menu">
+                <X size={22} />
               </button>
             </div>
 
-            <div className="px-8 mb-8">
-              <PhysioTrioLogo variant="white" height={48} />
-            </div>
-
-            <nav className="flex flex-col px-8 gap-1 flex-1">
-              <Link href={`/${locale}`} className="text-2xl font-bold text-white py-2 hover:text-green-400 transition-colors" onClick={() => setMenuOpen(false)}>
+            <nav className="flex flex-col px-6 py-6 gap-1 flex-1">
+              <Link href={`/${locale}`}
+                className="flex items-center h-12 text-base font-semibold text-white/80 hover:text-white transition-colors rounded-lg px-3 hover:bg-white/5"
+                onClick={() => setMenuOpen(false)}>
                 {translations.home}
               </Link>
-
-              {/* Services with sub-items */}
               <div>
-                <p className="text-2xl font-bold text-white py-2">{translations.services}</p>
-                <div className="pl-4 mb-2 space-y-1">
+                <p className="flex items-center h-12 text-base font-semibold text-white/80 px-3">{translations.services}</p>
+                <div className="pl-6 mb-2 space-y-0.5">
                   {serviceCategories.map((cat) =>
                     cat.services.map((svc) => (
-                      <Link
-                        key={svc.en}
-                        href={`/${locale}/services/${svc.slug}`}
-                        className="flex items-center gap-2 py-1.5 text-sm font-medium transition-colors"
-                        style={{ color: "rgba(255,255,255,0.6)" }}
-                        onClick={() => setMenuOpen(false)}
-                      >
+                      <Link key={svc.en} href={`/${locale}/services/${svc.slug}`}
+                        className="flex items-center gap-2 h-9 text-sm font-medium transition-colors rounded-lg px-3 hover:bg-white/5"
+                        style={{ color: "rgba(255,255,255,0.55)" }} onClick={() => setMenuOpen(false)}>
                         <span className="w-1 h-1 rounded-full bg-green-400 flex-shrink-0" />
                         {locale === "ar" ? svc.ar : svc.en}
                       </Link>
@@ -468,39 +350,28 @@ export function Navbar({ locale, translations }: NavbarProps) {
                   )}
                 </div>
               </div>
-
-              {plainLinks.map((link, i) => (
-                <motion.div
-                  key={link.key}
-                  initial={{ opacity: 0, x: -24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <Link
-                    href={`/${locale}${link.href}`}
-                    className="block text-2xl font-bold text-white py-2 hover:text-green-400 transition-colors"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {translations[link.key as keyof typeof translations]}
+              {plainLinks.map((link) => {
+                const label = translations[link.key as keyof typeof translations];
+                if (!label) return null;
+                return (
+                  <Link key={link.key} href={`/${locale}${link.href}`}
+                    className="flex items-center h-12 text-base font-semibold text-white/80 hover:text-white transition-colors rounded-lg px-3 hover:bg-white/5"
+                    onClick={() => setMenuOpen(false)}>
+                    {label}
                   </Link>
-                </motion.div>
-              ))}
+                );
+              })}
             </nav>
 
-            <div className="px-8 pb-12 flex flex-col gap-4 mt-8">
-              <Link
-                href={`/${locale}/book/riyadh`}
-                className="w-full py-4 rounded-full text-center font-bold text-white text-lg"
-                style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
-                onClick={() => setMenuOpen(false)}
-              >
+            <div className="px-6 pb-10 flex flex-col gap-3 border-t border-white/10 pt-6">
+              <Link href={`/${locale}/book/riyadh`}
+                className="w-full py-3.5 rounded-lg text-center font-bold text-white text-sm"
+                style={{ background: "var(--color-brand-purple)" }} onClick={() => setMenuOpen(false)}>
                 {translations.bookNow}
               </Link>
-              <Link
-                href={getLocalePath(otherLocale)}
-                className="w-full py-3 rounded-full text-center font-semibold text-white text-sm border border-white/30"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link href={getLocalePath(otherLocale)}
+                className="w-full py-3 rounded-lg text-center font-medium text-white/60 text-sm border border-white/10 hover:border-white/20 transition-colors"
+                onClick={() => setMenuOpen(false)}>
                 {otherLocale === "ar" ? "عربي" : "English"}
               </Link>
             </div>

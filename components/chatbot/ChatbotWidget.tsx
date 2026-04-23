@@ -21,8 +21,8 @@ const botResponses: Record<string, { en: string; ar: string }> = {
     ar: "رائع! يمكنك حجز موعد عبر الإنترنت في أقل من 3 دقائق. أي فرع تريد زيارته — الرياض أم مكة المكرمة؟",
   },
   branch: {
-    en: "We have 2 active branches:\n📍 Riyadh — Al Olaya District\n📍 Makkah — Ibrahim Al Khalil Road\n🚧 Dammam — Coming Soon\n\nCall: 800 100 0091",
-    ar: "لدينا فرعان نشطان:\n📍 الرياض — حي العليا\n📍 مكة المكرمة — طريق إبراهيم الخليل\n🚧 الدمام — قريباً\n\nاتصل: 800 100 0091",
+    en: "We have 2 branches:\n📍 Riyadh — Al Olaya District\n📍 Makkah — Ibrahim Al Khalil Road\n\nCall: 800 100 0246",
+    ar: "لدينا فرعان:\n📍 الرياض — حي العليا\n📍 مكة المكرمة — طريق إبراهيم الخليل\n\nاتصل: 800 100 0246",
   },
   insurance: {
     en: "We accept: Bupa Arabia, Tawuniya, MedNet, AXA, NEXT, Al Rajhi Takaful, GIG Gulf, Daman, Oman Insurance, and Walaa. Bring your card to your appointment!",
@@ -180,8 +180,8 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
                   <span className="text-xs text-white/70">{locale === "ar" ? "متصل الآن" : "Online now"}</span>
                 </div>
               </div>
-              <a href="tel:8001000091" className="text-white/70 hover:text-white text-xs font-semibold">
-                800 100 0091
+              <a href="tel:8001000246" className="text-white/70 hover:text-white text-xs font-semibold">
+                800 100 0246
               </a>
             </div>
 

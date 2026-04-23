@@ -6,14 +6,14 @@ export function TollFreeStrip({ locale }: { locale: string }) {
     >
       <span>{locale === "ar" ? "الرقم المجاني:" : "Toll-Free:"}</span>
       <a
-        href="tel:8001000091"
+        href="tel:8001000246"
         className="font-bold tracking-wider hover:underline"
       >
-        800 100 0091
+        800 100 0246
       </a>
       <span className="opacity-60 hidden sm:inline">·</span>
       <a
-        href="https://wa.me/9668001000091"
+        href="https://wa.me/9668001000246"
         className="hidden sm:flex items-center gap-1 hover:underline"
       >
         <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">

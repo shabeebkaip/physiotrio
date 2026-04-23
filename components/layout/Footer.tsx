@@ -20,13 +20,17 @@ interface FooterProps {
   nav: {
     home: string;
     services: string;
-    branches: string;
-    team: string;
     about: string;
-    offers: string;
-    blog: string;
-    faq: string;
-    contact: string;
+    faq?: string;
+    contact?: string;
+    // new nav
+    packages?: string;
+    news?: string;
+    // legacy nav (ignored)
+    branches?: string;
+    team?: string;
+    offers?: string;
+    blog?: string;
   };
 }
 
@@ -37,12 +41,11 @@ export function Footer({ locale, t, nav }: FooterProps) {
     { href: "/", label: nav.home },
     { href: "/about", label: nav.about },
     { href: "/services", label: nav.services },
-    { href: "/branches", label: nav.branches },
-    { href: "/team", label: nav.team },
-    { href: "/offers", label: nav.offers },
-    { href: "/blog", label: nav.blog },
-    { href: "/faq", label: nav.faq },
-  ];
+    nav.packages ? { href: "/packages", label: nav.packages } : null,
+    nav.news ? { href: "/news", label: nav.news } : null,
+    nav.faq ? { href: "/faq", label: nav.faq } : null,
+    nav.contact ? { href: "/contact", label: nav.contact } : null,
+  ].filter(Boolean) as { href: string; label: string }[];
 
   const branches = [
     {
@@ -90,7 +93,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
               </span>
             </Link>
             <a
-              href="https://wa.me/966500000001"
+              href="https://wa.me/9668001000246"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold border border-gray-200 text-[#0B162C] hover:bg-gray-50 transition-all"
             >
               <MessageCircle size={18} />
@@ -118,18 +121,18 @@ export function Footer({ locale, t, nav }: FooterProps) {
           {/* Social / Contact pill row */}
           <div className="flex flex-wrap gap-3">
             <a
-              href="mailto:hello@physiotrio.com"
+              href="mailto:info@physiotrio.com"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border border-gray-200 text-gray-500 hover:border-brand-green hover:text-brand-green transition-all"
             >
               <Mail size={13} />
-              hello@physiotrio.com
+              info@physiotrio.com
             </a>
             <a
-              href="tel:920000000"
+              href="tel:8001000246"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border border-gray-200 text-gray-500 hover:border-brand-purple hover:text-brand-purple transition-all"
             >
               <Phone size={13} />
-              920 000 000
+              800 100 0246
             </a>
           </div>
         </div>
@@ -202,20 +205,20 @@ export function Footer({ locale, t, nav }: FooterProps) {
             {isRTL ? "الخط المجاني" : "Toll-Free"}
           </p>
           <a
-            href="tel:920000000"
+            href="tel:8001000246"
             className="text-4xl font-black text-[#0B162C] mb-8 block hover:text-brand-purple transition-colors"
           >
-            920 000 000
+            800 100 0246
           </a>
 
           <a
-            href="mailto:hello@physiotrio.com"
+            href="mailto:info@physiotrio.com"
             className="flex items-center gap-3 mb-8 text-gray-500 hover:text-[#0B162C] transition-colors group"
           >
             <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center group-hover:border-brand-green group-hover:bg-brand-green/10 transition-all">
               <Mail size={15} />
             </div>
-            <span className="text-sm font-bold">hello@physiotrio.com</span>
+            <span className="text-sm font-bold">info@physiotrio.com</span>
           </a>
 
           <Link

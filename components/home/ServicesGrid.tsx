@@ -3,10 +3,9 @@
 import { useRef } from "react";
 import Link from "next/link";
 import {
-  Dumbbell, Brain, Hand, Baby, Leaf, Zap,
-  MoveUp, Activity, Stethoscope, ArrowUpRight, LucideIcon
+  Dumbbell, Brain, Hand, Baby, Zap,
+  Activity, Stethoscope, ArrowRight, Clock, LucideIcon
 } from "lucide-react";
-
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -40,116 +39,127 @@ const iconMap: Record<string, LucideIcon> = {
   hands: Hand,
   child: Baby,
   spine: Activity,
-  lotus: Leaf,
-  "arrow-up": MoveUp,
+  lotus: Activity,
+  "arrow-up": Activity,
   zap: Zap,
 };
 
-export function ServicesGrid({ locale, services, title, subtitle, bookNowText }: ServicesGridProps) {
+export function ServicesGrid({ locale, services, title, subtitle }: ServicesGridProps) {
   const isAr = locale === "ar";
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Header elegant float
     gsap.fromTo(
-      ".srv-header-anim",
-      { opacity: 0, y: 30 },
+      ".srv-card",
+      { opacity: 0, y: 24 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        }
+        duration: 0.6,
+        stagger: 0.07,
+        ease: "power2.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 78%" },
       }
     );
-
-    // Explosive staggered entrance for the pills
     gsap.fromTo(
-      ".srv-pill",
-      { opacity: 0, scale: 0.8, y: 40 },
+      ".srv-heading",
+      { opacity: 0, y: 20 },
       {
         opacity: 1,
-        scale: 1,
         y: 0,
-        duration: 0.8,
-        stagger: 0.08,
-        ease: "back.out(1.5)", // Massive bounce back effect for pop
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-        }
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 85%" },
       }
     );
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
-      {/* Absolute background accent lines for modern structural feel */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(var(--color-brand-purple-rgb), 0.15) 2px, transparent 0)", backgroundSize: "40px 40px" }} />
+    <section ref={sectionRef} className="py-20 md:py-28" style={{
+      background: "#F8FAFC",
+      backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cpath d='M18 8v20M8 18h20' stroke='rgba(11,22,44,0.045)' stroke-width='1'/%3E%3C/svg%3E\")",
+      backgroundSize: "36px 36px",
+    }}>
+      <div className="max-w-[1300px] mx-auto px-6 lg:px-12">
 
-      <div className="max-w-[1300px] mx-auto px-6 lg:px-12 relative z-10">
-
-        {/* ── Header ── */}
-        <div className="mb-20 text-center max-w-3xl mx-auto flex flex-col items-center">
-          <div className="srv-header-anim flex items-center justify-center gap-3 mb-6">
-            <span className="w-8 h-px bg-brand-green" />
-            <span className="text-sm font-black uppercase tracking-[0.2em] text-brand-green">
-              {isAr ? "مجالات تخصصنا" : "Our Specialties"}
-            </span>
-            <span className="w-8 h-px bg-brand-green" />
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="srv-heading flex items-center gap-2.5 mb-4">
+              <span className="w-6 h-px" style={{ background: "var(--color-brand-green)" }} />
+              <span
+                className="text-[10px] font-black uppercase tracking-[0.22em]"
+                style={{ color: "var(--color-brand-green)" }}
+              >
+                {isAr ? "تخصصاتنا" : "Our Specialties"}
+              </span>
+            </div>
+            <h2
+              className="srv-heading text-3xl md:text-4xl font-black leading-tight"
+              style={{ color: "#0B162C" }}
+            >
+              {title}
+            </h2>
           </div>
-          
-          <h2 className="srv-header-anim text-4xl sm:text-5xl md:text-6xl font-black leading-tight text-[#0B162C] mb-6 drop-shadow-sm">
-            {title}
-          </h2>
-          
-          <p className="srv-header-anim text-lg md:text-xl font-medium text-gray-400 max-w-2xl mx-auto">
+          <p className="srv-heading text-base text-gray-500 max-w-sm leading-relaxed">
             {subtitle}
           </p>
         </div>
 
-        {/* ── Grid of Interactive Floating Pills ── */}
-        <div ref={containerRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          
+        {/* Grid — compact 4-col, no descriptions */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {services.map((service) => {
             const Icon = iconMap[service.icon] ?? Stethoscope;
+            const name = isAr ? service.name.ar : service.name.en;
 
             return (
-              <div key={service.id} className="srv-pill">
+              <div key={service.id} className="srv-card opacity-0">
                 <Link
                   href={`/${locale}/services/${service.slug}`}
-                  className="group relative flex items-center p-3 sm:p-4 bg-white rounded-full shadow-[0_4px_20px_-10px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_-10px_rgba(var(--color-brand-purple-rgb),0.2)] transition-all duration-500 ease-out border border-gray-100 overflow-hidden"
+                  className="group flex items-center gap-4 bg-white rounded-xl px-5 py-4 border border-gray-100 transition-all duration-200 hover:border-[var(--color-brand-purple)] hover:shadow-sm"
                 >
-                  {/* Fluid Wave Fill Animation on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-r from-brand-purple to-[#523A9E] ${isAr ? "origin-right" : "origin-left"} scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.87,0,0.13,1)] pointer-events-none`} />
-
-                  {/* Icon Container - Perfectly circular */}
-                  <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-[#F1F5F9] rounded-full flex items-center justify-center transition-transform duration-700 group-hover:rotate-[360deg] shadow-inner group-hover:bg-white group-hover:text-brand-purple">
-                    <Icon size={28} strokeWidth={2} className="text-brand-purple" />
+                  {/* Icon */}
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-200 group-hover:bg-[rgba(var(--color-brand-purple-rgb),0.08)]"
+                    style={{ background: "#F1F5F9" }}
+                  >
+                    <Icon size={18} strokeWidth={1.75} style={{ color: "var(--color-brand-purple)" }} />
                   </div>
 
-                  {/* Typography - Only Heading per constraint */}
-                  <div className={`relative z-10 flex-1 px-4 sm:px-6 flex justify-between items-center ${isAr ? "text-right" : "text-left"}`}>
-                    <h3 className="text-[1.1rem] sm:text-xl font-black text-[#0B162C] group-hover:text-white transition-colors duration-300 leading-tight">
-                      {isAr ? service.name.ar : service.name.en}
+                  {/* Name + duration */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-bold leading-snug truncate" style={{ color: "#0B162C" }}>
+                      {name}
                     </h3>
+                    <span className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
+                      <Clock size={10} />
+                      {service.durationMinutes} {isAr ? "دقيقة" : "min"}
+                    </span>
                   </div>
 
-                  {/* Action Arrow (Glassmorphism circle revealing on hover) */}
-                  <div className="relative z-10 w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center text-white bg-white/20 backdrop-blur-md opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out mr-3">
-                     <ArrowUpRight size={22} strokeWidth={2.5} className={isAr ? "-scale-x-100" : ""} />
-                  </div>
-
+                  {/* Arrow */}
+                  <ArrowRight
+                    size={14}
+                    className="flex-shrink-0 transition-all duration-200 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5"
+                    style={{ color: "var(--color-brand-purple)" }}
+                  />
                 </Link>
               </div>
             );
           })}
+        </div>
 
+        {/* Bottom CTA */}
+        <div className="mt-10 flex justify-center">
+          <Link
+            href={`/${locale}/services`}
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-md text-sm font-bold border-2 transition-all text-[#0B162C] hover:bg-[#0B162C] hover:border-[#0B162C] hover:text-white"
+            style={{ borderColor: "#0B162C" }}
+          >
+            {isAr ? "جميع الخدمات" : "View All Services"}
+            <ArrowRight size={14} />
+          </Link>
         </div>
       </div>
     </section>

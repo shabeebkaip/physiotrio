@@ -86,7 +86,7 @@ const bodyParts: BodyPart[] = [
     en: "Back Pain", 
     ar: "ألم الظهر", 
     id: "back", 
-    iconSrc: "/images/home/neck.svg",
+    iconSrc: "/images/home/hip.svg",
     bgImage: "/images/bodyparts/back.png",
     bgPosition: "center center",
     desc: { en: "World-class spine health center.", ar: "مركز عالمي لصحة العمود الفقري." }
@@ -95,7 +95,7 @@ const bodyParts: BodyPart[] = [
     en: "Leg Pain", 
     ar: "ألم الساق", 
     id: "leg", 
-    iconSrc: "/images/home/hip.svg",
+    iconSrc: "/images/home/ankle.svg",
     bgImage: "/images/bodyparts/ankle.webp", // Patient recovery image
     bgPosition: "center 60%", // Focus on legs
     desc: { en: "Muscle recovery and blood flow.", ar: "تعافي العضلات وتحسين الدورة الدموية." }

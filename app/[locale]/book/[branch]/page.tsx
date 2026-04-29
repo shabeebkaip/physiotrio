@@ -124,7 +124,7 @@ export default async function BookPage({ params }: { params: Promise<{ locale: s
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)" }}>
                       <Phone size={15} style={{ color: "var(--color-brand-purple)" }} />
                     </div>
-                    <a href="tel:8001000246" className="text-sm font-semibold" style={{ color: "var(--color-brand-purple)" }}>
+                    <a href="tel:8001000246" dir="ltr" className="text-sm font-semibold" style={{ color: "var(--color-brand-purple)" }}>
                       800 100 0246
                     </a>
                   </div>

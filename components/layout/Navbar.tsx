@@ -377,7 +377,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
         >
           {/* ── Logo ── */}
           <Link href={`/${locale}`} className="shrink-0 flex items-center">
-            <PhysioTrioLogo variant="color" height={64} />
+            <PhysioTrioLogo variant="color" height={100} />
           </Link>
 
           {/* ── Divider ── */}
@@ -497,6 +497,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
             {/* Toll-free */}
             <a
               href="tel:8001000246"
+              dir="ltr"
               className="flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75"
               style={{ color: "var(--color-brand-green)" }}
             >

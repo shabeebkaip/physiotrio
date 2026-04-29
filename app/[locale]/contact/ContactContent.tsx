@@ -51,7 +51,7 @@ export function ContactContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props
                   </div>
                   <div className="flex items-center gap-2.5 text-sm" style={{ color: "#4B5563" }}>
                     <Phone size={15} className="shrink-0" style={{ color: "var(--color-brand-purple)" }} />
-                    <a href="tel:8001000246" className="hover:underline">800 100 0246</a>
+                    <a href="tel:8001000246" dir="ltr" className="hover:underline">800 100 0246</a>
                   </div>
                   <div className="flex items-center gap-2.5 text-sm" style={{ color: "#4B5563" }}>
                     <Mail size={15} className="shrink-0" style={{ color: "var(--color-brand-purple)" }} />

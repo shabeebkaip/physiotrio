@@ -158,6 +158,7 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
         {/* Call alternative */}
         <a
           href="tel:8001000246"
+          dir="ltr"
           className="flex items-center justify-center gap-1.5 mt-2.5 text-xs font-medium"
           style={{ color: "#9CA3AF" }}
         >
@@ -410,7 +411,7 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
               {isAr
                 ? "غير متأكد من الباقة المناسبة لك؟ تواصل مع فريقنا على "
                 : "Not sure which package suits you? Call our team on "}
-              <a href="tel:8001000246" className="font-bold" style={{ color: "var(--color-brand-purple)" }}>
+              <a href="tel:8001000246" dir="ltr" className="font-bold" style={{ color: "var(--color-brand-purple)" }}>
                 800 100 0246
               </a>
               {isAr ? " وسيساعدونك في الاختيار." : " and they will help you choose."}

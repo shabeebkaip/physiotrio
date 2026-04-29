@@ -180,7 +180,7 @@ export function ChatbotWidget({ locale }: ChatbotWidgetProps) {
                   <span className="text-xs text-white/70">{locale === "ar" ? "متصل الآن" : "Online now"}</span>
                 </div>
               </div>
-              <a href="tel:8001000246" className="text-white/70 hover:text-white text-xs font-semibold">
+              <a href="tel:8001000246" dir="ltr" className="text-white/70 hover:text-white text-xs font-semibold">
                 800 100 0246
               </a>
             </div>

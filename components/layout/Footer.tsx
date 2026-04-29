@@ -221,7 +221,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
                 <p className="text-xs font-medium mb-1" style={{ color: "#9CA3AF" }}>
                   {isRTL ? "الخط المجاني" : "Toll-Free"}
                 </p>
-                <a href="tel:8001000246" className="text-2xl font-black transition-opacity hover:opacity-80" style={{ color: "var(--color-brand-purple)" }}>
+                <a href="tel:8001000246" dir="ltr" className="text-2xl font-black transition-opacity hover:opacity-80" style={{ color: "var(--color-brand-purple)" }}>
                   800 100 0246
                 </a>
               </div>

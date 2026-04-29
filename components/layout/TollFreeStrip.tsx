@@ -7,6 +7,7 @@ export function TollFreeStrip({ locale }: { locale: string }) {
       <span>{locale === "ar" ? "الرقم المجاني:" : "Toll-Free:"}</span>
       <a
         href="tel:8001000246"
+        dir="ltr"
         className="font-bold tracking-wider hover:underline"
       >
         800 100 0246

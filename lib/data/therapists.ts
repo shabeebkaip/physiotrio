@@ -48,7 +48,7 @@ export const therapists: Therapist[] = [
   },
   {
     id: "r3",
-    name: { en: "Hani Al Dahlan", ar: "هاني دحلان" },
+    name: { en: "Hani Dahlan", ar: "هاني دحلان" },
     title: { en: "Senior Physiotherapist", ar: "أخصائي علاج طبيعي أول" },
     specializations: ["manual-therapy", "sports-physiotherapy", "physiotherapy"],
     branches: ["riyadh"],

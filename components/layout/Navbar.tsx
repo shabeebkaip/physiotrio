@@ -6,42 +6,43 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Globe, ArrowRight, ChevronDown, Phone,
-  Activity, Dumbbell, Brain, Heart,
-  Droplets, Zap, Radio, Hand,
-  ArrowUpRight,
+  Activity, Dumbbell, Brain, Heart, Users,
+  Droplets, Zap, Hand, Baby, ArrowUpRight, MapPin,
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
+import { useLocation, type Location } from "@/lib/context/LocationContext";
 
-// ─── Mega menu data ───────────────────────────────────────────────────────────
+// ─── Mega menu data — matches lib/data/services.ts exactly ───────────────────
 
 const serviceCategories = [
   {
-    title: { en: "Therapies", ar: "العلاجات" },
+    title: { en: "Physiotherapy", ar: "العلاج الطبيعي" },
     accent: "var(--color-brand-purple)",
     bg: "rgba(var(--color-brand-purple-rgb),0.06)",
     services: [
-      { en: "Physical Therapy", ar: "العلاج الطبيعي", slug: "physiotherapy", desc: { en: "Pain relief & full recovery", ar: "تخفيف الألم والتعافي الكامل" }, Icon: Activity },
-      { en: "Speech Therapy", ar: "العلاج التخاطبي", slug: "speech-therapy", desc: { en: "Communication & swallowing care", ar: "رعاية التواصل والبلع" }, Icon: Radio },
-      { en: "Occupational Therapy", ar: "العلاج الوظيفي", slug: "occupational-therapy", desc: { en: "Restore daily life independence", ar: "استعادة الاستقلالية في الحياة اليومية" }, Icon: Hand },
-      { en: "Lymphatic Drainage Therapy (LDT)", ar: "العلاج التصريف الليمفاوي", slug: "lymphatic-drainage", desc: { en: "Reduce swelling & improve flow", ar: "تقليل التورم وتحسين الدورة" }, Icon: Droplets },
+      { en: "Physiotherapy",       ar: "العلاج الطبيعي",     slug: "physiotherapy",       Icon: Activity },
+      { en: "Sports Physiotherapy",ar: "علاج طبيعي رياضي",   slug: "sports-physiotherapy", Icon: Dumbbell },
+      { en: "Manual Therapy",      ar: "العلاج اليدوي",      slug: "manual-therapy",       Icon: Hand },
+      { en: "Hydrotherapy",        ar: "العلاج المائي",      slug: "hydrotherapy",         Icon: Droplets },
     ],
   },
   {
-    title: { en: "Rehabilitation & Wellness", ar: "التأهيل والعافية" },
+    title: { en: "Rehabilitation", ar: "إعادة التأهيل" },
     accent: "var(--color-brand-green)",
     bg: "rgba(var(--color-brand-green-rgb),0.06)",
     services: [
-      { en: "Rehabilitation", ar: "التأهيل", slug: "neurological-rehabilitation", desc: { en: "Full recovery programs", ar: "برامج التعافي الشامل" }, Icon: Brain },
-      { en: "Fitness & Wellness", ar: "اللياقة والعافية", slug: "fitness-wellness", desc: { en: "Strength, mobility & wellbeing", ar: "القوة والحركة والعافية" }, Icon: Dumbbell },
-      { en: "Home Physical Therapy", ar: "العلاج الطبيعي المنزلي", slug: "home-physiotherapy", desc: { en: "Professional care at your home", ar: "رعاية احترافية في منزلك" }, Icon: Heart },
+      { en: "Neurological Rehabilitation", ar: "إعادة التأهيل العصبي",        slug: "neurological-rehabilitation", Icon: Brain },
+      { en: "Pediatric Physiotherapy",     ar: "العلاج الطبيعي للأطفال",      slug: "pediatric-physiotherapy",    Icon: Baby },
+      { en: "Geriatric Physiotherapy",     ar: "العلاج الطبيعي لكبار السن",   slug: "geriatric-physiotherapy",    Icon: Users },
     ],
   },
   {
-    title: { en: "Advanced Technology", ar: "الأجهزة المتقدمة" },
+    title: { en: "Specialist Programs", ar: "البرامج المتخصصة" },
     accent: "var(--color-brand-purple-light)",
-    bg: "rgba(10,143,160,0.06)",
+    bg: "rgba(136,7,114,0.06)",
     services: [
-      { en: "Advanced Technology & Sports Recovery", ar: "الأجهزة المتقدمة والاستشفاء الرياضي", slug: "device-based-therapy", desc: { en: "Cutting-edge devices & sports rehab", ar: "أجهزة متطورة وإعادة التأهيل الرياضي" }, Icon: Zap },
+      { en: "Women's Health Program",        ar: "برنامج صحة المرأة",         slug: "womens-health",        Icon: Heart },
+      { en: "Advanced Device-Based Therapy", ar: "العلاج المتقدم بالأجهزة",   slug: "device-based-therapy", Icon: Zap },
     ],
   },
 ];
@@ -76,14 +77,15 @@ function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { loc
   const isAr = locale === "ar";
 
   const flatServices = [
-    { en: "Physical Therapy", ar: "العلاج الطبيعي", slug: "physiotherapy", Icon: Activity, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
-    { en: "Speech Therapy", ar: "العلاج التخاطبي", slug: "speech-therapy", Icon: Radio, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
-    { en: "Occupational Therapy", ar: "العلاج الوظيفي", slug: "occupational-therapy", Icon: Hand, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
-    { en: "Lymphatic Drainage (LDT)", ar: "التصريف الليمفاوي", slug: "lymphatic-drainage", Icon: Droplets, accent: "var(--color-brand-purple)", bg: "rgba(136,7,114,0.07)", cat: isAr ? "العلاجات" : "Therapies" },
-    { en: "Rehabilitation", ar: "التأهيل", slug: "neurological-rehabilitation", Icon: Brain, accent: "var(--color-brand-green)", bg: "rgba(var(--color-brand-green-rgb),0.07)", cat: isAr ? "التأهيل والعافية" : "Rehab & Wellness" },
-    { en: "Fitness & Wellness", ar: "اللياقة والعافية", slug: "fitness-wellness", Icon: Dumbbell, accent: "var(--color-brand-green)", bg: "rgba(var(--color-brand-green-rgb),0.07)", cat: isAr ? "التأهيل والعافية" : "Rehab & Wellness" },
-    { en: "Home Physical Therapy", ar: "العلاج الطبيعي المنزلي", slug: "home-physiotherapy", Icon: Heart, accent: "var(--color-brand-green)", bg: "rgba(var(--color-brand-green-rgb),0.07)", cat: isAr ? "التأهيل والعافية" : "Rehab & Wellness" },
-    { en: "Advanced Technology", ar: "الأجهزة المتقدمة", slug: "device-based-therapy", Icon: Zap, accent: "#0A8FA0", bg: "rgba(10,143,160,0.07)", cat: isAr ? "التكنولوجيا المتقدمة" : "Advanced Technology" },
+    { en: "Physiotherapy",               ar: "العلاج الطبيعي",              slug: "physiotherapy",              Icon: Activity, accent: "var(--color-brand-purple)",       bg: "rgba(136,7,114,0.07)",   cat: isAr ? "العلاج الطبيعي"     : "Physiotherapy" },
+    { en: "Sports Physiotherapy",        ar: "علاج طبيعي رياضي",            slug: "sports-physiotherapy",       Icon: Dumbbell, accent: "var(--color-brand-purple)",       bg: "rgba(136,7,114,0.07)",   cat: isAr ? "العلاج الطبيعي"     : "Physiotherapy" },
+    { en: "Manual Therapy",              ar: "العلاج اليدوي",               slug: "manual-therapy",             Icon: Hand,     accent: "var(--color-brand-purple)",       bg: "rgba(136,7,114,0.07)",   cat: isAr ? "العلاج الطبيعي"     : "Physiotherapy" },
+    { en: "Hydrotherapy",                ar: "العلاج المائي",               slug: "hydrotherapy",               Icon: Droplets, accent: "var(--color-brand-purple)",       bg: "rgba(136,7,114,0.07)",   cat: isAr ? "العلاج الطبيعي"     : "Physiotherapy" },
+    { en: "Neurological Rehabilitation", ar: "إعادة التأهيل العصبي",        slug: "neurological-rehabilitation", Icon: Brain,    accent: "var(--color-brand-green)",        bg: "rgba(76,175,80,0.07)",   cat: isAr ? "إعادة التأهيل"      : "Rehabilitation" },
+    { en: "Pediatric Physiotherapy",     ar: "العلاج الطبيعي للأطفال",      slug: "pediatric-physiotherapy",    Icon: Baby,     accent: "var(--color-brand-green)",        bg: "rgba(76,175,80,0.07)",   cat: isAr ? "إعادة التأهيل"      : "Rehabilitation" },
+    { en: "Geriatric Physiotherapy",     ar: "العلاج الطبيعي لكبار السن",   slug: "geriatric-physiotherapy",    Icon: Users,    accent: "var(--color-brand-green)",        bg: "rgba(76,175,80,0.07)",   cat: isAr ? "إعادة التأهيل"      : "Rehabilitation" },
+    { en: "Women's Health Program",      ar: "برنامج صحة المرأة",           slug: "womens-health",              Icon: Heart,    accent: "var(--color-brand-purple-light)", bg: "rgba(136,7,114,0.06)",   cat: isAr ? "البرامج المتخصصة"   : "Specialist Programs" },
+    { en: "Advanced Device-Based Therapy",ar: "العلاج المتقدم بالأجهزة",   slug: "device-based-therapy",       Icon: Zap,      accent: "var(--color-brand-purple-light)", bg: "rgba(136,7,114,0.06)",   cat: isAr ? "البرامج المتخصصة"   : "Specialist Programs" },
   ];
 
   const grouped = flatServices.reduce<Record<string, typeof flatServices>>((acc, svc) => {
@@ -228,6 +230,97 @@ function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { loc
   );
 }
 
+// ─── Location Picker ──────────────────────────────────────────────────────────
+
+const LOCATION_OPTIONS: { value: Location; en: string; ar: string }[] = [
+  { value: "all",    en: "All Locations", ar: "كل المواقع" },
+  { value: "riyadh", en: "Riyadh",        ar: "الرياض" },
+  { value: "makkah", en: "Makkah",        ar: "مكة المكرمة" },
+];
+
+function LocationPicker({ locale }: { locale: string }) {
+  const isAr = locale === "ar";
+  const { location, setLocation } = useLocation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const current = LOCATION_OPTIONS.find(o => o.value === location)!;
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full transition-all hover:opacity-80"
+        style={{
+          color: location === "all" ? "#374151" : "var(--color-brand-purple)",
+          background: location === "all" ? "#F3F4F6" : "rgba(var(--color-brand-purple-rgb),0.09)",
+          border: location === "all" ? "1px solid #E5E7EB" : "1px solid rgba(var(--color-brand-purple-rgb),0.22)",
+        }}
+      >
+        <MapPin size={12} strokeWidth={2.5} />
+        {isAr ? current.ar : current.en}
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.18 }}>
+          <ChevronDown size={12} strokeWidth={2.5} />
+        </motion.span>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute top-full mt-2 right-0 bg-white rounded-xl overflow-hidden"
+            style={{
+              minWidth: 160,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)",
+              zIndex: 70,
+            }}
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.15 }}
+          >
+            {LOCATION_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => { setLocation(opt.value); setOpen(false); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-colors text-left hover:bg-gray-50"
+                style={{
+                  color: location === opt.value ? "var(--color-brand-purple)" : "#374151",
+                  background: location === opt.value ? "rgba(var(--color-brand-purple-rgb),0.06)" : undefined,
+                  fontWeight: location === opt.value ? 700 : undefined,
+                }}
+              >
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{
+                    background: opt.value === "all"
+                      ? "#9CA3AF"
+                      : opt.value === "riyadh"
+                        ? "var(--color-brand-purple)"
+                        : "var(--color-brand-green)",
+                    opacity: location === opt.value ? 1 : 0.35,
+                  }}
+                />
+                {isAr ? opt.ar : opt.en}
+                {location === opt.value && (
+                  <span className="ml-auto text-xs" style={{ color: "var(--color-brand-purple)" }}>✓</span>
+                )}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar({ locale, translations }: NavbarProps) {
@@ -235,6 +328,8 @@ export function Navbar({ locale, translations }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = usePathname();
+  const { location, setLocation } = useLocation();
+  const bookBranch = location === "makkah" ? "makkah" : "riyadh";
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -264,162 +359,141 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
   return (
     <>
-      {/* ── Two floating pills ────────────────────────────────────────── */}
+      {/* ── Single unified floating navbar ───────────────────────────── */}
       <div className="fixed top-4 left-0 right-0 z-50 px-5 pointer-events-none">
-        <div className="max-w-[1400px] mx-auto flex items-center gap-4">
+        <div className="max-w-[1400px] mx-auto">
+        <motion.header
+          className="pointer-events-auto w-full flex items-center px-5 gap-0 rounded-[28px]"
+          style={{
+            height: 80,
+            background: scrolled ? "rgba(255,255,255,0.98)" : "rgba(255,255,255,0.94)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(0,0,0,0.07)",
+            boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.10)" : "0 2px 16px rgba(0,0,0,0.06)",
+          }}
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* ── Logo ── */}
+          <Link href={`/${locale}`} className="shrink-0 flex items-center">
+            <PhysioTrioLogo variant="color" height={64} />
+          </Link>
 
-          {/* ── Pill 1: Logo + Navigation ── */}
-          <motion.nav
-            className="pointer-events-auto flex items-center py-2 px-3 rounded-[32px] relative flex-1 min-w-0"
-            style={{
-              background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.90)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(0,0,0,0.07)",
-              boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.10)" : "0 2px 16px rgba(0,0,0,0.06)",
-            }}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {/* Logo */}
-            <Link href={`/${locale}`} className="shrink-0 pl-2 pr-5">
-              <PhysioTrioLogo variant="color" height={53} />
+          {/* ── Divider ── */}
+          <span className="w-px h-8 bg-gray-200 shrink-0 mx-6" />
+
+          {/* ── Desktop nav links ── */}
+          <nav className="hidden lg:flex items-center gap-0.5 flex-1">
+            {/* Home */}
+            <Link
+              href={`/${locale}`}
+              className="px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
+              style={{
+                color: pathname === `/${locale}` ? "var(--color-brand-purple)" : "#374151",
+                background: pathname === `/${locale}` ? "rgba(136,7,114,0.09)" : "transparent",
+                border: pathname === `/${locale}` ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
+              }}
+              onMouseEnter={(e) => {
+                if (pathname !== `/${locale}`) {
+                  (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
+                  (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
+                  (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (pathname !== `/${locale}`) {
+                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                  (e.currentTarget as HTMLElement).style.color = "#374151";
+                  (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
+                }
+              }}
+            >
+              {translations.home}
             </Link>
 
-            {/* Logo / nav divider */}
-            <span className="w-px h-7 bg-gray-200 shrink-0 mr-5" />
-
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center justify-between flex-1 pr-2">
-              {/* Home */}
-              <Link
-                href={`/${locale}`}
-                className="px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
+            {/* Services — mega menu trigger */}
+            <div className="relative" onMouseEnter={openServices} onMouseLeave={closeServices}>
+              <button
+                className="flex items-center gap-1 px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
                 style={{
-                  color: pathname === `/${locale}` ? "var(--color-brand-purple)" : "#374151",
-                  background: pathname === `/${locale}` ? "rgba(136,7,114,0.09)" : "transparent",
-                  border: pathname === `/${locale}` ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
+                  color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151",
+                  background: isServicesActive || servicesOpen ? "rgba(136,7,114,0.09)" : "transparent",
+                  border: isServicesActive || servicesOpen ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
                 }}
                 onMouseEnter={(e) => {
-                  if (pathname !== `/${locale}`) {
+                  if (!isServicesActive && !servicesOpen) {
                     (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
                     (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
                     (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (pathname !== `/${locale}`) {
+                  if (!isServicesActive && !servicesOpen) {
                     (e.currentTarget as HTMLElement).style.background = "transparent";
                     (e.currentTarget as HTMLElement).style.color = "#374151";
                     (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
                   }
                 }}
               >
-                {translations.home}
-              </Link>
+                {translations.services}
+                <motion.span animate={{ rotate: servicesOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                  <ChevronDown size={14} strokeWidth={2} />
+                </motion.span>
+              </button>
 
-              {/* Services — mega menu trigger */}
-              <div className="relative" onMouseEnter={openServices} onMouseLeave={closeServices}>
-                <button
-                  className="flex items-center gap-1 px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
+              <AnimatePresence>
+                {servicesOpen && (
+                  <ServicesMegaMenu
+                    locale={locale}
+                    onClose={() => setServicesOpen(false)}
+                    onMouseEnter={openServices}
+                    onMouseLeave={closeServices}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Plain links */}
+            {plainLinks.map((link) => {
+              const href = `/${locale}${link.href}`;
+              const isActive = pathname === href || pathname.startsWith(href);
+              return (
+                <Link
+                  key={link.key}
+                  href={href}
+                  className="px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
                   style={{
-                    color: isServicesActive || servicesOpen ? "var(--color-brand-purple)" : "#374151",
-                    background: isServicesActive || servicesOpen ? "rgba(136,7,114,0.09)" : "transparent",
-                    border: isServicesActive || servicesOpen ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
+                    color: isActive ? "var(--color-brand-purple)" : "#374151",
+                    background: isActive ? "rgba(136,7,114,0.09)" : "transparent",
+                    border: isActive ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
                   }}
                   onMouseEnter={(e) => {
-                    if (!isServicesActive && !servicesOpen) {
+                    if (!isActive) {
                       (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
                       (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
                       (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (!isServicesActive && !servicesOpen) {
+                    if (!isActive) {
                       (e.currentTarget as HTMLElement).style.background = "transparent";
                       (e.currentTarget as HTMLElement).style.color = "#374151";
                       (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
                     }
                   }}
                 >
-                  {translations.services}
-                  <motion.span animate={{ rotate: servicesOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronDown size={14} strokeWidth={2} />
-                  </motion.span>
-                </button>
-              </div>
+                  {translations[link.key as keyof typeof translations]}
+                </Link>
+              );
+            })}
+          </nav>
 
-              {/* Plain links */}
-              {plainLinks.map((link) => {
-                const href = `/${locale}${link.href}`;
-                const isActive = pathname === href || pathname.startsWith(href);
-                return (
-                  <Link
-                    key={link.key}
-                    href={href}
-                    className="px-3.5 py-1.5 text-sm font-medium rounded-full transition-all duration-200"
-                    style={{
-                      color: isActive ? "var(--color-brand-purple)" : "#374151",
-                      background: isActive ? "rgba(136,7,114,0.09)" : "transparent",
-                      border: isActive ? "1px solid rgba(136,7,114,0.18)" : "1px solid transparent",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isActive) {
-                        (e.currentTarget as HTMLElement).style.background = "rgba(136,7,114,0.06)";
-                        (e.currentTarget as HTMLElement).style.color = "var(--color-brand-purple)";
-                        (e.currentTarget as HTMLElement).style.border = "1px solid rgba(136,7,114,0.12)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isActive) {
-                        (e.currentTarget as HTMLElement).style.background = "transparent";
-                        (e.currentTarget as HTMLElement).style.color = "#374151";
-                        (e.currentTarget as HTMLElement).style.border = "1px solid transparent";
-                      }
-                    }}
-                  >
-                    {translations[link.key as keyof typeof translations]}
-                  </Link>
-                );
-              })}
-            </div>
+          {/* Spacer on mobile */}
+          <div className="flex-1 lg:hidden" />
 
-            {/* Mobile menu button */}
-            <button
-              className="lg:hidden p-2 rounded-lg transition-colors ml-auto"
-              style={{ color: "var(--color-brand-purple)" }}
-              onClick={() => setMenuOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu size={22} />
-            </button>
-
-            {/* Mega menu */}
-            <AnimatePresence>
-              {servicesOpen && (
-                <ServicesMegaMenu
-                  locale={locale}
-                  onClose={() => setServicesOpen(false)}
-                  onMouseEnter={openServices}
-                  onMouseLeave={closeServices}
-                />
-              )}
-            </AnimatePresence>
-          </motion.nav>
-
-          {/* ── Pill 2: Contacts + Actions ── */}
-          <motion.div
-            className="pointer-events-auto hidden lg:flex items-center gap-3 py-2 px-4 rounded-[32px] shrink-0 self-stretch"
-            style={{
-              background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.90)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid rgba(0,0,0,0.07)",
-              boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.10)" : "0 2px 16px rgba(0,0,0,0.06)",
-            }}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          >
+          {/* ── Desktop actions ── */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0 pl-4">
             {/* Toll-free */}
             <a
               href="tel:8001000246"
@@ -430,7 +504,12 @@ export function Navbar({ locale, translations }: NavbarProps) {
               800 100 0246
             </a>
 
-            <span className="w-px h-4 bg-gray-200" />
+            <span className="w-px h-5 bg-gray-200" />
+
+            {/* Location picker */}
+            <LocationPicker locale={locale} />
+
+            <span className="w-px h-5 bg-gray-200" />
 
             {/* Language */}
             <Link
@@ -444,7 +523,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
             {/* Book Now */}
             <Link
-              href={`/${locale}/book/riyadh`}
+              href={`/${locale}/book/${bookBranch}`}
               className="inline-flex items-center gap-2 pl-5 pr-1.5 py-1.5 rounded-full font-semibold text-sm text-white transition-all group hover:shadow-lg"
               style={{ background: "var(--color-brand-purple)" }}
             >
@@ -456,8 +535,19 @@ export function Navbar({ locale, translations }: NavbarProps) {
                 <ArrowRight size={14} className="text-white" />
               </span>
             </Link>
-          </motion.div>
+          </div>
 
+          {/* ── Mobile hamburger ── */}
+          <button
+            className="lg:hidden p-2 rounded-xl"
+            style={{ color: "var(--color-brand-purple)" }}
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu size={22} />
+          </button>
+
+        </motion.header>
         </div>
       </div>
 
@@ -527,8 +617,30 @@ export function Navbar({ locale, translations }: NavbarProps) {
             </nav>
 
             <div className="px-8 pb-12 flex flex-col gap-4 mt-8">
+              {/* Location selector — mobile */}
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-2.5" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  {locale === "ar" ? "الموقع" : "Location"}
+                </p>
+                <div className="flex gap-2">
+                  {LOCATION_OPTIONS.map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setLocation(opt.value)}
+                      className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all"
+                      style={{
+                        background: location === opt.value ? "white" : "rgba(255,255,255,0.10)",
+                        color: location === opt.value ? "var(--color-brand-purple)" : "rgba(255,255,255,0.70)",
+                      }}
+                    >
+                      {locale === "ar" ? opt.ar : opt.en}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <Link
-                href={`/${locale}/book/riyadh`}
+                href={`/${locale}/book/${bookBranch}`}
                 className="w-full py-4 rounded-full text-center font-bold text-white text-lg"
                 style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
                 onClick={() => setMenuOpen(false)}

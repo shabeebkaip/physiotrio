@@ -2,40 +2,44 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, Calendar } from "lucide-react";
+
 import type { Program } from "@/lib/data/programs";
+
+const CATEGORY_STYLE: Record<string, {
+  color: string; bg: string; border: string;
+  label: { en: string; ar: string };
+}> = {
+  rehabilitation: {
+    color: "var(--color-brand-green-dark)",
+    bg: "rgba(var(--color-brand-green-rgb),0.09)",
+    border: "rgba(var(--color-brand-green-rgb),0.25)",
+    label: { en: "Rehabilitation", ar: "تأهيل" },
+  },
+  package: {
+    color: "var(--color-brand-purple)",
+    bg: "rgba(var(--color-brand-purple-rgb),0.08)",
+    border: "rgba(var(--color-brand-purple-rgb),0.22)",
+    label: { en: "Package", ar: "باقة" },
+  },
+  "womens-health": {
+    color: "#be185d",
+    bg: "rgba(236,72,153,0.08)",
+    border: "rgba(236,72,153,0.22)",
+    label: { en: "Women's Health", ar: "صحة المرأة" },
+  },
+  neurological: {
+    color: "#4338ca",
+    bg: "rgba(99,102,241,0.08)",
+    border: "rgba(99,102,241,0.22)",
+    label: { en: "Neurological", ar: "عصبي" },
+  },
+};
 
 interface ProgramsTeaserProps {
   locale: string;
   programs: Program[];
 }
-
-const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string; label: { en: string; ar: string } }> = {
-  rehabilitation: {
-    bg: "rgba(var(--color-brand-green-rgb),0.08)",
-    text: "var(--color-brand-green-dark)",
-    border: "rgba(var(--color-brand-green-rgb),0.25)",
-    label: { en: "Rehabilitation", ar: "تأهيل" },
-  },
-  package: {
-    bg: "rgba(var(--color-brand-purple-rgb),0.07)",
-    text: "var(--color-brand-purple)",
-    border: "rgba(var(--color-brand-purple-rgb),0.2)",
-    label: { en: "Package", ar: "باقة" },
-  },
-  "womens-health": {
-    bg: "rgba(236,72,153,0.07)",
-    text: "#be185d",
-    border: "rgba(236,72,153,0.2)",
-    label: { en: "Women's Health", ar: "صحة المرأة" },
-  },
-  neurological: {
-    bg: "rgba(99,102,241,0.07)",
-    text: "#4338ca",
-    border: "rgba(99,102,241,0.2)",
-    label: { en: "Neurological", ar: "عصبي" },
-  },
-};
 
 const PREVIEW_COUNT = 3;
 
@@ -44,7 +48,7 @@ export function ProgramsTeaser({ locale, programs }: ProgramsTeaserProps) {
   const preview = programs.slice(0, PREVIEW_COUNT);
 
   return (
-    <section className="py-24" style={{ background: "#fafffe" }}>
+    <section className="py-24" style={{ background: "#f8fffe" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* Header */}
@@ -57,7 +61,7 @@ export function ProgramsTeaser({ locale, programs }: ProgramsTeaserProps) {
           <div>
             <span
               className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full"
-              style={{ background: "rgba(var(--color-brand-green-rgb),0.1)", color: "var(--color-brand-green-dark)" }}
+              style={{ background: "rgba(var(--color-brand-green-rgb),0.10)", color: "var(--color-brand-green-dark)" }}
             >
               <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "var(--color-brand-green)" }} />
               {isAr ? "البرامج العلاجية" : "Programs & Packages"}
@@ -77,7 +81,7 @@ export function ProgramsTeaser({ locale, programs }: ProgramsTeaserProps) {
           <Link
             href={`/${locale}/packages`}
             className="inline-flex items-center gap-2 text-sm font-semibold shrink-0 px-5 py-2.5 rounded-full transition-all hover:opacity-80 whitespace-nowrap"
-            style={{ border: "1.5px solid rgba(var(--color-brand-green-rgb),0.4)", color: "var(--color-brand-green-dark)" }}
+            style={{ border: "1.5px solid rgba(var(--color-brand-green-rgb),0.35)", color: "var(--color-brand-green-dark)" }}
           >
             {isAr ? `جميع البرامج (${programs.length})` : `All Programs (${programs.length})`}
             <ArrowRight size={14} />
@@ -85,81 +89,113 @@ export function ProgramsTeaser({ locale, programs }: ProgramsTeaserProps) {
         </motion.div>
 
         {/* Programs grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {preview.map((program, i) => {
-            const colors = CATEGORY_COLORS[program.category];
+            const style = CATEGORY_STYLE[program.category] ?? CATEGORY_STYLE.package;
+            const num = String(i + 1).padStart(2, "0");
+
             return (
               <motion.div
                 key={program.id}
-                className="bg-white rounded-2xl overflow-hidden flex flex-col group"
-                style={{ border: "1px solid #e4f2eb" }}
+                className="bg-white rounded-2xl flex flex-col group overflow-hidden"
+                style={{
+                  border: "1px solid #E5EEEA",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                }}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.09, duration: 0.5 }}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                transition={{ delay: i * 0.09, duration: 0.45 }}
+                whileHover={{ y: -4, boxShadow: "0 16px 48px rgba(0,0,0,0.10)", transition: { duration: 0.2 } }}
               >
-                {/* Top accent bar */}
-                <div className="h-1" style={{ background: `linear-gradient(to right, var(--color-brand-green), var(--color-brand-purple))` }} />
+                {/* Colored left-side accent + top bar */}
+                <div
+                  className="h-1 w-full shrink-0"
+                  style={{ background: `linear-gradient(to right, ${style.color} 0%, transparent 100%)` }}
+                />
 
                 <div className="p-6 flex flex-col flex-1">
-                  {/* Icon + category */}
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="text-3xl leading-none">{program.icon}</span>
+
+                  {/* Number badge + category */}
+                  <div className="flex items-center justify-between mb-5">
                     <span
-                      className="text-xs font-bold px-2.5 py-1 rounded-full"
-                      style={{ background: colors.bg, color: colors.text, border: `1px solid ${colors.border}` }}
+                      className="font-black text-2xl leading-none tabular-nums"
+                      style={{ color: style.bg === "rgba(var(--color-brand-green-rgb),0.09)" ? "rgba(var(--color-brand-green-rgb),0.20)" : `${style.color}22` }}
                     >
-                      {isAr ? colors.label.ar : colors.label.en}
+                      {num}
+                    </span>
+                    <span
+                      className="text-xs font-bold px-3 py-1 rounded-full"
+                      style={{ background: style.bg, color: style.color, border: `1px solid ${style.border}` }}
+                    >
+                      {isAr ? style.label.ar : style.label.en}
                     </span>
                   </div>
 
-                  {/* Title + tagline */}
-                  <h3 className="font-black text-base leading-snug mb-2" style={{ color: "#0f2b1f" }}>
+                  {/* Title */}
+                  <h3
+                    className="font-black text-lg leading-snug mb-2"
+                    style={{ color: "#0f2b1f" }}
+                  >
                     {isAr ? program.title.ar : program.title.en}
                   </h3>
-                  <p className="text-xs font-medium mb-4 italic" style={{ color: "var(--color-brand-green-dark)" }}>
+
+                  {/* Tagline */}
+                  <p
+                    className="text-sm font-medium mb-4 leading-relaxed"
+                    style={{ color: style.color }}
+                  >
                     {isAr ? program.tagline.ar : program.tagline.en}
                   </p>
+
+                  {/* Divider */}
+                  <div className="h-px mb-4" style={{ background: "#EDF3F0" }} />
+
+                  {/* Overview */}
                   <p className="text-sm leading-relaxed mb-5" style={{ color: "#4B7563" }}>
                     {isAr ? program.overview.ar : program.overview.en}
                   </p>
 
-                  {/* Includes — show first 3 */}
-                  <ul className="space-y-1.5 mb-5">
+                  {/* Includes */}
+                  <ul className="space-y-2 mb-5">
                     {program.includes.slice(0, 3).map((item, j) => (
-                      <li key={j} className="flex items-start gap-2 text-xs" style={{ color: "#374151" }}>
-                        <CheckCircle2 size={13} className="mt-0.5 shrink-0" style={{ color: "var(--color-brand-green)" }} />
+                      <li key={j} className="flex items-start gap-2.5 text-sm" style={{ color: "#374151" }}>
+                        <CheckCircle2 size={14} className="mt-0.5 shrink-0" style={{ color: "var(--color-brand-green)" }} />
                         {isAr ? item.ar : item.en}
                       </li>
                     ))}
                     {program.includes.length > 3 && (
-                      <li className="text-xs font-semibold" style={{ color: "var(--color-brand-green-dark)" }}>
+                      <li
+                        className="text-xs font-bold pl-6"
+                        style={{ color: style.color }}
+                      >
                         +{program.includes.length - 3} {isAr ? "المزيد" : "more"}
                       </li>
                     )}
                   </ul>
 
-                  {/* Result pill */}
-                  <div
-                    className="px-3 py-2 rounded-xl text-xs font-semibold mb-5"
-                    style={{ background: "rgba(var(--color-brand-green-rgb),0.07)", color: "#1a5c3a" }}
-                  >
-                    ✓ {isAr ? program.result.ar : program.result.en}
-                  </div>
-
                   {/* Spacer */}
                   <div className="flex-1" />
 
-                  {/* CTA */}
+                  {/* Result callout */}
+                  <div
+                    className="flex items-start gap-2.5 px-4 py-3 rounded-xl mb-5 text-sm font-semibold"
+                    style={{ background: style.bg, color: style.color }}
+                  >
+                    <CheckCircle2 size={15} className="shrink-0 mt-0.5" strokeWidth={2.5} />
+                    {isAr ? program.result.ar : program.result.en}
+                  </div>
+
+                  {/* Primary CTA — Book Now */}
                   <Link
-                    href={`/${locale}/packages/${program.slug}`}
-                    className="w-full py-2.5 rounded-xl text-sm font-bold text-center flex items-center justify-center gap-2 transition-all group-hover:gap-3"
+                    href={`/${locale}/book/riyadh?program=${program.slug}`}
+                    className="w-full py-3 rounded-xl text-sm font-bold text-center flex items-center justify-center gap-2 transition-all duration-200 hover:opacity-90 mb-2"
                     style={{ background: "var(--color-brand-green)", color: "white" }}
                   >
-                    {isAr ? "تفاصيل البرنامج" : "View Program"}
-                    <ChevronRight size={14} />
+                    <Calendar size={14} />
+                    {isAr ? "احجز الآن" : "Book Now"}
                   </Link>
+
                 </div>
               </motion.div>
             );

@@ -54,7 +54,7 @@ export const programs: Program[] = [
       en: "Return to normal movement with stability and confidence",
       ar: "العودة للحركة الطبيعية بثبات وثقة",
     },
-    icon: "🦵",
+    icon: "activity",
   },
   {
     id: "2",
@@ -88,7 +88,7 @@ export const programs: Program[] = [
       en: "Return to movement comfortably and confidently",
       ar: "العودة للحركة بثبات وراحة",
     },
-    icon: "🦴",
+    icon: "bone",
   },
   {
     id: "3",
@@ -122,7 +122,7 @@ export const programs: Program[] = [
       en: "Return to life pain-free and confident",
       ar: "العودة للحياة بدون ألم وبثقة",
     },
-    icon: "🔙",
+    icon: "spine",
   },
   {
     id: "4",
@@ -157,7 +157,7 @@ export const programs: Program[] = [
       en: "Better comfort, control, and quality of life",
       ar: "راحة وتحكم وجودة حياة أفضل",
     },
-    icon: "💜",
+    icon: "heart",
   },
   {
     id: "5",
@@ -190,7 +190,7 @@ export const programs: Program[] = [
       en: "Pain Reduction · Improved Neck Mobility · Posture Correction",
       ar: "تقليل الألم · تحسين حركة الرقبة · تصحيح القوام",
     },
-    icon: "🫀",
+    icon: "neck",
   },
   {
     id: "6",
@@ -223,7 +223,7 @@ export const programs: Program[] = [
       en: "Pain Relief · Core Strengthening · Functional Movement Improvement",
       ar: "تخفيف الألم · تقوية عضلات الجذع · تحسين الحركة الوظيفية",
     },
-    icon: "⚡",
+    icon: "layers",
   },
   {
     id: "7",
@@ -256,7 +256,7 @@ export const programs: Program[] = [
       en: "Improved Joint Mobility · Pain Reduction · Better Walking Mechanics",
       ar: "تحسين حركة المفصل · تقليل الألم · تحسين نمط المشي",
     },
-    icon: "🦿",
+    icon: "person-standing",
   },
   {
     id: "8",
@@ -289,7 +289,7 @@ export const programs: Program[] = [
       en: "Increased Range of Motion · Strength Restoration · Pain Reduction",
       ar: "زيادة مدى الحركة · استعادة القوة · تقليل الألم",
     },
-    icon: "💪",
+    icon: "dumbbell",
   },
   {
     id: "9",
@@ -322,7 +322,7 @@ export const programs: Program[] = [
       en: "Pain Management · Improved Mobility · Muscle Strengthening",
       ar: "التحكم بالألم · تحسين الحركة · تقوية العضلات المحيطة",
     },
-    icon: "🔬",
+    icon: "gauge",
   },
   {
     id: "10",
@@ -355,7 +355,7 @@ export const programs: Program[] = [
       en: "Pain Reduction · Tendon Healing Stimulation · Improved Grip Strength",
       ar: "تقليل الألم · تحفيز التئام الأوتار · تحسين قوة القبضة",
     },
-    icon: "🎾",
+    icon: "zap",
   },
   {
     id: "11",
@@ -386,7 +386,7 @@ export const programs: Program[] = [
       en: "Pelvic Floor Strengthening · Pain Relief · Improved Functional Health",
       ar: "تقوية عضلات قاع الحوض · تخفيف الألم · تحسين الوظيفة العامة",
     },
-    icon: "🌸",
+    icon: "heart-pulse",
   },
   {
     id: "12",
@@ -421,6 +421,6 @@ export const programs: Program[] = [
       en: "Improved Balance · Restored Movement · Increased Functional Independence",
       ar: "تحسين التوازن · استعادة الحركة · زيادة الاستقلالية الوظيفية",
     },
-    icon: "🧠",
+    icon: "brain",
   },
 ];

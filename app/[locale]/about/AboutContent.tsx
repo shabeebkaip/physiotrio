@@ -81,7 +81,7 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
             <motion.p className="text-lg font-light mb-8 leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
               {isAr
                 ? "مركز العلاج الطبيعي المتميز في المملكة العربية السعودية، التابع لمجموعة برجيل القابضة — إحدى أكبر مجموعات الرعاية الصحية في منطقة الخليج."
-                : "Saudi Arabia's premium physiotherapy center, operating under Burjeel Holdings — one of the GCC's largest healthcare groups."}
+                : "Saudi Arabia's premium physiotherapy center, operating under Burjeel Arabia — one of the GCC's largest healthcare groups."}
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
@@ -112,20 +112,20 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
               transition={{ delay: 0.6 }}
             >
               <p className="text-xs font-bold" style={{ color: "var(--color-brand-green)" }}>{isAr ? "جزء من" : "Part of"}</p>
-              <p className="text-sm font-black text-white">Burjeel Holdings</p>
+              <p className="text-sm font-black text-white">Burjeel Arabia</p>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
 
-      {/* Burjeel Holdings */}
+      {/* Burjeel Arabia */}
       <section className="py-28" style={{ background: "var(--color-surface-light)" }}>
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
           <motion.div initial={{ opacity: 0, x: -32 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] mb-5 px-4 py-2 rounded-full" style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}>
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-brand-purple)" }} />
-              {isAr ? "مجموعة برجيل القابضة" : "Burjeel Holdings"}
+              {isAr ? "مجموعة برجيل القابضة" : "Burjeel Arabia"}
             </span>
             <h2 className="font-black mb-6 leading-tight" style={{ fontSize: "clamp(28px, 3.5vw, 48px)", color: "var(--color-hero-bg)" }}>
               {isAr ? "جزء من عائلة برجيل" : "Part of the Burjeel Family"}
@@ -133,7 +133,7 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
             <p className="text-base font-light leading-relaxed mb-8" style={{ color: "#555" }}>
               {isAr
                 ? "فيزيوتريو يعمل تحت مظلة مجموعة برجيل القابضة، إحدى أكبر وأرسخ مجموعات الرعاية الصحية في منطقة الشرق الأوسط وشمال أفريقيا. بفضل هذه الشراكة، نمتلك إمكانية الوصول إلى أحدث التقنيات الطبية والبروتوكولات العلاجية ومعايير الرعاية الدولية."
-                : "PhysioTrio operates under Burjeel Holdings, one of the largest and most established healthcare groups across the Middle East and North Africa. Through this partnership, we have access to cutting-edge medical technologies, treatment protocols, and international care standards."}
+                : "PhysioTrio operates under Burjeel Arabia, one of the largest and most established healthcare groups across the Middle East and North Africa. Through this partnership, we have access to cutting-edge medical technologies, treatment protocols, and international care standards."}
             </p>
             <div className="space-y-3">
               {[
@@ -153,7 +153,7 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
           <motion.div className="relative h-72 rounded-3xl overflow-hidden" initial={{ opacity: 0, scale: 0.93 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <Image
               src="/center-images/DSC07597.jpg"
-              alt="Burjeel Holdings"
+              alt="Burjeel Arabia"
               fill
               className="object-cover"
             />

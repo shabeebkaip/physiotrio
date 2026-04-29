@@ -148,7 +148,7 @@ export function StatsSection({ locale }: { locale: string }) {
           <p className="text-white/70 text-base leading-relaxed">
             {isAr
               ? "من الرياض إلى مكة، نمت فيزيوتريو لتصبح شبكة العلاج الطبيعي الأكثر ثقة في المملكة، بدعم من مجموعة برجيل القابضة."
-              : "From Riyadh to Makkah, PhysioTrio has grown into Saudi Arabia's most trusted physiotherapy network — backed by Burjeel Holdings."}
+              : "From Riyadh to Makkah, PhysioTrio has grown into Saudi Arabia's most trusted physiotherapy network — backed by Burjeel Arabia."}
           </p>
         </motion.div>
 

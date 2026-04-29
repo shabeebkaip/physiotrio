@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: locale === "ar" ? "من نحن — فيزيوتريو" : "About Us — PhysioTrio",
     description: locale === "ar"
       ? "فيزيوتريو — مركز العلاج الطبيعي المتميز التابع لمجموعة برجيل القابضة في المملكة العربية السعودية"
-      : "PhysioTrio — Premium physiotherapy center under Burjeel Holdings in Saudi Arabia",
+      : "PhysioTrio — Premium physiotherapy center under Burjeel Arabia in Saudi Arabia",
   };
 }
 

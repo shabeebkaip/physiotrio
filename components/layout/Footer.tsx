@@ -87,7 +87,7 @@ export function Footer({ locale, t, nav }: FooterProps) {
 
           {/* Col 1 — Brand */}
           <div>
-            <PhysioTrioLogo height={48} className="mb-5" />
+            <PhysioTrioLogo height={200} className="mb-5" />
             <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--color-brand-purple)" }}>
               {t.parent}
             </p>

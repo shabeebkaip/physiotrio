@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Bone, Brain, Dumbbell, Users, Heart, Droplets, Baby, Zap, TrendingUp, ArrowRight, MapPin, Clock } from "lucide-react";
+import { useLocation } from "@/lib/context/LocationContext";
 
 const EXPERTISE = [
   {
@@ -71,7 +71,7 @@ const EXPERTISE = [
   },
 ];
 
-const PREVIEW_COUNT = 6;
+const BRANCH_PREVIEW = 3; // shown per branch
 
 interface Therapist {
   id: string;
@@ -94,9 +94,79 @@ interface TeamCarouselProps {
   bookWithText: string;
 }
 
+function TherapistCard({
+  therapist, i, isAr, locale, bookWithText, accentColor, avatarGradient,
+}: {
+  therapist: Therapist; i: number; isAr: boolean; locale: string;
+  bookWithText: string; accentColor: string; avatarGradient: string;
+}) {
+  return (
+    <motion.div
+      className="bg-white rounded-2xl overflow-hidden"
+      style={{ border: "1px solid #E5E7EB" }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: i * 0.08 }}
+      whileHover={{ y: -3, transition: { duration: 0.2 } }}
+    >
+      <div className="h-1.5 w-full" style={{ background: `linear-gradient(to right, ${accentColor}, transparent)` }} />
+
+      <div className="p-5 flex gap-4 items-start">
+        <div
+          className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-black text-base shrink-0"
+          style={{ background: avatarGradient }}
+        >
+          {therapist.initials}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <h3 className="font-bold text-sm leading-snug mb-0.5 truncate" style={{ color: "#0f2b1f" }}>
+            {isAr ? therapist.name.ar : therapist.name.en}
+          </h3>
+          <p className="text-xs mb-2.5" style={{ color: "#4B7563" }}>
+            {isAr ? therapist.title.ar : therapist.title.en}
+          </p>
+          <div className="flex items-center gap-3">
+            {therapist.yearsExp > 0 && (
+              <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: "#4B7563" }}>
+                <Clock size={11} />
+                {therapist.yearsExp}+ {isAr ? "سنة" : "yrs"}
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: "#4B7563" }}>
+              <MapPin size={11} />
+              {isAr ? (therapist.branches[0] === "riyadh" ? "الرياض" : "مكة") : therapist.branches[0]}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-5 pb-5">
+        <Link
+          href={`/${locale}/book/${therapist.branches[0]}?therapist=${therapist.id}`}
+          className="w-full py-2.5 rounded-xl text-sm font-semibold text-center block transition-all hover:opacity-90"
+          style={{ background: `${accentColor}18`, color: accentColor, border: `1px solid ${accentColor}40` }}
+        >
+          {bookWithText} {isAr ? therapist.name.ar.split(" ")[1] : therapist.name.en.split(" ")[1]}
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
+
 export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText }: TeamCarouselProps) {
   const isAr = locale === "ar";
-  const preview = therapists.slice(0, PREVIEW_COUNT);
+  const { location } = useLocation();
+
+  const allRiyadh = therapists.filter(t => t.branches.includes("riyadh"));
+  const allMakkah  = therapists.filter(t => t.branches.includes("makkah"));
+
+  // When a location is selected, show up to 6 from that branch.
+  // When "all", show 3 from each branch side-by-side.
+  const riyadhPreview = (location === "makkah" ? [] : allRiyadh).slice(0, location === "all" ? BRANCH_PREVIEW : 6);
+  const makkahPreview = (location === "riyadh" ? [] : allMakkah).slice(0, location === "all" ? BRANCH_PREVIEW : 6);
+  const preview = [...riyadhPreview, ...makkahPreview];
 
   return (
     <section className="py-20" style={{ background: "#f6fdf9" }}>
@@ -183,90 +253,43 @@ export function TeamCarousel({ locale, therapists, title, subtitle, bookWithText
           ))}
         </div>
 
-        {/* Team grid */}
+        {/* Team grid — only renders sections that have cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {preview.map((therapist, i) => (
-            <motion.div
-              key={therapist.id}
-              className="bg-white rounded-2xl overflow-hidden"
-              style={{ border: "1px solid rgba(var(--color-brand-green-rgb),0.15)" }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            >
-              {/* Card top strip */}
-              <div
-                className="h-1.5 w-full"
-                style={{ background: "linear-gradient(to right, var(--color-brand-green), var(--color-brand-purple))" }}
-              />
-
-              <div className="p-5 flex gap-4 items-start">
-                {/* Avatar */}
-                {therapist.image ? (
-                  <div className="w-14 h-14 rounded-xl overflow-hidden relative shrink-0">
-                    <Image
-                      src={therapist.image}
-                      alt={isAr ? therapist.name.ar : therapist.name.en}
-                      fill
-                      className="object-cover object-top"
-                      unoptimized
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-black text-base shrink-0"
-                    style={{ background: "linear-gradient(135deg, var(--color-brand-green) 0%, #1a5c3a 100%)" }}
-                  >
-                    {therapist.initials}
-                  </div>
-                )}
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-sm leading-snug mb-0.5 truncate" style={{ color: "#0f2b1f" }}>
-                    {isAr ? therapist.name.ar : therapist.name.en}
-                  </h3>
-                  <p className="text-xs mb-2.5" style={{ color: "#4B7563" }}>
-                    {isAr ? therapist.title.ar : therapist.title.en}
-                  </p>
-
-                  <div className="flex items-center gap-3">
-                    {/* Years exp */}
-                    {therapist.yearsExp > 0 && (
-                      <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: "#4B7563" }}>
-                        <Clock size={11} />
-                        {therapist.yearsExp}+ {isAr ? "سنة" : "yrs"}
-                      </span>
-                    )}
-                    {/* Branch */}
-                    <span className="inline-flex items-center gap-1 text-xs font-medium capitalize" style={{ color: "#4B7563" }}>
-                      <MapPin size={11} />
-                      {isAr
-                        ? therapist.branches[0] === "riyadh" ? "الرياض" : "مكة"
-                        : therapist.branches[0]}
-                    </span>
-                  </div>
+          {riyadhPreview.length > 0 && (
+            <>
+              {/* Riyadh label — only when both branches visible */}
+              {makkahPreview.length > 0 && (
+                <div className="sm:col-span-2 lg:col-span-3 flex items-center gap-3">
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: "var(--color-brand-purple)" }} />
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--color-brand-purple)" }}>
+                    {isAr ? "الرياض" : "Riyadh"}
+                  </span>
+                  <div className="flex-1 h-px" style={{ background: "rgba(136,7,114,0.15)" }} />
                 </div>
-              </div>
+              )}
+              {riyadhPreview.map((therapist, i) => (
+                <TherapistCard key={therapist.id} therapist={therapist} i={i} isAr={isAr} locale={locale} bookWithText={bookWithText} accentColor="var(--color-brand-purple)" avatarGradient="linear-gradient(135deg, #880772 0%, #A8389A 100%)" />
+              ))}
+            </>
+          )}
 
-              {/* Book button */}
-              <div className="px-5 pb-5">
-                <Link
-                  href={`/${locale}/book/${therapist.branches[0]}?therapist=${therapist.id}`}
-                  className="w-full py-2.5 rounded-xl text-sm font-semibold text-center block transition-all hover:opacity-90"
-                  style={{
-                    background: "rgba(var(--color-brand-green-rgb),0.1)",
-                    color: "#1a5c3a",
-                    border: "1px solid rgba(var(--color-brand-green-rgb),0.25)",
-                  }}
-                >
-                  {bookWithText} {isAr ? therapist.name.ar.split(" ")[1] : therapist.name.en.split(" ")[1]}
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+          {makkahPreview.length > 0 && (
+            <>
+              {/* Makkah label — only when both branches visible */}
+              {riyadhPreview.length > 0 && (
+                <div className="sm:col-span-2 lg:col-span-3 flex items-center gap-3 mt-2">
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: "var(--color-brand-green)" }} />
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--color-brand-green-dark)" }}>
+                    {isAr ? "مكة المكرمة" : "Makkah"}
+                  </span>
+                  <div className="flex-1 h-px" style={{ background: "rgba(76,175,80,0.2)" }} />
+                </div>
+              )}
+              {makkahPreview.map((therapist, i) => (
+                <TherapistCard key={therapist.id} therapist={therapist} i={i} isAr={isAr} locale={locale} bookWithText={bookWithText} accentColor="var(--color-brand-green)" avatarGradient="linear-gradient(135deg, #388e3c 0%, #4caf50 100%)" />
+              ))}
+            </>
+          )}
         </div>
 
         {/* View all CTA */}

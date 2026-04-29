@@ -12,12 +12,11 @@ export function PhysioTrioLogo({ variant = "color", className = "", height = 48 
 
   return (
     <Image
-      src="/logo.png"
+      src="/physioTRIO logo free background.png"
       alt="PhysioTrio"
       width={width}
       height={height}
       className={className}
-      style={variant === "white" ? { filter: "brightness(0) invert(1)" } : undefined}
       priority
     />
   );

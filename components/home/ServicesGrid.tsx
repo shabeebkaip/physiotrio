@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Dumbbell, Brain, Hand, Baby, Leaf, Zap,
-  MoveUp, Activity, Stethoscope, ArrowRight, LucideIcon,
+  Dumbbell, Brain, Hand, Baby, Users, Zap,
+  Activity, Heart, Droplets, ArrowRight, LucideIcon,
 } from "lucide-react";
 
 interface Service {
@@ -26,15 +26,15 @@ interface ServicesGridProps {
 }
 
 const iconMap: Record<string, LucideIcon> = {
-  bone: Stethoscope,
-  run: Dumbbell,
-  brain: Brain,
-  hands: Hand,
-  child: Baby,
-  spine: Activity,
-  lotus: Leaf,
-  "arrow-up": MoveUp,
-  zap: Zap,
+  physiotherapy:   Activity,
+  sports:          Dumbbell,
+  neurological:    Brain,
+  pediatric:       Baby,
+  geriatric:       Users,
+  "womens-health": Heart,
+  "manual-therapy":Hand,
+  hydrotherapy:    Droplets,
+  "device-therapy":Zap,
 };
 
 export function ServicesGrid({ locale, services, title, subtitle, bookNowText }: ServicesGridProps) {

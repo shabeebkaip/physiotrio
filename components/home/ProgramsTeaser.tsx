@@ -67,17 +67,16 @@ export function ProgramsTeaser({ locale, programs }: ProgramsTeaserProps) {
               />
 
               <div className="p-6 flex flex-col flex-1">
-                {/* Icon + category */}
-                <div className="flex items-center justify-between mb-5">
-                  <span className="text-3xl leading-none">{program.icon}</span>
+                {/* Category badge */}
+                <div className="mb-5">
                   <span
-                    className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
+                    className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded"
                     style={{
                       background: "rgba(var(--color-brand-purple-rgb),0.07)",
                       color: "var(--color-brand-purple)",
                     }}
                   >
-                    {isAr ? program.category : program.category}
+                    {program.category}
                   </span>
                 </div>
 
@@ -108,7 +107,7 @@ export function ProgramsTeaser({ locale, programs }: ProgramsTeaserProps) {
                     className="flex items-center gap-1 text-xs font-bold transition-all group-hover:gap-2"
                     style={{ color: "var(--color-brand-purple)" }}
                   >
-                    {isAr ? "التفاصيل" : "View Program"}
+                    {isAr ? "احجز الآن" : "Book Now"}
                     <ArrowRight size={11} />
                   </span>
                 </div>

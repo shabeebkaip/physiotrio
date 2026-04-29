@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Dumbbell, Brain, Hand, Baby, Leaf, Zap, ArrowRight,
-  Activity, MoveUp, Stethoscope, LucideIcon, Lock,
+  Dumbbell, Brain, Hand, Baby, Users, Heart, Zap, ArrowRight,
+  Activity, Droplets, LucideIcon, Lock,
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -27,15 +27,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 // ─── Icon map (lucide-react) ──────────────────────────────────────────────────
 
 const serviceIconMap: Record<string, LucideIcon> = {
-  bone: Stethoscope,
-  run: Dumbbell,
-  brain: Brain,
-  hands: Hand,
-  child: Baby,
-  spine: Activity,
-  lotus: Leaf,
-  "arrow-up": MoveUp,
-  zap: Zap,
+  physiotherapy:    Activity,
+  sports:           Dumbbell,
+  neurological:     Brain,
+  pediatric:        Baby,
+  geriatric:        Users,
+  "womens-health":  Heart,
+  "manual-therapy": Hand,
+  hydrotherapy:     Droplets,
+  "device-therapy": Zap,
 };
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -47,9 +47,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const cta = await getTranslations("cta");
 
   const navT = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare"),
+    home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), contact: nav("contact"),
+    bookNow: nav("bookNow"), homeCare: nav("homeCare"),
   };
   const footerT = {
     tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"),
@@ -57,9 +57,8 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly"),
   };
   const navForFooter = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), faq: nav("faq"), contact: nav("contact"),
+    home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), faq: nav("faq"), contact: nav("contact"),
   };
 
   const isAr = locale === "ar";

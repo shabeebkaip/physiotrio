@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Cairo } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Providers } from "@/components/providers/Providers";
 import "../globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -37,7 +38,7 @@ export async function generateMetadata({
     description:
       locale === "ar"
         ? "مركز العلاج الطبيعي المتميز في الرياض ومكة المكرمة والدمام. جزء من بورجيل القابضة."
-        : "Premium physiotherapy center across Riyadh, Makkah & Dammam. A Burjeel Holdings Company.",
+        : "Premium physiotherapy center across Riyadh, Makkah & Dammam. A Burjeel Arabia Company.",
     keywords: ["physiotherapy", "physiotherapy saudi arabia", "علاج طبيعي", "فيزيوتريو"],
     openGraph: {
       type: "website",
@@ -88,7 +89,9 @@ export default async function LocaleLayout({
         }}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Providers>
+            {children}
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

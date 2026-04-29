@@ -3,15 +3,15 @@
     "home": "Home",
     "services": "Services",
     "about": "About",
-    "packages": "Programs & Packages",
-    "news": "News & Blog",
-    "contact": "Contact",
+    "packages": "Packages",
+    "news": "News",
+    "contact": "Contact Us",
     "faq": "FAQ",
     "bookNow": "Book Now",
     "homeCare": "Home Care"
   },
   "hero": {
-    "eyebrow": "Burjeel Holdings · Physiotherapy",
+    "eyebrow": "Burjeel Arabia · Physiotherapy",
     "headline1": "Move Better.",
     "headline2": "Live Better.",
     "subheadline": "Expert physiotherapy care across Riyadh & Makkah",
@@ -39,7 +39,7 @@
   "why": {
     "title": "Healthcare excellence, delivered personally",
     "body1": "At PhysioTrio, we combine world-class physiotherapy expertise with a deep understanding of our patients' needs. Our licensed specialists deliver evidence-based treatment tailored to every individual.",
-    "body2": "As a proud member of the Burjeel Holdings family, we uphold the highest standards of clinical care, patient safety, and regulatory compliance across all our KSA branches.",
+    "body2": "As a proud member of the Burjeel Arabia family, we uphold the highest standards of clinical care, patient safety, and regulatory compliance across all our KSA branches.",
     "feature1Title": "Licensed & MOH-Accredited Practitioners",
     "feature1Desc": "All therapists fully certified under Saudi Ministry of Health regulations",
     "feature2Title": "HIS-Integrated Real-Time Booking",
@@ -79,11 +79,11 @@
   },
   "footer": {
     "tagline": "Restoring movement. Enhancing life.",
-    "parent": "A Burjeel Holdings Company",
+    "parent": "A Burjeel Arabia Company",
     "quickLinks": "Quick Links",
     "branchesTitle": "Our Branches",
     "contact": "Contact Us",
-    "rights": "© 2026 PhysioTrio. A Burjeel Holdings Company.",
+    "rights": "© 2026 PhysioTrio. A Burjeel Arabia Company.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
     "proudly": "Proudly serving Saudi Arabia"

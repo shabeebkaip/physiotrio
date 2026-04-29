@@ -35,13 +35,13 @@ export async function generateMetadata({
       : "PhysioTrio — Premium Physiotherapy Center | Riyadh · Makkah · Dammam",
     description: locale === "ar"
       ? "مركز العلاج الطبيعي المتميز في المملكة العربية السعودية. جزء من مجموعة برجيل القابضة. خدمات متخصصة في الرياض ومكة المكرمة."
-      : "Premium physiotherapy center in Saudi Arabia. A Burjeel Holdings Company. Specialized services in Riyadh, Makkah & Dammam.",
+      : "Premium physiotherapy center in Saudi Arabia. A Burjeel Arabia Company. Specialized services in Riyadh, Makkah & Dammam.",
     keywords: [
       "physiotherapy saudi arabia",
       "علاج طبيعي الرياض",
       "physiotrio",
       "فيزيوتريو",
-      "burjeel holdings",
+      "Burjeel Arabia",
       "physical therapy riyadh",
       "neurological rehabilitation",
     ],

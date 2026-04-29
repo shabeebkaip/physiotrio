@@ -5,12 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Menu, X, Globe, ArrowRight, ChevronDown,
+  Menu, X, Globe, ArrowRight, ChevronDown, MapPin,
   Activity, Dumbbell, Brain, Baby, Users, Heart,
   Droplets, Zap, Radio, Gauge, Layers, Bot, Hand,
   ArrowUpRight, Stethoscope,
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
+import { useLocation, type Location } from "@/lib/context/LocationContext";
 
 const serviceCategories = [
   {
@@ -69,10 +70,102 @@ interface NavbarProps {
   };
 }
 
-const plainLinks = [
+// ─── Location picker ─────────────────────────────────────────────────────────
+
+const LOCATION_OPTIONS: { value: Location; en: string; ar: string }[] = [
+  { value: "all",    en: "All Locations", ar: "كل المواقع" },
+  { value: "riyadh", en: "Riyadh",        ar: "الرياض" },
+  { value: "makkah", en: "Makkah",        ar: "مكة المكرمة" },
+];
+
+function LocationPicker({ locale }: { locale: string }) {
+  const isAr = locale === "ar";
+  const { location, setLocation } = useLocation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const current = LOCATION_OPTIONS.find(o => o.value === location)!;
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full transition-all hover:opacity-80"
+        style={{
+          color: location === "all" ? "#374151" : "var(--color-brand-purple)",
+          background: location === "all" ? "#F3F4F6" : "rgba(136,7,114,0.09)",
+          border: location === "all" ? "1px solid #E5E7EB" : "1px solid rgba(136,7,114,0.22)",
+        }}
+      >
+        <MapPin size={12} strokeWidth={2.5} />
+        {isAr ? current.ar : current.en}
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.18 }}>
+          <ChevronDown size={12} strokeWidth={2.5} />
+        </motion.span>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute top-full mt-2 right-0 bg-white rounded-xl overflow-hidden"
+            style={{
+              minWidth: 160,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)",
+              zIndex: 70,
+            }}
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.15 }}
+          >
+            {LOCATION_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => { setLocation(opt.value); setOpen(false); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-gray-50"
+                style={{
+                  color: location === opt.value ? "var(--color-brand-purple)" : "#374151",
+                  background: location === opt.value ? "rgba(136,7,114,0.06)" : undefined,
+                  fontWeight: location === opt.value ? 700 : undefined,
+                  textAlign: isAr ? "right" : "left",
+                }}
+              >
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{
+                    background: opt.value === "all" ? "#9CA3AF" : opt.value === "riyadh" ? "var(--color-brand-purple)" : "var(--color-brand-green)",
+                    opacity: location === opt.value ? 1 : 0.35,
+                  }}
+                />
+                {isAr ? opt.ar : opt.en}
+                {location === opt.value && (
+                  <span className="ml-auto text-xs" style={{ color: "var(--color-brand-purple)" }}>✓</span>
+                )}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// Order: Home (rendered separately), About, Services (dropdown), Packages, News, Home Care, Contact Us
+const plainLinksBeforeServices = [
+  { href: "/about", key: "about" },
+];
+const plainLinksAfterServices = [
   { href: "/packages", key: "packages" },
   { href: "/news", key: "news" },
-  { href: "/about", key: "about" },
+  { href: "/home-care", key: "homeCare" },
   { href: "/contact", key: "contact" },
 ];
 
@@ -191,6 +284,25 @@ function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: {
   );
 }
 
+function MobileLocationButton({ opt, locale }: { opt: typeof LOCATION_OPTIONS[number]; locale: string }) {
+  const isAr = locale === "ar";
+  const { location, setLocation } = useLocation();
+  const active = location === opt.value;
+  return (
+    <button
+      onClick={() => setLocation(opt.value)}
+      className="flex-1 py-2 rounded-lg text-xs font-semibold transition-all"
+      style={{
+        background: active ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.06)",
+        color: active ? "white" : "rgba(255,255,255,0.5)",
+        border: active ? "1px solid rgba(255,255,255,0.3)" : "1px solid transparent",
+      }}
+    >
+      {isAr ? opt.ar : opt.en}
+    </button>
+  );
+}
+
 export function Navbar({ locale, translations }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -242,11 +354,38 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
             {/* Logo */}
             <Link href={`/${locale}`} className="flex-shrink-0">
-              <PhysioTrioLogo variant="color" height={44} />
+              <PhysioTrioLogo variant="color" height={100} />
             </Link>
 
             {/* Desktop links */}
             <div className="hidden lg:flex items-center gap-0.5">
+              {/* Home */}
+              <Link href={`/${locale}`}
+                className="relative px-3.5 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-50"
+                style={{ color: pathname === `/${locale}` || pathname === `/${locale}/` ? "var(--color-brand-purple)" : "#374151" }}>
+                {translations.home}
+                {(pathname === `/${locale}` || pathname === `/${locale}/`) && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full" style={{ background: "var(--color-brand-purple)" }} />
+                )}
+              </Link>
+
+              {plainLinksBeforeServices.map((link) => {
+                const href = `/${locale}${link.href}`;
+                const label = translations[link.key as keyof typeof translations];
+                if (!label) return null;
+                const isActive = pathname === href || pathname.startsWith(href + "/");
+                return (
+                  <Link key={link.key} href={href}
+                    className="relative px-3.5 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-50"
+                    style={{ color: isActive ? "var(--color-brand-purple)" : "#374151" }}>
+                    {label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full" style={{ background: "var(--color-brand-purple)" }} />
+                    )}
+                  </Link>
+                );
+              })}
+
               <div className="relative" onMouseEnter={openServices}>
                 <button
                   className="flex items-center gap-1 px-3.5 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-50"
@@ -262,7 +401,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
                 )}
               </div>
 
-              {plainLinks.map((link) => {
+              {plainLinksAfterServices.map((link) => {
                 const href = `/${locale}${link.href}`;
                 const label = translations[link.key as keyof typeof translations];
                 if (!label) return null;
@@ -282,6 +421,8 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
             {/* Right actions */}
             <div className="hidden lg:flex items-center gap-3">
+              <LocationPicker locale={locale} />
+              <div className="h-5 w-px bg-gray-200" />
               <Link href={getLocalePath(otherLocale)}
                 className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md transition-all hover:bg-gray-50"
                 style={{ color: "#374151" }}>
@@ -330,11 +471,25 @@ export function Navbar({ locale, translations }: NavbarProps) {
             </div>
 
             <nav className="flex flex-col px-6 py-6 gap-1 flex-1">
+              {/* Home */}
               <Link href={`/${locale}`}
                 className="flex items-center h-12 text-base font-semibold text-white/80 hover:text-white transition-colors rounded-lg px-3 hover:bg-white/5"
                 onClick={() => setMenuOpen(false)}>
                 {translations.home}
               </Link>
+              {/* About */}
+              {plainLinksBeforeServices.map((link) => {
+                const label = translations[link.key as keyof typeof translations];
+                if (!label) return null;
+                return (
+                  <Link key={link.key} href={`/${locale}${link.href}`}
+                    className="flex items-center h-12 text-base font-semibold text-white/80 hover:text-white transition-colors rounded-lg px-3 hover:bg-white/5"
+                    onClick={() => setMenuOpen(false)}>
+                    {label}
+                  </Link>
+                );
+              })}
+              {/* Services */}
               <div>
                 <p className="flex items-center h-12 text-base font-semibold text-white/80 px-3">{translations.services}</p>
                 <div className="pl-6 mb-2 space-y-0.5">
@@ -343,14 +498,15 @@ export function Navbar({ locale, translations }: NavbarProps) {
                       <Link key={svc.en} href={`/${locale}/services/${svc.slug}`}
                         className="flex items-center gap-2 h-9 text-sm font-medium transition-colors rounded-lg px-3 hover:bg-white/5"
                         style={{ color: "rgba(255,255,255,0.55)" }} onClick={() => setMenuOpen(false)}>
-                        <span className="w-1 h-1 rounded-full bg-green-400 flex-shrink-0" />
+                        <span className="w-1 h-1 rounded-full bg-green-400 shrink-0" />
                         {locale === "ar" ? svc.ar : svc.en}
                       </Link>
                     ))
                   )}
                 </div>
               </div>
-              {plainLinks.map((link) => {
+              {/* Packages, News, Home Care, Contact Us */}
+              {plainLinksAfterServices.map((link) => {
                 const label = translations[link.key as keyof typeof translations];
                 if (!label) return null;
                 return (
@@ -369,6 +525,12 @@ export function Navbar({ locale, translations }: NavbarProps) {
                 style={{ background: "var(--color-brand-purple)" }} onClick={() => setMenuOpen(false)}>
                 {translations.bookNow}
               </Link>
+              {/* Location picker for mobile */}
+              <div className="flex items-center justify-center gap-2">
+                {LOCATION_OPTIONS.map(opt => (
+                  <MobileLocationButton key={opt.value} opt={opt} locale={locale} />
+                ))}
+              </div>
               <Link href={getLocalePath(otherLocale)}
                 className="w-full py-3 rounded-lg text-center font-medium text-white/60 text-sm border border-white/10 hover:border-white/20 transition-colors"
                 onClick={() => setMenuOpen(false)}>

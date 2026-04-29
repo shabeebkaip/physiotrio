@@ -66,11 +66,11 @@ export const blogPosts: BlogPost[] = [
     id: "4",
     slug: "prince-saud-bin-nayef-meets-burjeel-leadership",
     title: {
-      en: "HRH Prince Saud bin Nayef Receives Burjeel Holdings Leadership",
+      en: "HRH Prince Saud bin Nayef Receives Burjeel Arabia Leadership",
       ar: "صاحب السمو الأمير سعود بن نايف يستقبل قيادة مجموعة برجيل",
     },
     excerpt: {
-      en: "In a meeting reflecting leadership's support for the healthcare sector, Burjeel Holdings was honored to meet HRH Prince Saud bin Nayef.",
+      en: "In a meeting reflecting leadership's support for the healthcare sector, Burjeel Arabia was honored to meet HRH Prince Saud bin Nayef.",
       ar: "في لقاء يعكس دعم القيادة للقطاع الصحي، تشرفت مجموعة برجيل القابضة باستقبال صاحب السمو الأمير سعود بن نايف.",
     },
     category: { en: "News", ar: "أخبار" },

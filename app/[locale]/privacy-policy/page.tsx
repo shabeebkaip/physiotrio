@@ -18,9 +18,9 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
   const footer = await getTranslations("footer");
 
   const navT = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), contact: nav("contact"), bookNow: nav("bookNow"), homeCare: nav("homeCare"),
+        home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), contact: nav("contact"),
+    bookNow: nav("bookNow"), homeCare: nav("homeCare"),
   };
   const footerT = {
     tagline: footer("tagline"), parent: footer("parent"), quickLinks: footer("quickLinks"),
@@ -28,9 +28,8 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
     privacy: footer("privacy"), terms: footer("terms"), proudly: footer("proudly"),
   };
   const navForFooter = {
-    home: nav("home"), services: nav("services"), branches: nav("branches"),
-    team: nav("team"), about: nav("about"), offers: nav("offers"),
-    blog: nav("blog"), faq: nav("faq"), contact: nav("contact"),
+        home: nav("home"), services: nav("services"), about: nav("about"),
+    packages: nav("packages"), news: nav("news"), faq: nav("faq"), contact: nav("contact"),
   };
 
   const isAr = locale === "ar";
@@ -68,7 +67,7 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
                 </div>
               ) : (
                 <div className="space-y-8">
-                  <Section title="1. Who We Are" body="PhysioTrio ('we', 'our services') is a physiotherapy center operating under Burjeel Holdings in the Kingdom of Saudi Arabia. We are committed to protecting your privacy and ensuring the security of your personal information." />
+                  <Section title="1. Who We Are" body="PhysioTrio ('we', 'our services') is a physiotherapy center operating under Burjeel Arabia in the Kingdom of Saudi Arabia. We are committed to protecting your privacy and ensuring the security of your personal information." />
                   <Section title="2. Information We Collect" body="We collect information you provide when booking an appointment, including: full name, mobile number, email address, health insurance details, and medical history relevant to treatment. We may also collect usage data from our website." />
                   <Section title="3. How We Use Your Information" body="We use your information to: manage your appointments and medical records, communicate with you about your care, process payments and insurance claims, improve our services, and comply with Saudi Ministry of Health regulations." />
                   <Section title="4. Information Sharing" body="We do not sell your personal data. We may share information with: insurance providers for claims processing, healthcare partners within the Burjeel group, and regulatory bodies upon lawful request." />

@@ -122,7 +122,7 @@ export function WhyPhysioTrio({ locale, t }: WhyPhysioTrioProps) {
             <div className="space-y-3 pt-2">
               {[
                 { en: "Ministry of Health (MOH) — Fully Licensed", ar: "وزارة الصحة — مرخص بالكامل" },
-                { en: "Burjeel Holdings — Trusted Healthcare Group", ar: "برجيل القابضة — مجموعة رعاية صحية موثوقة" },
+                { en: "Burjeel Arabia — Trusted Healthcare Group", ar: "برجيل القابضة — مجموعة رعاية صحية موثوقة" },
                 { en: "ISO Certified Clinical Standards", ar: "معايير سريرية معتمدة بشهادة ISO" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">

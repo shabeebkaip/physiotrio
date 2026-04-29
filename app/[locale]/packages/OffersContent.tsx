@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, Calendar, Sparkles, ArrowRight, Tag, Lock } from "lucide-react";
+import { CheckCircle2, Calendar, Sparkles, ArrowRight, Tag, Lock, Search, Package2, MapPin } from "lucide-react";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
 import { packages, type Package } from "@/lib/data/packages";
+import { useLocation } from "@/lib/context/LocationContext";
 
 const categories = ["All", "Sports Rehabilitation", "Orthopedic", "Neurological", "Women's Health", "Geriatric"];
 const categoriesAr: Record<string, string> = {
@@ -135,107 +136,137 @@ function PackageCard({ pkg, locale, isAr, index }: { pkg: Package; locale: strin
 
 export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) {
   const isAr = locale === "ar";
+  const { location } = useLocation();
   const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filtered = activeCategory === "All" ? packages : packages.filter(p => p.category === activeCategory);
+  const filtered = useMemo(() => {
+    // Filter by global location first
+    let result = location !== "all"
+      ? packages.filter(p => p.branch === "all" || p.branch === location)
+      : packages;
+
+    // Then by category
+    if (activeCategory !== "All") result = result.filter(p => p.category === activeCategory);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(p =>
+        p.name.en.toLowerCase().includes(q) ||
+        p.name.ar.includes(q) ||
+        p.description.en.toLowerCase().includes(q) ||
+        p.description.ar.includes(q) ||
+        p.category.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [activeCategory, searchQuery]);
+
   const featured = filtered.filter(p => p.featured);
   const rest = filtered.filter(p => !p.featured);
 
   return (
     <main>
-      {/* Hero */}
-      <section
-        className="relative overflow-hidden flex flex-col justify-end"
-        style={{ height: "70vh", minHeight: "420px" }}
-      >
-        <Image
-          src="/center-images/DSC07757.jpg"
-          alt="PhysioTrio Offers & Packages"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(10,20,30,0.88) 0%, rgba(10,20,30,0.45) 60%, rgba(10,20,30,0.15) 100%)" }}
-        />
+      {/* ── Clinical white header ─────────────────────────────────────────── */}
+      <section className="pt-36 pb-10" style={{ background: "#ffffff", borderBottom: "1px solid #eef2f6" }}>
+        <div className="max-w-7xl mx-auto px-6">
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-14 md:pb-20 w-full">
-          <span
-            className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-            style={{ background: "rgba(255,255,255,0.15)", color: "white", backdropFilter: "blur(8px)" }}
+          {/* Top row: title + count */}
+          <div className="flex flex-wrap items-end justify-between gap-6 mb-8">
+            <div>
+              <span
+                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-4 px-3 py-1.5 rounded-full"
+                style={{ background: "rgba(136,7,114,0.07)", color: "var(--color-brand-purple)" }}
+              >
+                <Package2 size={11} strokeWidth={2.5} />
+                {isAr ? "الباقات والعروض" : "Packages & Offers"}
+              </span>
+              <h1
+                className="font-black leading-tight mb-3"
+                style={{ fontSize: "clamp(28px, 4vw, 48px)", color: "#111827" }}
+              >
+                {isAr ? "اختر باقتك المناسبة" : "Choose Your Package"}
+              </h1>
+              <p className="text-sm max-w-xl" style={{ color: "#6B7280" }}>
+                {isAr
+                  ? "جميع الباقات تشمل جلسات مع معالجين مرخصين من وزارة الصحة — مع خيارات تقسيط عبر تمارا وتابي"
+                  : "All packages include sessions with MOH-licensed therapists — with Tamara & Tabby instalment options"}
+              </p>
+            </div>
+            <div className="flex flex-col items-end gap-2 shrink-0">
+              <div className="text-right">
+                <p className="text-3xl font-black" style={{ color: "#111827" }}>{filtered.length}</p>
+                <p className="text-xs" style={{ color: "#9CA3AF" }}>{isAr ? "باقة" : "packages"}</p>
+              </div>
+              {location !== "all" && (
+                <span
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
+                  style={{ background: "rgba(136,7,114,0.08)", color: "var(--color-brand-purple)", border: "1px solid rgba(136,7,114,0.18)" }}
+                >
+                  <MapPin size={10} />
+                  {location === "riyadh" ? (isAr ? "الرياض" : "Riyadh") : (isAr ? "مكة المكرمة" : "Makkah")}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Search bar */}
+          <div
+            className="flex items-center gap-3 px-4 py-3 rounded-xl mb-6"
+            style={{ background: "#f8fafc", border: "1px solid #eef2f6" }}
           >
-            {isAr ? "العروض والباقات" : "Offers & Packages"}
-          </span>
-          <h1
-            className="font-bold text-white leading-tight mb-4"
-            style={{ fontSize: "clamp(36px, 5vw, 60px)" }}
-          >
-            {isAr ? "ابدأ رحلتك اليوم" : "Start Your Journey Today"}
-          </h1>
-          <p
-            className="text-lg md:text-xl max-w-xl"
-            style={{ color: "rgba(255,255,255,0.75)" }}
-          >
-            {isAr
-              ? "باقات متخصصة لكل حالة. دفع مرن مع تمارا وتابي."
-              : "Specialised packages for every condition. Flexible payment with Tamara & Tabby."}
-          </p>
+            <Search size={16} style={{ color: "#9CA3AF" }} className="shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder={isAr ? "ابحث عن باقة..." : "Search packages..."}
+              className="flex-1 bg-transparent text-sm placeholder:text-gray-400"
+              style={{ color: "#111827", outline: "none", boxShadow: "none" }}
+              dir={isAr ? "rtl" : "ltr"}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="text-xs font-semibold px-2 py-0.5 rounded-md transition-colors hover:bg-gray-200"
+                style={{ color: "#9CA3AF" }}
+              >
+                {isAr ? "مسح" : "Clear"}
+              </button>
+            )}
+          </div>
+
+          {/* Category filter pills */}
+          <div className="flex gap-2 flex-wrap">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+                style={{
+                  background: activeCategory === cat ? "var(--color-brand-purple)" : "transparent",
+                  color: activeCategory === cat ? "white" : "#6B7280",
+                  border: `1.5px solid ${activeCategory === cat ? "var(--color-brand-purple)" : "#E5E7EB"}`,
+                }}
+              >
+                {isAr ? (categoriesAr[cat] ?? cat) : cat}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Packages */}
-      <section className="py-20 bg-white">
+      {/* ── Packages grid ─────────────────────────────────────────────────── */}
+      <section className="py-12" style={{ background: "#f8fafc" }}>
         <div className="max-w-7xl mx-auto px-6">
-
-          {/* Section header + filter */}
-          <div className="mb-10">
-            <span
-              className="inline-block text-xs font-semibold uppercase tracking-widest mb-4 px-3 py-1 rounded-full"
-              style={{ background: "rgba(var(--color-brand-purple-rgb),0.08)", color: "var(--color-brand-purple)" }}
-            >
-              {isAr ? "الباقات" : "Packages"}
-            </span>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: "#1a1a2e" }}>
-                  {isAr ? "اختر باقتك" : "Choose Your Package"}
-                </h2>
-                <p className="text-base max-w-xl" style={{ color: "#6B7280" }}>
-                  {isAr
-                    ? "جميع الباقات تشمل جلسات مع معالجين مرخصين من وزارة الصحة السعودية"
-                    : "All packages include sessions with MOH-licensed therapists"}
-                </p>
-              </div>
-
-              <div className="flex gap-2 flex-wrap">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200"
-                    style={{
-                      background: activeCategory === cat ? "var(--color-brand-purple)" : "transparent",
-                      color: activeCategory === cat ? "white" : "#6B7280",
-                      border: `1.5px solid ${activeCategory === cat ? "var(--color-brand-purple)" : "#E5E7EB"}`,
-                    }}
-                  >
-                    {isAr ? (categoriesAr[cat] ?? cat) : cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
 
           {/* Grid */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeCategory}
+              key={activeCategory + "|" + searchQuery}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.2 }}
             >
               {featured.length > 0 && (
                 <>
@@ -270,8 +301,12 @@ export function OffersContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props)
 
               {filtered.length === 0 && (
                 <motion.div className="text-center py-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  <p className="text-base" style={{ color: "#9CA3AF" }}>
-                    {isAr ? "لا توجد باقات في هذه الفئة" : "No packages in this category yet"}
+                  <Search size={32} className="mx-auto mb-3" style={{ color: "#E5E7EB" }} />
+                  <p className="text-base font-semibold mb-1" style={{ color: "#374151" }}>
+                    {isAr ? "لا توجد نتائج" : "No packages found"}
+                  </p>
+                  <p className="text-sm" style={{ color: "#9CA3AF" }}>
+                    {isAr ? "جرب كلمات بحث مختلفة أو فئة أخرى" : "Try a different search term or category"}
                   </p>
                 </motion.div>
               )}

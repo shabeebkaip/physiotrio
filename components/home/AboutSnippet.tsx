@@ -37,7 +37,7 @@ export function AboutSnippet({ locale }: AboutSnippetProps) {
           <p className="text-base text-gray-600 leading-relaxed flex-1">
             {isAr
               ? "تأسست فيزيوتريو عام 2013 لتكون وجهة رائدة للعلاج الطبيعي وإعادة التأهيل في المملكة، جزء من مجموعة برجيل القابضة، تخدم المرضى في الرياض ومكة المكرمة."
-              : "PhysioTrio was established in 2013 as a leading physiotherapy and rehabilitation destination in Saudi Arabia. A Burjeel Holdings company, serving patients across Riyadh and Makkah."}
+              : "PhysioTrio was established in 2013 as a leading physiotherapy and rehabilitation destination in Saudi Arabia. A Burjeel Arabia company, serving patients across Riyadh and Makkah."}
           </p>
 
           {/* CTA */}

@@ -3,6 +3,7 @@ import { Outfit, Cairo } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Providers } from "@/components/providers/Providers";
 import "../globals.css";
 
 const outfit = Outfit({
@@ -88,7 +89,9 @@ export default async function LocaleLayout({
         }}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Providers>
+            {children}
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

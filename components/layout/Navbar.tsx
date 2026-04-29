@@ -5,12 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu, X, Globe, ArrowRight, ChevronDown,
+  Menu, X, Globe, ArrowRight, ChevronDown, MapPin,
   Activity, Dumbbell, Brain, Baby, Users, Heart,
   Droplets, Zap, Radio, Gauge, Layers, Bot, Hand,
-  ArrowUpRight, Stethoscope, 
+  ArrowUpRight, Stethoscope,
 } from "lucide-react";
 import { PhysioTrioLogo } from "@/components/common/PhysioTrioLogo";
+import { useLocation, type Location } from "@/lib/context/LocationContext";
 
 // ─── Mega menu data ───────────────────────────────────────────────────────────
 
@@ -253,11 +254,102 @@ function ServicesMegaMenu({ locale, onClose, onMouseEnter, onMouseLeave }: { loc
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
+// ─── Location Picker ──────────────────────────────────────────────────────────
+
+const LOCATION_OPTIONS: { value: Location; en: string; ar: string }[] = [
+  { value: "all",    en: "All Locations", ar: "كل المواقع" },
+  { value: "riyadh", en: "Riyadh",        ar: "الرياض" },
+  { value: "makkah", en: "Makkah",        ar: "مكة المكرمة" },
+];
+
+function LocationPicker({ locale }: { locale: string }) {
+  const isAr = locale === "ar";
+  const { location, setLocation } = useLocation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const current = LOCATION_OPTIONS.find(o => o.value === location)!;
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-full transition-all hover:opacity-80"
+        style={{
+          color: location === "all" ? "#374151" : "var(--color-brand-purple)",
+          background: location === "all" ? "#F3F4F6" : "rgba(var(--color-brand-purple-rgb),0.09)",
+          border: location === "all" ? "1px solid #E5E7EB" : "1px solid rgba(var(--color-brand-purple-rgb),0.22)",
+        }}
+      >
+        <MapPin size={12} strokeWidth={2.5} />
+        {isAr ? current.ar : current.en}
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.18 }}>
+          <ChevronDown size={12} strokeWidth={2.5} />
+        </motion.span>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute top-full mt-2 right-0 bg-white rounded-xl overflow-hidden"
+            style={{
+              minWidth: 160,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)",
+              zIndex: 70,
+            }}
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.15 }}
+          >
+            {LOCATION_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => { setLocation(opt.value); setOpen(false); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-colors text-left hover:bg-gray-50"
+                style={{
+                  color: location === opt.value ? "var(--color-brand-purple)" : "#374151",
+                  background: location === opt.value ? "rgba(var(--color-brand-purple-rgb),0.06)" : undefined,
+                  fontWeight: location === opt.value ? 700 : undefined,
+                }}
+              >
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{
+                    background: opt.value === "all" ? "#9CA3AF" : opt.value === "riyadh" ? "var(--color-brand-purple)" : "var(--color-brand-green)",
+                    opacity: location === opt.value ? 1 : 0.35,
+                  }}
+                />
+                {isAr ? opt.ar : opt.en}
+                {location === opt.value && (
+                  <span className="ml-auto text-xs" style={{ color: "var(--color-brand-purple)" }}>✓</span>
+                )}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
+
 export function Navbar({ locale, translations }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = usePathname();
+  const { location, setLocation: useLocation_setLocation } = useLocation();
+  const bookBranch = location === "makkah" ? "makkah" : "riyadh";
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -371,6 +463,10 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
           {/* Right actions */}
           <div className="hidden lg:flex items-center gap-3">
+            <LocationPicker locale={locale} />
+
+            <span className="w-px h-5 bg-gray-200" />
+
             <Link
               href={getLocalePath(otherLocale)}
               className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full transition-all hover:bg-gray-50"
@@ -381,7 +477,7 @@ export function Navbar({ locale, translations }: NavbarProps) {
             </Link>
 
             <Link
-              href={`/${locale}/book/riyadh`}
+              href={`/${locale}/book/${bookBranch}`}
               className="inline-flex items-center gap-3 px-6 py-3 rounded-full font-bold text-sm text-white transition-all group hover:shadow-xl active:scale-95 overflow-hidden"
               style={{ background: "#4caf50" }}
             >
@@ -485,8 +581,25 @@ export function Navbar({ locale, translations }: NavbarProps) {
             </nav>
 
             <div className="px-8 pb-12 flex flex-col gap-4 mt-8">
+              {/* Location selector */}
+              <div className="flex gap-2">
+                {LOCATION_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => { useLocation_setLocation(opt.value); }}
+                    className="flex-1 py-2 rounded-full text-xs font-semibold transition-all"
+                    style={{
+                      background: location === opt.value ? "white" : "rgba(255,255,255,0.12)",
+                      color: location === opt.value ? "var(--color-brand-purple)" : "rgba(255,255,255,0.7)",
+                    }}
+                  >
+                    {isAr ? opt.ar : opt.en}
+                  </button>
+                ))}
+              </div>
+
               <Link
-                href={`/${locale}/book/riyadh`}
+                href={`/${locale}/book/${bookBranch}`}
                 className="w-full py-4 rounded-full text-center font-bold text-white text-lg"
                 style={{ background: "linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-green))" }}
                 onClick={() => setMenuOpen(false)}

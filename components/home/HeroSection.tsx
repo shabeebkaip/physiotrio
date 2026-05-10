@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { Counter } from "@/components/common/Counter";
 
 interface HeroSectionProps {
   locale: string;
@@ -40,6 +41,13 @@ const slides = [
 ];
 
 const AUTOPLAY_INTERVAL = 5000;
+
+const stats = [
+  { value: 10000, suffix: "+", label: { en: "Patients Treated",          ar: "مريض تلقى العلاج"        }, note: { en: "Since 2013",         ar: "منذ ٢٠١٣"                   } },
+  { value: 50,    suffix: "+", label: { en: "Licensed Therapists",        ar: "معالج مرخص"              }, note: { en: "MOH certified",      ar: "معتمد من وزارة الصحة"       } },
+  { value: 22,    suffix: "+", label: { en: "Years Combined Experience",  ar: "سنة خبرة مجمّعة"        }, note: { en: "Senior clinical team", ar: "فريق سريري متقدم"           } },
+  { value: 9,     suffix: "",  label: { en: "Specialties",                ar: "تخصصات علاجية"           }, note: { en: "Under one roof",     ar: "تحت سقف واحد"               } },
+];
 
 export function HeroSection({ locale, t }: HeroSectionProps) {
   const [current, setCurrent] = useState(0);
@@ -100,14 +108,6 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
             priority
             sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center 25%" }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: isAr
-                ? "linear-gradient(to left, rgba(7,20,30,0.94) 0%, rgba(7,20,30,0.78) 55%, rgba(7,20,30,0.38) 100%)"
-                : "linear-gradient(to right, rgba(7,20,30,0.94) 0%, rgba(7,20,30,0.78) 55%, rgba(7,20,30,0.38) 100%)",
-            }}
           />
         </motion.div>
       </AnimatePresence>
@@ -221,6 +221,41 @@ export function HeroSection({ locale, t }: HeroSectionProps) {
               </Link>
             </motion.div>
 
+          </div>
+        </div>
+      </div>
+
+      {/* ── Stats strip ── */}
+      <div
+        className="relative z-10 w-full"
+        style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="flex flex-wrap">
+            {stats.map((s, i) => (
+              <div
+                key={i}
+                className="flex flex-col py-6 pr-10"
+                style={{
+                  borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.12)" : "none",
+                  marginRight: i < stats.length - 1 ? "2.5rem" : 0,
+                }}
+              >
+                <p
+                  className="font-black leading-none mb-1"
+                  style={{ fontSize: "clamp(24px, 2.5vw, 36px)", color: "white" }}
+                >
+                  <Counter end={s.value} />
+                  <span style={{ color: "var(--color-brand-green)" }}>{s.suffix}</span>
+                </p>
+                <p className="text-sm font-semibold mb-0.5" style={{ color: "rgba(255,255,255,0.75)" }}>
+                  {isAr ? s.label.ar : s.label.en}
+                </p>
+                <p className="text-xs" style={{ color: "rgba(255,255,255,0.38)" }}>
+                  {isAr ? s.note.ar : s.note.en}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

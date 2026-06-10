@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { CheckCircle2, ArrowRight, Zap, Heart, Globe, Shield } from "lucide-react";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
+import { AboutSnippet } from "@/components/home/AboutSnippet";
 import { rehabTechnologies } from "@/lib/data/rehabTech";
 
 const stats = [
@@ -61,6 +62,7 @@ export function AboutContent({ locale, ctaBook, ctaWhatsapp, ctaTitle }: Props) 
 
   return (
     <main>
+      <AboutSnippet locale={locale} />
       {/* Hero */}
       <section ref={heroRef} className="relative overflow-hidden pt-36 pb-28" style={{ background: "linear-gradient(135deg, var(--color-hero-bg) 0%, var(--color-dark-surface) 60%, var(--color-dark-surface) 100%)" }}>
         <div ref={blobA} className="absolute pointer-events-none" style={{ top: "5%", right: "5%", width: 700, height: 700, background: "radial-gradient(circle, rgba(var(--color-brand-purple-rgb),0.18) 0%, transparent 70%)", filter: "blur(80px)", borderRadius: "50%" }} />

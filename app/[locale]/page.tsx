@@ -7,7 +7,6 @@ import { StickyBookingBar } from "@/components/layout/StickyBookingBar";
 import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 import { HeroSection } from "@/components/home/HeroSection";
 import { InsuranceBar } from "@/components/home/InsuranceBar";
-import { AboutSnippet } from "@/components/home/AboutSnippet";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { WhyPhysioTrio } from "@/components/home/WhyPhysioTrio";
 import { BookingCTABand } from "@/components/common/BookingCTABand";
@@ -133,7 +132,6 @@ export default async function HomePage({
       <main>
         <HeroSection locale={locale} t={heroTranslations} />
         <InsuranceBar label={insuranceT("label")} />
-        <AboutSnippet locale={locale} />
         <ServicesGrid
           locale={locale}
           services={services}
